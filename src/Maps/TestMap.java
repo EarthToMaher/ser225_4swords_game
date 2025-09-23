@@ -42,7 +42,7 @@ public class TestMap extends Map {
         walrus.setInteractScript(new WalrusScript());
         npcs.add(walrus);
 
-        Walrus2 walrus2 = new Walrus2(4, getMapTile(2, 28).getLocation().subtractY(50));
+        Walrus2 walrus2 = new Walrus2(4, getMapTile(4, 13).getLocation().subtractY(50));
         walrus2.setInteractScript(new WalrusScript());
         npcs.add(walrus2);
         
