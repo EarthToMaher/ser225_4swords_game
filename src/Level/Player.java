@@ -38,6 +38,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_UP_KEY = Key.UP;
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
+    protected Key PROJECTILE_KEY = Key.K;
 
     protected boolean isLocked = false;
 
@@ -214,6 +215,7 @@ public abstract class Player extends GameObject {
     }
 
     public Key getInteractKey() { return INTERACT_KEY; }
+    public Key getProjectileKey() { return PROJECTILE_KEY; }
     public Direction getCurrentWalkingXDirection() { return currentWalkingXDirection; }
     public Direction getCurrentWalkingYDirection() { return currentWalkingYDirection; }
     public Direction getLastWalkingXDirection() { return lastWalkingXDirection; }
