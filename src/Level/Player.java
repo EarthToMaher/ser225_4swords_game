@@ -73,6 +73,19 @@ public abstract class Player extends GameObject {
 
         // update player's animation
         super.update();
+
+        //Prevent player from going out of bounds --Evan
+        if(map != null){
+            float minX = 0;
+            float minY = 0;
+            float maxX = map.getWidthPixels() - getBounds().getWidth();
+            float maxY = map.getHeightPixels() - getBounds().getHeight();
+
+            if (this.x < minX) this.x = minX;
+            if (this.y < minY) this.y = minY;
+            if (this.x > maxX) this.x = maxX;
+            if (this.y > maxY) this.y = maxY;
+        }
     }
 
     // based on player's current state, call appropriate player state handling method
