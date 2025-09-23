@@ -4,6 +4,7 @@ import EnhancedMapTiles.PushableRock;
 import Level.*;
 import NPCs.Bug;
 import NPCs.Dinosaur;
+import NPCs.TestNPC;
 import NPCs.Walrus;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
@@ -32,6 +33,10 @@ public class TestMap extends Map {
     @Override
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
+
+        TestNPC npc = new TestNPC(0, getMapTile(8, 20).getLocation().subtractY(40));
+        npc.setInteractScript(new TestScript());
+        npcs.add(npc);
 
         Walrus walrus = new Walrus(1, getMapTile(4, 28).getLocation().subtractY(40));
         walrus.setInteractScript(new WalrusScript());
