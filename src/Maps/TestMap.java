@@ -5,6 +5,7 @@ import Level.*;
 import NPCs.Bug;
 import NPCs.Dinosaur;
 import NPCs.Walrus;
+import NPCs.Walrus2;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
@@ -33,9 +34,14 @@ public class TestMap extends Map {
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
 
-        Walrus walrus = new Walrus(1, getMapTile(4, 28).getLocation().subtractY(40));
+        Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
         walrus.setInteractScript(new WalrusScript());
         npcs.add(walrus);
+
+        Walrus2 walrus2 = new Walrus2(4, getMapTile(2, 28).getLocation().subtractY(50));
+        walrus2.setInteractScript(new WalrusScript());
+        npcs.add(walrus2);
+        
 
         Dinosaur dinosaur = new Dinosaur(2, getMapTile(13, 4).getLocation());
         dinosaur.setExistenceFlag("hasTalkedToDinosaur");
