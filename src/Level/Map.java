@@ -56,6 +56,7 @@ public abstract class Map {
     // lists to hold map entities that are a part of the map
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
     protected ArrayList<NPC> npcs;
+    protected ArrayList<Shrine> shrines;
     protected ArrayList<Trigger> triggers;
 
     // current script that is being executed (if any)
@@ -110,6 +111,10 @@ public abstract class Map {
             npc.setMap(this);
         }
 
+        this.shrines = loadShrines();
+        for (Shrine shrine: this.shrines){
+            shrine.setMap(this);
+        }
         this.triggers = loadTriggers();
         for (Trigger trigger: this.triggers) {
             trigger.setMap(this);
@@ -291,6 +296,10 @@ public abstract class Map {
         return new ArrayList<>();
     }
 
+    protected ArrayList<Shrine> loadShrines(){
+        return new ArrayList<>();
+    }
+
     protected ArrayList<Trigger> loadTriggers() {
         return new ArrayList<>();
     }
@@ -305,6 +314,10 @@ public abstract class Map {
 
     public ArrayList<NPC> getNPCs() {
         return npcs;
+    }
+
+    public ArrayList<Shrine> getShrines(){
+        return shrines;
     }
     public ArrayList<Trigger> getTriggers() { return triggers; }
 
@@ -354,6 +367,15 @@ public abstract class Map {
                 npc.getInteractScript().initialize();
             }
         }
+
+        for (Shrine shrine  : shrines){
+            if (shrine.getInteractScript() != null) {
+                shrine.getInteractScript().setMap(this);
+                shrine.getInteractScript().setPlayer(player);
+                shrine.getInteractScript().setListeners(listeners);
+                shrine.getInteractScript().initialize();
+            }
+        }
         for (EnhancedMapTile enhancedMapTile : enhancedMapTiles) {
             if (enhancedMapTile.getInteractScript() != null) {
                 enhancedMapTile.getInteractScript().setMap(this);
@@ -381,6 +403,15 @@ public abstract class Map {
         return null;
     }
 
+    public Shrine getShrineById(int id){
+        for (Shrine shrine : shrines){
+            if(shrine.getId()==id){
+                return shrine;
+            }
+        }
+        return null;
+    }
+
     // returns all active enhanced map tiles (enhanced map tiles that are a part of the current update cycle) -- this changes every frame by the Camera class
     public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
         return camera.getActiveEnhancedMapTiles();
@@ -389,6 +420,10 @@ public abstract class Map {
     // returns all active npcs (npcs that are a part of the current update cycle) -- this changes every frame by the Camera class
     public ArrayList<NPC> getActiveNPCs() {
         return camera.getActiveNPCs();
+    }
+
+    public ArrayList<Shrine> getActiveShrines(){
+        return camera.getActiveShrines();
     }
 
     public ArrayList<Trigger> getActiveTriggers() {
@@ -405,6 +440,11 @@ public abstract class Map {
     public void addNPC(NPC npc) {
         npc.setMap(this);
         this.npcs.add(npc);
+    }
+
+    public void addShrine(Shrine shrine) {
+        shrine.setMap(this);
+        this.shrines.add(shrine);
     }
 
     // add a trigger to the map's list of triggers
@@ -433,6 +473,7 @@ public abstract class Map {
         }
         // gets active surrounding npcs
         surroundingMapEntities.addAll(getActiveNPCs());
+        surroundingMapEntities.addAll(getActiveShrines());
         surroundingMapEntities.addAll(getActiveEnhancedMapTiles());
         return surroundingMapEntities;
     }

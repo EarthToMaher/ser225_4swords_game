@@ -25,6 +25,7 @@ public class Camera extends Rectangle {
     // current map entities that are to be included in this frame's update/draw cycle
     private ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
     private ArrayList<NPC> activeNPCs = new ArrayList<>();
+    private ArrayList<Shrine> activeShrines = new ArrayList<>();
     private ArrayList<Trigger> activeTriggers = new ArrayList<>();
 
     // determines how many tiles off screen an entity can be before it will be deemed inactive and not included in the update/draw cycles until it comes back in range
@@ -65,6 +66,7 @@ public class Camera extends Rectangle {
     public void updateMapEntities(Player player) {
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
         activeNPCs = loadActiveNPCs();
+        activeShrines = loadActiveShrines();
         activeTriggers = loadActiveTriggers();
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
@@ -73,6 +75,10 @@ public class Camera extends Rectangle {
 
         for (NPC npc : activeNPCs) {
             npc.update(player);
+        }
+
+        for (Shrine shrine : activeShrines){
+            shrine.update(player);
         }
     }
 
@@ -123,6 +129,25 @@ public class Camera extends Rectangle {
             }
         }
         return activeNPCs;
+    }
+
+    private ArrayList<Shrine> loadActiveShrines() {
+        ArrayList<Shrine> activeShrines = new ArrayList<>();
+        for (int i = map.getShrines().size() - 1; i >= 0; i--) {
+            Shrine shrine = map.getShrines().get(i);
+
+            if (isMapEntityActive(shrine)) {
+                activeShrines.add(shrine);
+                if (shrine.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    shrine.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (shrine.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                shrine.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            } else if (shrine.getMapEntityStatus() == MapEntityStatus.REMOVED) {
+                map.getShrines().remove(i);
+            }
+        }
+        return activeShrines;
     }
 
     // determine which trigger map tiles are active (exist and are within range of the camera)
@@ -211,6 +236,7 @@ public class Camera extends Rectangle {
     // draws active map entities to the screen
     public void drawMapEntities(Player player, GraphicsHandler graphicsHandler) {
         ArrayList<NPC> drawNpcsAfterPlayer = new ArrayList<>();
+        ArrayList<Shrine> drawShrinesAfterPlayer = new ArrayList<>();
 
         // goes through each active npc and determines if it should be drawn at this time based on their location relative to the player
         // if drawn here, npc will later be "overlapped" by player
@@ -226,12 +252,27 @@ public class Camera extends Rectangle {
             }
         }
 
+        for (Shrine shrine : activeShrines) {
+            if (containsDraw(shrine)) {
+                if (shrine.getBounds().getY() < player.getBounds().getY1()  + (player.getBounds().getHeight() / 2f)) {
+                    shrine.draw(graphicsHandler);
+                }
+                else {
+                    drawShrinesAfterPlayer.add(shrine);
+                }
+            }
+        }
+
         // player is drawn to screen
         player.draw(graphicsHandler);
 
         // npcs determined to be drawn after player from the above step are drawn here
         for (NPC npc : drawNpcsAfterPlayer) {
             npc.draw(graphicsHandler);
+        }
+
+        for (Shrine shrine : drawShrinesAfterPlayer) {
+            shrine.draw(graphicsHandler);
         }
 
         // Uncomment this to see triggers drawn on screen
@@ -267,6 +308,10 @@ public class Camera extends Rectangle {
 
     public ArrayList<NPC> getActiveNPCs() {
         return activeNPCs;
+    }
+
+    public ArrayList<Shrine> getActiveShrines() {
+        return activeShrines;
     }
 
     public ArrayList<Trigger> getActiveTriggers() {
