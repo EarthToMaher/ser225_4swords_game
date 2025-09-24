@@ -5,11 +5,14 @@ import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.Bug;
 import NPCs.Dinosaur;
+import NPCs.MrToon;
 import NPCs.TestNPC;
 import NPCs.Walrus;
+import NPCs.Walrus2;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
+import Shrines.EmptyShrine;
 
 import java.util.ArrayList;
 
@@ -42,9 +45,14 @@ public class TestMap extends Map {
         npc.setInteractScript(new TestScript());
         npcs.add(npc);
 
-        Walrus walrus = new Walrus(1, getMapTile(4, 28).getLocation().subtractY(40));
+        Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
         walrus.setInteractScript(new WalrusScript());
         npcs.add(walrus);
+
+        Walrus2 walrus2 = new Walrus2(4, getMapTile(11, 20).getLocation().subtractY(50));
+        walrus2.setInteractScript(new WalrusScript());
+        npcs.add(walrus2);
+        
 
         Dinosaur dinosaur = new Dinosaur(2, getMapTile(13, 4).getLocation());
         dinosaur.setExistenceFlag("hasTalkedToDinosaur");
@@ -54,10 +62,23 @@ public class TestMap extends Map {
         Bug bug = new Bug(3, getMapTile(7, 12).getLocation().subtractX(20));
         bug.setInteractScript(new BugScript());
         npcs.add(bug);
+        MrToon mrToon = new MrToon(4, getMapTile(8, 11).getLocation());
+        mrToon.setInteractScript(new MrToonScript());
+        npcs.add(mrToon);
 
         return npcs;
     }
 
+    public ArrayList<Shrine> loadShrines()
+    {
+        ArrayList<Shrine> shrines = new ArrayList<>();
+
+        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
+        emptyShrine.setInteractScript(new EmptyShrineScript());
+        shrines.add(emptyShrine);
+
+        return shrines;
+    }
     @Override
     public ArrayList<Trigger> loadTriggers() {
         ArrayList<Trigger> triggers = new ArrayList<>();
