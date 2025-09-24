@@ -33,6 +33,7 @@ public class Walrus2 extends NPC {
 
     //method for decreasing health (taking damage)
     public void takeDamage (int damage) {
+        System.out.println("I am being touched!");
         this.health -= damage;
         this.health = Math.max(0, this.health);
         System.out.println("Entity health: " + this.health);
@@ -40,8 +41,9 @@ public class Walrus2 extends NPC {
 
     @Override
     public void update(Player player) {
-        if (player.intersects(this)) {
-            System.out.println("I am being touched!");
+        if (touching(player)) {
+            takeDamage(1);
+            
         }
         super.update(player);
     }
