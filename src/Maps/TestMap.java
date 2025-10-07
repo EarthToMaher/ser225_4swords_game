@@ -69,6 +69,7 @@ public class TestMap extends Map {
 
         return npcs;
     }
+    
 
     public ArrayList<Shrine> loadShrines()
     {
