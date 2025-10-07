@@ -10,6 +10,7 @@ import GameObject.GameObject;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 import Utils.Direction;
+import NPCs.Walrus2;
 
 public abstract class Player extends GameObject {
     // values that affect player movement
@@ -42,6 +43,8 @@ public abstract class Player extends GameObject {
 
     protected boolean isLocked = false;
 
+    private int health = 100; //int for initial health value\
+
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
         facingDirection = Direction.RIGHT;
@@ -49,6 +52,15 @@ public abstract class Player extends GameObject {
         previousPlayerState = playerState;
         this.affectedByTriggers = true;
     }
+
+    public void takeDamage(int damageAmount) {
+            this.health -= damageAmount;
+            System.out.println(this.health);
+        }
+
+        public int getHealth() {
+            return health;
+        }
 
     public void update() {
         if (!isLocked) {

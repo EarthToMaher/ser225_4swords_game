@@ -1,11 +1,15 @@
 package Engine;
 
 import GameObject.Rectangle;
+import Level.Player;
 import SpriteFont.SpriteFont;
 import Utils.Colors;
 
 import javax.swing.*;
 import java.awt.*;
+
+import Game.GameState;
+import Game.ScreenCoordinator;
 
 /*
  * This is where the game loop process and render back buffer is setup
@@ -86,7 +90,9 @@ public class GamePanel extends JPanel {
 		if (!isGamePaused) {
 			screenManager.update();
 		}
+
 	}
+	
 
 	private void updatePauseState() {
 		if (Keyboard.isKeyDown(pauseKey) && !keyLocker.isKeyLocked(pauseKey)) {
@@ -116,6 +122,26 @@ public class GamePanel extends JPanel {
 		// draw current game state
 		screenManager.draw(graphicsHandler);
 
+		if (screenManager.getScreenCoordinator().getGameState() == GameState.LEVEL) {
+    		Player player = screenManager.getScreenCoordinator().getPlayer();
+    		if (player != null) {
+        		int health = player.getHealth();
+
+				//System.out.println(health);
+
+        		String heartImage;
+        		if (health >= 83) heartImage = "heartFULL.png";
+        		else if (health >= 66) heartImage = "heart2.5.png";
+        		else if (health >= 50) heartImage = "heart2.png";
+        		else if (health >= 33) heartImage = "heart1,5.png";
+        		else if (health >= 16) heartImage = "heart1.png";
+        		else if (health > 0) heartImage = "heart0.5.png";
+        		else heartImage = "heart0.png";
+
+        graphicsHandler.drawImage(ImageLoader.load(heartImage), 10, 10, 110, 28);
+    }
+}
+		
 		// if game is paused, draw pause gfx over Screen gfx
 		if (isGamePaused) {
 			pauseLabel.draw(graphicsHandler);

@@ -1,7 +1,9 @@
 package Screens;
 
 import Engine.GraphicsHandler;
+import Engine.Keyboard;
 import Engine.Screen;
+import Engine.Key;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
@@ -62,6 +64,10 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
+
+                if (Keyboard.isKeyDown(Key.H)) {
+                    player.takeDamage(1);
+                }
                 player.update();
                 map.update(player);
                 break;
@@ -105,5 +111,9 @@ public class PlayLevelScreen extends Screen implements GameListener {
     // This enum represents the different states this screen can be in
     private enum PlayLevelScreenState {
         RUNNING, LEVEL_COMPLETED
+    }
+
+    public Player getPlayer() {
+    return player;
     }
 }
