@@ -41,6 +41,7 @@ public abstract class Player extends GameObject {
     protected Key PROJECTILE_KEY = Key.K;
 
     protected boolean isLocked = false;
+    protected boolean hasKey = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -87,6 +88,9 @@ public abstract class Player extends GameObject {
             if (this.y > maxY) this.y = maxY;
         }
     }
+
+    public boolean hasKey() { return hasKey; }
+    public void setHasKey(boolean value) { hasKey = value; }
 
     // based on player's current state, call appropriate player state handling method
     protected void handlePlayerState() {
