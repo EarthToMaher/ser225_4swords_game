@@ -13,6 +13,7 @@ import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
 import Shrines.EmptyShrine;
+import NPCs.Bolt;
 
 import java.util.ArrayList;
 
@@ -73,11 +74,20 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
-        emptyShrine.setInteractScript(new EmptyShrineScript());
-        shrines.add(emptyShrine);
+        //EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
+        //emptyShrine.setInteractScript(new EmptyShrineScript());
+        //shrines.add(emptyShrine);
 
         return shrines;
+    }
+
+    public ArrayList<Collectible> loadCollectibles()
+    {
+        ArrayList<Collectible> collectibles = new ArrayList<>();
+        Bolt bolt = new Bolt( 6, getMapTile(13,16).getLocation());
+        collectibles.add(bolt);
+
+        return collectibles;
     }
     @Override
     public ArrayList<Trigger> loadTriggers() {

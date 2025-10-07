@@ -58,6 +58,7 @@ public abstract class Map {
     protected ArrayList<NPC> npcs;
     protected ArrayList<Shrine> shrines;
     protected ArrayList<Trigger> triggers;
+    protected ArrayList<Collectible> collectibles;
 
     // current script that is being executed (if any)
     protected Script activeScript;
@@ -115,6 +116,12 @@ public abstract class Map {
         for (Shrine shrine: this.shrines){
             shrine.setMap(this);
         }
+
+        this.collectibles = loadCollectibles();
+        for (Collectible collectible: this.collectibles){
+            collectible.setMap(this);
+        }
+
         this.triggers = loadTriggers();
         for (Trigger trigger: this.triggers) {
             trigger.setMap(this);
@@ -300,6 +307,10 @@ public abstract class Map {
         return new ArrayList<>();
     }
 
+    protected ArrayList<Collectible> loadCollectibles(){
+        return new ArrayList<>();
+    }
+
     protected ArrayList<Trigger> loadTriggers() {
         return new ArrayList<>();
     }
@@ -318,6 +329,10 @@ public abstract class Map {
 
     public ArrayList<Shrine> getShrines(){
         return shrines;
+    }
+
+    public ArrayList<Collectible> getCollectibles(){
+        return collectibles;
     }
     public ArrayList<Trigger> getTriggers() { return triggers; }
 
@@ -376,6 +391,16 @@ public abstract class Map {
                 shrine.getInteractScript().initialize();
             }
         }
+
+        for (Collectible collectible  : collectibles){
+            if (collectible.getInteractScript() != null) {
+                collectible.getInteractScript().setMap(this);
+                collectible.getInteractScript().setPlayer(player);
+                collectible.getInteractScript().setListeners(listeners);
+                collectible.getInteractScript().initialize();
+            }
+        }
+
         for (EnhancedMapTile enhancedMapTile : enhancedMapTiles) {
             if (enhancedMapTile.getInteractScript() != null) {
                 enhancedMapTile.getInteractScript().setMap(this);
@@ -412,6 +437,15 @@ public abstract class Map {
         return null;
     }
 
+    public Collectible getCollectibleById(int id){
+        for (Collectible collectible : collectibles){
+            if(collectible.getId()==id){
+                return collectible;
+            }
+        }
+        return null;
+    }
+
     // returns all active enhanced map tiles (enhanced map tiles that are a part of the current update cycle) -- this changes every frame by the Camera class
     public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
         return camera.getActiveEnhancedMapTiles();
@@ -430,6 +464,10 @@ public abstract class Map {
         return camera.getActiveTriggers();
     }
 
+    public ArrayList<Collectible> getActiveCollectibles() {
+        return camera.getActiveCollectibles();
+    }
+
     // add an enhanced map tile to the map's list of enhanced map tiles
     public void addEnhancedMapTile(EnhancedMapTile enhancedMapTile) {
         enhancedMapTile.setMap(this);
@@ -445,6 +483,11 @@ public abstract class Map {
     public void addShrine(Shrine shrine) {
         shrine.setMap(this);
         this.shrines.add(shrine);
+    }
+
+    public void addCollectible(Collectible collectible) {
+        collectible.setMap(this);
+        this.collectibles.add(collectible);
     }
 
     // add a trigger to the map's list of triggers
