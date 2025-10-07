@@ -80,8 +80,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
                 if (Keyboard.isKeyDown(Key.H)) {
                     player.takeDamage(1);
                 }
-                player.update();
-                map.update(player);
 
                 //Swapping logic
                 //Will probably rewrite based on enum class later
