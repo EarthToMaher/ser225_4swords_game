@@ -13,6 +13,8 @@ public class TestScript extends Script {
 
         actions.add(new LockPlayerScriptAction());
 
+
+
         actions.add(new NPCLockScriptAction());
 
         actions.add(new NPCFacePlayerScriptAction());

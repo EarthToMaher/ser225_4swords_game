@@ -1,14 +1,13 @@
 package Level;
 
-import java.awt.Color;
-
-import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
 import GameObject.GameObject;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
+import Players.Robot;
+import Players.SecondRobot;
 import Utils.Direction;
 import NPCs.Walrus2;
 
@@ -40,6 +39,12 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
+
+    //New key: C for swapping bodies
+    protected Key C_KEY = Key.C;
+
+
+
 
     protected boolean isLocked = false;
 
@@ -112,16 +117,36 @@ public abstract class Player extends GameObject {
         }
     }
 
+
     // player STANDING state logic
     protected void playerStanding() {
         if (!keyLocker.isKeyLocked(INTERACT_KEY) && Keyboard.isKeyDown(INTERACT_KEY)) {
             keyLocker.lockKey(INTERACT_KEY);
+            System.out.println("Space Test!");
             map.entityInteract(this);
         }
 
         // if a walk key is pressed, player enters WALKING state
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(MOVE_UP_KEY) || Keyboard.isKeyDown(MOVE_DOWN_KEY)) {
             playerState = PlayerState.WALKING;
+        }
+
+        // If the c key is pressed, player enters SWITCHING state
+        if(!keyLocker.isKeyLocked(C_KEY) && Keyboard.isKeyDown(C_KEY)) {
+            keyLocker.lockKey(C_KEY);
+            if(Robot.isActivePlayer) {
+                Robot.isActivePlayer = false;
+                SecondRobot.isActivePlayer = true;
+                System.out.println(Robot.isActivePlayer);
+                System.out.println(SecondRobot.isActivePlayer);
+            } else {
+                Robot.isActivePlayer = true;
+                SecondRobot.isActivePlayer = false;
+                System.out.println(Robot.isActivePlayer);
+                System.out.println(SecondRobot.isActivePlayer);
+            }
+
+
         }
     }
 
@@ -130,6 +155,22 @@ public abstract class Player extends GameObject {
         if (!keyLocker.isKeyLocked(INTERACT_KEY) && Keyboard.isKeyDown(INTERACT_KEY)) {
             keyLocker.lockKey(INTERACT_KEY);
             map.entityInteract(this);
+        }
+
+        //If space key is pressed while walking, switching should also occur
+        if(!keyLocker.isKeyLocked(C_KEY) && Keyboard.isKeyDown(C_KEY)) {
+            keyLocker.lockKey(C_KEY);
+            if(Robot.isActivePlayer) {
+                Robot.isActivePlayer = false;
+                SecondRobot.isActivePlayer = true;
+                System.out.println(Robot.isActivePlayer);
+                System.out.println(SecondRobot.isActivePlayer);
+            } else {
+                Robot.isActivePlayer = true;
+                SecondRobot.isActivePlayer = false;
+                System.out.println(Robot.isActivePlayer);
+                System.out.println(SecondRobot.isActivePlayer);
+            }
         }
 
         // if walk left key is pressed, move player to the left
@@ -181,6 +222,10 @@ public abstract class Player extends GameObject {
     protected void updateLockedKeys() {
         if (Keyboard.isKeyUp(INTERACT_KEY) && !isLocked) {
             keyLocker.unlockKey(INTERACT_KEY);
+        }
+
+        if (Keyboard.isKeyUp(C_KEY) && !isLocked) {
+            keyLocker.unlockKey(C_KEY);
         }
     }
 
