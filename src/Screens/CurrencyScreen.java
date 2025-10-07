@@ -19,7 +19,7 @@ public class CurrencyScreen extends Screen {
 
     @Override
     public void initialize() {
-        winMessage = new SpriteFont("You win!", 350, 239, "Arial", 30, Color.white);
+        winMessage = new SpriteFont("Currency Placeholder", 400, 0, "Arial", 30, Color.white);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CurrencyScreen extends Screen {
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawFilledRectangle(0, 0, ScreenManager.getScreenWidth(), ScreenManager.getScreenHeight(), Color.black);
+        
         winMessage.draw(graphicsHandler);
     }
 }

@@ -14,7 +14,7 @@ import Utils.Point;
 
 public class Bolt extends Collectible {
     public Bolt(int id, Point location){
-        super(id,location.x,location.y, new Frame(ImageLoader.load("MrToon.png")));
+        super(id,location.x,location.y, new Frame(ImageLoader.load("Screw.png")));
     }
         @Override
     public void draw(GraphicsHandler graphicsHandler) {
