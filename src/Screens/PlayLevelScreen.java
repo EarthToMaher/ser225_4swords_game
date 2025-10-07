@@ -1,17 +1,16 @@
 package Screens;
 
-import java.util.Map;
 
 import Engine.GraphicsHandler;
 import Engine.Screen;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
+import Level.Map;
 import Maps.TestMap;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
-import Utils.Point;
 
 
 //TODO: Rewrite code based around "SWITCHING" enum class
