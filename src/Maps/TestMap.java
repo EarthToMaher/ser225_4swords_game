@@ -3,12 +3,7 @@ package Maps;
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Projectile;
 import Level.*;
-import NPCs.Bug;
-import NPCs.Dinosaur;
-import NPCs.MrToon;
-import NPCs.TestNPC;
-import NPCs.Walrus;
-import NPCs.Walrus2;
+import NPCs.*;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
@@ -19,6 +14,9 @@ import java.util.ArrayList;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
+
+    public static ArrayList<NPC> npcs = new ArrayList<>();
+
 
     public TestMap() {
         super("test_map.txt", new CommonTileset());
@@ -40,7 +38,7 @@ public class TestMap extends Map {
 
     @Override
     public ArrayList<NPC> loadNPCs() {
-        ArrayList<NPC> npcs = new ArrayList<>();
+
 
         TestNPC npc = new TestNPC(0, getMapTile(8, 20).getLocation().subtractY(40));
         npc.setInteractScript(new TestScript());

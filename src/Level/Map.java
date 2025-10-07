@@ -4,6 +4,7 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.ScreenManager;
 import GameObject.Rectangle;
+import NPCs.InactiveRobot;
 import Utils.Direction;
 import Utils.Point;
 
@@ -27,6 +28,9 @@ import java.util.Scanner;
 public abstract class Map {
     // the tile map (map tiles that make up the entire map image)
     protected MapTile[] mapTiles;
+
+    //InactiveRobot NPC will be spawned across all maps, therefore a static NPC is declared
+    public static InactiveRobot inactiveRobotStatic;
 
     // width and height of the map in terms of the number of tiles width-wise and height-wise
     protected int width;
@@ -478,6 +482,11 @@ public abstract class Map {
     public void addNPC(NPC npc) {
         npc.setMap(this);
         this.npcs.add(npc);
+    }
+
+    public void deleteNPC(NPC npc) {
+        npc.setMap(this);
+        this.npcs.remove(npc);
     }
 
     public void addShrine(Shrine shrine) {
