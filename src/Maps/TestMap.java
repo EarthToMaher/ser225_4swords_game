@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class TestMap extends Map {
 
     public static ArrayList<NPC> npcs = new ArrayList<>();
+    Projectile projectile;
 
 
     public TestMap() {
@@ -29,7 +30,7 @@ public class TestMap extends Map {
         PushableRock pushableRock = new PushableRock(getMapTile(2, 7).getLocation());
         enhancedMapTiles.add(pushableRock);
 
-        Projectile projectile = new Projectile(getMapTile(5, 7).getLocation());
+        projectile = new Projectile(getMapTile(5, 7).getLocation());
         enhancedMapTiles.add(projectile);
 
         return enhancedMapTiles;

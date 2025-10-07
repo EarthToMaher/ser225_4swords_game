@@ -27,6 +27,7 @@ public class Projectile extends EnhancedMapTile {
         super.update(player);
         if (player.touching(this)) {
             System.out.println("Player Detected!");
+            player.takeDamage(1);
         }
         if (Keyboard.isKeyDown(projectileKey)) {
             moveXHandleCollision(-2);
