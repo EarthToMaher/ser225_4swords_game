@@ -8,16 +8,18 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Player;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-// This is the class for the Cat player character
-// basically just sets some values for physics and then defines animations
-public class Cat extends Player {
+public class SecondRobot extends Player {
 
-    public Cat(float x, float y) {
-        super(new SpriteSheet(ImageLoader.load("Cat.png"), 24, 24), x, y, "STAND_RIGHT");
-        walkSpeed = 2.3f;
+    public static Boolean isActivePlayer = false;
+    public SecondRobot(float x, float y) {
+        super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "STAND_RIGHT");
+        walkSpeed = 2.3F;
     }
+
+
 
     public void update() {
         super.update();
@@ -30,6 +32,7 @@ public class Cat extends Player {
     @Override
     public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
+
             put("STAND_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0))
                             .withScale(3)
@@ -87,6 +90,6 @@ public class Cat extends Player {
                             .build()
             });
         }};
-    }
-}
 
+
+}}

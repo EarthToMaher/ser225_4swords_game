@@ -6,14 +6,21 @@ import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
 import Maps.TestMap;
-import Players.Cat;
-import Utils.Direction;
+import NPCs.InactiveRobot;
+import Players.Robot;
+import Players.SecondRobot;
+import Utils.Point;
+
+
+//TODO: Rewrite code based around "SWITCHING" enum class
 
 // This class is for when the RPG game is actually being played
 public class PlayLevelScreen extends Screen implements GameListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
     protected Player player;
+    protected Player player2;
+    protected InactiveRobot inactiveRobot;
     protected PlayLevelScreenState playLevelScreenState;
     protected WinScreen winScreen;
     protected FlagManager flagManager;
@@ -36,12 +43,15 @@ public class PlayLevelScreen extends Screen implements GameListener {
         map.setFlagManager(flagManager);
 
         // setup player
-        player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
-        player.setMap(map);
+        // two players are declared, alongside a null inactiveRobot
+        player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        player2 = new SecondRobot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        inactiveRobot = null;
         playLevelScreenState = PlayLevelScreenState.RUNNING;
-        player.setFacingDirection(Direction.LEFT);
+        player.setMap(map);
 
-        map.setPlayer(player);
+
+
 
         // let pieces of map know which button to listen for as the "interact" button
         map.getTextbox().setInteractKey(player.getInteractKey());
@@ -52,7 +62,9 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
         // preloads all scripts ahead of time rather than loading them dynamically
         // both are supported, however preloading is recommended
-        map.preloadScripts();
+
+        // TEMPORARY FIX- Commented out preloadScripts method until NullPointerException is figured out- Chris F
+        //map.preloadScripts();
 
         winScreen = new WinScreen(this);
     }
@@ -62,8 +74,23 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
-                player.update();
-                map.update(player);
+
+                //Swapping logic
+                //Will probably rewrite based on enum class later
+                if(Robot.isActivePlayer) {
+                    Map.inactiveRobotStatic.setLocation(player2.getX(), player2.getY());
+                    map.setPlayer(player);
+                    player.setMap(map);
+                    player.update();
+                    map.update(player);
+
+                } else if(SecondRobot.isActivePlayer) {
+                    Map.inactiveRobotStatic.setLocation(player.getX() ,player.getY());
+                    map.setPlayer(player2);
+                    player2.setMap(map);
+                    player2.update();
+                    map.update(player2);
+                }
                 break;
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
@@ -82,7 +109,11 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // based on screen state, draw appropriate graphics
         switch (playLevelScreenState) {
             case RUNNING:
-                map.draw(player, graphicsHandler);
+                if(Robot.isActivePlayer) {
+                    map.draw(player, graphicsHandler);
+                } else if(SecondRobot.isActivePlayer) {
+                    map.draw(player2, graphicsHandler);
+            }
                 break;
             case LEVEL_COMPLETED:
                 winScreen.draw(graphicsHandler);

@@ -5,11 +5,7 @@ import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Door;
 import EnhancedMapTiles.Projectile;
 import Level.*;
-import NPCs.Bug;
-import NPCs.Dinosaur;
-import NPCs.MrToon;
-import NPCs.TestNPC;
-import NPCs.Walrus;
+import NPCs.*;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
@@ -19,6 +15,9 @@ import java.util.ArrayList;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
+
+    public static ArrayList<NPC> npcs = new ArrayList<>();
+
 
     public TestMap() {
         super("test_map.txt", new CommonTileset());
@@ -52,15 +51,24 @@ public class TestMap extends Map {
 
     @Override
     public ArrayList<NPC> loadNPCs() {
-        ArrayList<NPC> npcs = new ArrayList<>();
+
 
         TestNPC npc = new TestNPC(0, getMapTile(8, 20).getLocation().subtractY(40));
         npc.setInteractScript(new TestScript());
         npcs.add(npc);
 
-        Walrus walrus = new Walrus(1, getMapTile(4, 28).getLocation().subtractY(40));
+
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(8, 20).getLocation().subtractY(50));
+        npcs.add(inactiveRobotStatic);
+
+        Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
         walrus.setInteractScript(new WalrusScript());
         npcs.add(walrus);
+
+        Walrus2 walrus2 = new Walrus2(4, getMapTile(11, 20).getLocation().subtractY(50));
+        walrus2.setInteractScript(new WalrusScript());
+        npcs.add(walrus2);
+        
 
         Dinosaur dinosaur = new Dinosaur(2, getMapTile(13, 4).getLocation());
         dinosaur.setExistenceFlag("hasTalkedToDinosaur");
@@ -86,14 +94,6 @@ public class TestMap extends Map {
         shrines.add(emptyShrine);
 
         return shrines;
-    }
-    @Override
-    public ArrayList<Trigger> loadTriggers() {
-        ArrayList<Trigger> triggers = new ArrayList<>();
-        triggers.add(new Trigger(790, 1030, 100, 10, new LostBallScript(), "hasLostBall"));
-        triggers.add(new Trigger(790, 960, 10, 80, new LostBallScript(), "hasLostBall"));
-        triggers.add(new Trigger(890, 960, 10, 80, new LostBallScript(), "hasLostBall"));
-        return triggers;
     }
 
     @Override
