@@ -46,6 +46,9 @@ public class TestMap extends Map {
         npc.setInteractScript(new TestScript());
         npcs.add(npc);
 
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(8, 20).getLocation().subtractY(50));
+        npcs.add(inactiveRobotStatic);
+
         Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
         walrus.setInteractScript(new WalrusScript());
         npcs.add(walrus);
