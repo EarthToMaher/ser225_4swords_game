@@ -39,6 +39,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
+    protected Key BOOMERAND_KEY =  Key.ENTER;
 
     //New key: C for swapping bodies
     protected Key C_KEY = Key.C;
