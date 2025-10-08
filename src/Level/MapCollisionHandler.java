@@ -79,6 +79,21 @@ public class MapCollisionHandler {
             }
         }
 
+        for (Collectible collectible : map.getActiveCollectibles()) {
+            if (!gameObject.equals(collectible) && !collectible.isUncollidable() && hasCollidedWithMapEntity(gameObject, collectible, direction)) {
+                entityCollidedWith = collectible;
+                float adjustedPositionX = gameObject.getX();
+                if (direction == Direction.RIGHT) {
+                    float boundsDifference = gameObject.getX2() - gameObject.getBounds().getX2();
+                    adjustedPositionX = collectible.getBounds().getX1() - gameObject.getWidth() + boundsDifference;
+                } else if (direction == Direction.LEFT) {
+                    float boundsDifference = gameObject.getBounds().getX1() - gameObject.getX();
+                    adjustedPositionX = (collectible.getBounds().getX2() + 1) - boundsDifference;
+                }
+                return new MapCollisionCheckResult(new Point(adjustedPositionX, gameObject.getY()), entityCollidedWith);
+            }
+        }
+
         // check active triggers for potential collision
         if (gameObject.isAffectedByTriggers()) {
             for (Trigger trigger : map.getActiveTriggers()) {

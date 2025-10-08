@@ -27,6 +27,7 @@ public class Camera extends Rectangle {
     private ArrayList<NPC> activeNPCs = new ArrayList<>();
     private ArrayList<Shrine> activeShrines = new ArrayList<>();
     private ArrayList<Trigger> activeTriggers = new ArrayList<>();
+    private ArrayList<Collectible> activeCollectibles = new ArrayList<>();
 
     // determines how many tiles off screen an entity can be before it will be deemed inactive and not included in the update/draw cycles until it comes back in range
     private final int UPDATE_OFF_SCREEN_RANGE = 4;
@@ -67,6 +68,7 @@ public class Camera extends Rectangle {
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
         activeNPCs = loadActiveNPCs();
         activeShrines = loadActiveShrines();
+        activeCollectibles = loadActiveCollectibles();
         activeTriggers = loadActiveTriggers();
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
@@ -79,6 +81,10 @@ public class Camera extends Rectangle {
 
         for (Shrine shrine : activeShrines){
             shrine.update(player);
+        }
+
+        for (Collectible collectible : activeCollectibles){
+           collectible.update(player);
         }
     }
 
@@ -148,6 +154,25 @@ public class Camera extends Rectangle {
             }
         }
         return activeShrines;
+    }
+
+    private ArrayList<Collectible> loadActiveCollectibles() {
+        ArrayList<Collectible> activeCollectibles = new ArrayList<>();
+        for (int i = map.getCollectibles().size() - 1; i >= 0; i--) {
+            Collectible collectible = map.getCollectibles().get(i);
+
+            if (isMapEntityActive(collectible)) {
+                activeCollectibles.add(collectible);
+                if (collectible.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    collectible.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (collectible.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                collectible.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            } else if (collectible.getMapEntityStatus() == MapEntityStatus.REMOVED) {
+                map.getCollectibles().remove(i);
+            }
+        }
+        return activeCollectibles;
     }
 
     // determine which trigger map tiles are active (exist and are within range of the camera)
@@ -237,6 +262,7 @@ public class Camera extends Rectangle {
     public void drawMapEntities(Player player, GraphicsHandler graphicsHandler) {
         ArrayList<NPC> drawNpcsAfterPlayer = new ArrayList<>();
         ArrayList<Shrine> drawShrinesAfterPlayer = new ArrayList<>();
+        ArrayList<Collectible> drawCollectiblesAfterPlayer = new ArrayList<>();
 
         // goes through each active npc and determines if it should be drawn at this time based on their location relative to the player
         // if drawn here, npc will later be "overlapped" by player
@@ -263,6 +289,17 @@ public class Camera extends Rectangle {
             }
         }
 
+        for (Collectible collectible : activeCollectibles) {
+            if (containsDraw(collectible)) {
+                if (collectible.getBounds().getY() < player.getBounds().getY1()  + (player.getBounds().getHeight() / 2f)) {
+                    collectible.draw(graphicsHandler);
+                }
+                else {
+                    drawCollectiblesAfterPlayer.add(collectible);
+                }
+            }
+        }
+
         // player is drawn to screen
         player.draw(graphicsHandler);
 
@@ -273,6 +310,10 @@ public class Camera extends Rectangle {
 
         for (Shrine shrine : drawShrinesAfterPlayer) {
             shrine.draw(graphicsHandler);
+        }
+
+        for (Collectible collectible : drawCollectiblesAfterPlayer) {
+            collectible.draw(graphicsHandler);
         }
 
         // Uncomment this to see triggers drawn on screen
@@ -316,6 +357,10 @@ public class Camera extends Rectangle {
 
     public ArrayList<Trigger> getActiveTriggers() {
         return activeTriggers;
+    }
+
+    public ArrayList<Collectible> getActiveCollectibles(){
+        return activeCollectibles;
     }
 
     // gets end bound X position of the camera (start position is always 0)

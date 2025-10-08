@@ -1,15 +1,16 @@
 package Screens;
 
+
 import Engine.GraphicsHandler;
 import Engine.Screen;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
+import Level.Map;
 import Maps.TestMap;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
-import Utils.Point;
 
 
 //TODO: Rewrite code based around "SWITCHING" enum class
@@ -24,6 +25,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
     protected PlayLevelScreenState playLevelScreenState;
     protected WinScreen winScreen;
     protected FlagManager flagManager;
+    protected CurrencyScreen currencyScreen;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -67,6 +69,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         //map.preloadScripts();
 
         winScreen = new WinScreen(this);
+        currencyScreen = new CurrencyScreen(this);
     }
 
     public void update() {
@@ -74,6 +77,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
+                currencyScreen.update();
 
                 //Swapping logic
                 //Will probably rewrite based on enum class later
@@ -109,6 +113,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // based on screen state, draw appropriate graphics
         switch (playLevelScreenState) {
             case RUNNING:
+                currencyScreen.draw(graphicsHandler);
                 if(Robot.isActivePlayer) {
                     map.draw(player, graphicsHandler);
                 } else if(SecondRobot.isActivePlayer) {

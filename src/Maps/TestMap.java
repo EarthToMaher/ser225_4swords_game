@@ -8,6 +8,7 @@ import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
 import Shrines.EmptyShrine;
+import NPCs.Bolt;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,6 @@ public class TestMap extends Map {
         npc.setInteractScript(new TestScript());
         npcs.add(npc);
 
-
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(8, 20).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
@@ -70,16 +70,34 @@ public class TestMap extends Map {
 
         return npcs;
     }
+    
 
     public ArrayList<Shrine> loadShrines()
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
-        emptyShrine.setInteractScript(new EmptyShrineScript());
-        shrines.add(emptyShrine);
+        //EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
+        //emptyShrine.setInteractScript(new EmptyShrineScript());
+        //shrines.add(emptyShrine);
 
         return shrines;
+    }
+
+    public ArrayList<Collectible> loadCollectibles()
+    {
+        ArrayList<Collectible> collectibles = new ArrayList<>();
+        Bolt bolt = new Bolt( 6, getMapTile(13,16).getLocation());
+        collectibles.add(bolt);
+
+        return collectibles;
+    }
+    @Override
+    public ArrayList<Trigger> loadTriggers() {
+        ArrayList<Trigger> triggers = new ArrayList<>();
+        // triggers.add(new Trigger(790, 1030, 100, 10, new LostBallScript(), "hasLostBall"));
+        // triggers.add(new Trigger(790, 960, 10, 80, new LostBallScript(), "hasLostBall"));
+        // triggers.add(new Trigger(890, 960, 10, 80, new LostBallScript(), "hasLostBall"));
+        return triggers;
     }
 
     @Override
