@@ -4,6 +4,7 @@ import GameObject.Frame;
 import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Level.EnhancedMapTile;
+import Level.MapEntityStatus;
 import Level.Player;
 import Level.TileType;
 import Utils.Point;
@@ -14,7 +15,7 @@ public class Door extends EnhancedMapTile {
     private boolean isOpen = false;
 
     public Door(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Rock.png"), 16, 16), TileType.NOT_PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Door.png"), 24, 24), TileType.NOT_PASSABLE);
     }
 
     @Override
@@ -23,7 +24,7 @@ public class Door extends EnhancedMapTile {
         if (!isOpen && player.touching(this) && player.hasKey()) {
             isOpen = true;
             player.setHasKey(false); 
-            this.tileType = TileType.PASSABLE; 
+            this.mapEntityStatus = MapEntityStatus.REMOVED;
         }
     }
 
