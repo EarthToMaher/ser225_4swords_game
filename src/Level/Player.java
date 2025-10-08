@@ -43,6 +43,8 @@ public abstract class Player extends GameObject {
     //New key: C for swapping bodies
     protected Key C_KEY = Key.C;
 
+    protected int currencyAmount = 0;
+
 
 
 
@@ -57,6 +59,18 @@ public abstract class Player extends GameObject {
         previousPlayerState = playerState;
         this.affectedByTriggers = true;
     }
+
+    public void gainCurrency(int amount) {currencyAmount+=amount;}
+
+    public boolean spendCurrency(int amount){
+        if (amount <= currencyAmount){
+            currencyAmount -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public int getCurrency(){return currencyAmount;}
 
     public void takeDamage(int damageAmount) {
             this.health -= damageAmount;

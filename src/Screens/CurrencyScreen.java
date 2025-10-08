@@ -19,15 +19,16 @@ public class CurrencyScreen extends Screen {
 
     @Override
     public void initialize() {
-        winMessage = new SpriteFont("Currency Placeholder", 400, 0, "Arial", 30, Color.white);
+        winMessage = new SpriteFont("Currency Placeholder", 350, 239, "Arial", 60, Color.white);
     }
 
     @Override
     public void update() {
+        winMessage = new SpriteFont("Currency: " + playLevelScreen.player.getCurrency(), 600, 50, "Arial", 30, Color.white);
+        //System.out.println("Hi");
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
-        
         winMessage.draw(graphicsHandler);
     }
 }

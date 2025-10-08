@@ -79,6 +79,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
+               // System.out.println("Im running");
                 currencyScreen.update();
 
                 if (Keyboard.isKeyDown(Key.H)) {
@@ -119,12 +120,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // based on screen state, draw appropriate graphics
         switch (playLevelScreenState) {
             case RUNNING:
-                currencyScreen.draw(graphicsHandler);
                 if(Robot.isActivePlayer) {
                     map.draw(player, graphicsHandler);
                 } else if(SecondRobot.isActivePlayer) {
                     map.draw(player2, graphicsHandler);
             }
+            currencyScreen.draw(graphicsHandler);
                 break;
             case LEVEL_COMPLETED:
                 winScreen.draw(graphicsHandler);
