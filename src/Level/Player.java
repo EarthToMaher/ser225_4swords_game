@@ -3,6 +3,7 @@ package Level;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
+import GameObject.Frame;
 import GameObject.GameObject;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
@@ -40,6 +41,7 @@ public abstract class Player extends GameObject {
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
     protected Key BOOMERAND_KEY =  Key.ENTER;
+    protected Key ATTACK_KEY = Key.E;
 
     //New key: C for swapping bodies
     protected Key C_KEY = Key.C;
@@ -47,7 +49,7 @@ public abstract class Player extends GameObject {
     protected int currencyAmount = 0;
 
 
-
+    private boolean hasHitThisAttack = false;
 
     protected boolean isLocked = false;
 
@@ -129,6 +131,9 @@ public abstract class Player extends GameObject {
             case WALKING:
                 playerWalking();
                 break;
+            case ATTACKING:
+                playerAttacking();
+                break;
         }
     }
 
@@ -140,6 +145,14 @@ public abstract class Player extends GameObject {
             System.out.println("Space Test!");
             map.entityInteract(this);
         }
+
+        if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
+            keyLocker.lockKey(ATTACK_KEY);
+            playerState = PlayerState.ATTACKING;
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
+            resetAnimationToFirstFrame();
+        }
+
 
         // if a walk key is pressed, player enters WALKING state
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(MOVE_UP_KEY) || Keyboard.isKeyDown(MOVE_DOWN_KEY)) {
@@ -160,8 +173,6 @@ public abstract class Player extends GameObject {
                 System.out.println(Robot.isActivePlayer);
                 System.out.println(SecondRobot.isActivePlayer);
             }
-
-
         }
     }
 
@@ -171,6 +182,14 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(INTERACT_KEY);
             map.entityInteract(this);
         }
+
+        if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
+            keyLocker.lockKey(ATTACK_KEY);
+            playerState = PlayerState.ATTACKING;
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
+            resetAnimationToFirstFrame();
+        }
+
 
         //If space key is pressed while walking, switching should also occur
         if(!keyLocker.isKeyLocked(C_KEY) && Keyboard.isKeyDown(C_KEY)) {
@@ -234,6 +253,33 @@ public abstract class Player extends GameObject {
         }
     }
 
+    protected void playerAttacking() {
+        // Prevent moving while attacking
+        moveAmountX = 0;
+        moveAmountY = 0;
+
+        // Only deal damage once per attack animation
+        if (!hasHitThisAttack) {
+            Rectangle attackHitbox = getAttackHitbox();
+
+            // Check all active NPCs in the map
+            for (NPC npc : map.getActiveNPCs()) {
+                if (npc instanceof Walrus2 && !npc.isHidden() && attackHitbox.intersects(npc.getBounds())) {
+                    ((Walrus2) npc).takeDamage(50);  // Reduce health by 50
+                    hasHitThisAttack = true;         // prevent multiple hits in one animation
+                }
+            }
+        }
+
+        // If the attack animation has finished, return to standing
+        if (isAnimationFinished()) {
+            playerState = PlayerState.STANDING;
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+            hasHitThisAttack = false; // reset for the next attack
+        }
+    }
+
+
     protected void updateLockedKeys() {
         if (Keyboard.isKeyUp(INTERACT_KEY) && !isLocked) {
             keyLocker.unlockKey(INTERACT_KEY);
@@ -242,18 +288,25 @@ public abstract class Player extends GameObject {
         if (Keyboard.isKeyUp(C_KEY) && !isLocked) {
             keyLocker.unlockKey(C_KEY);
         }
+        if (Keyboard.isKeyUp(ATTACK_KEY)) {
+            keyLocker.unlockKey(ATTACK_KEY);
+        }
     }
 
     // anything extra the player should do based on interactions can be handled here
     protected void handlePlayerAnimation() {
-        if (playerState == PlayerState.STANDING) {
-            // sets animation to a STAND animation based on which way player is facing
-            this.currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-        }
-        else if (playerState == PlayerState.WALKING) {
-            // sets animation to a WALK animation based on which way player is facing
-            this.currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-        }
+        switch (playerState) {
+        case STANDING:
+            currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+            break;
+        case WALKING:
+            currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+            break;
+        case ATTACKING:
+            //currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
+            break;
+}
+
     }
 
     @Override
@@ -340,6 +393,31 @@ public abstract class Player extends GameObject {
         else if (direction == Direction.RIGHT) {
             moveX(speed);
         }
+    }
+
+    protected boolean isAnimationFinished() {
+        Frame[] currentAnimation = animations.get(currentAnimationName);
+        int lastFrameIndex = currentAnimation.length - 1;
+        return getCurrentFrameIndex() == lastFrameIndex && hasAnimationLooped;
+    }
+
+    protected void resetAnimationToFirstFrame() {
+        setCurrentFrameIndex(0);
+    }
+
+    protected Rectangle getAttackHitbox() {
+    int hitboxWidth = 30; // width of the attack area
+    int hitboxHeight = 20; // height of the attack area
+    float hitboxX = x;
+    float hitboxY = y + getBounds().getHeight() / 4; // adjust Y so it's roughly at waist level
+
+    if (facingDirection == Direction.RIGHT) {
+        hitboxX += getBounds().getWidth(); // in front of player
+    } else if (facingDirection == Direction.LEFT) {
+        hitboxX -= hitboxWidth; // in front of player
+    }
+
+    return new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
     }
 
     // Uncomment this to have game draw player's bounds to make it easier to visualize
