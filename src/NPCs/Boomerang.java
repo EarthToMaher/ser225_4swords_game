@@ -20,7 +20,7 @@ public class Boomerang extends NPC{
     private Direction direction;
     private int speed = 5;
     private double lifetime = 1000; 
-    private double deltaTime = 16.67; 
+    private double deltaTime = 16.67; //Credit to Zach Marlowe here, he already found this value
     private boolean boomerangTraveling = false;
 
     public Boomerang(int id, Point location) {
@@ -30,7 +30,7 @@ public class Boomerang extends NPC{
     public void update(Player player) {
         //this.performAction(player);
         super.update();
-        System.out.println("Traveling: " + boomerangTraveling + " Throwing: " + player.getIsThrowingBoomerang());
+        //System.out.println("Traveling: " + boomerangTraveling + " Throwing: " + player.getIsThrowingBoomerang());
         if(!boomerangTraveling && player.getIsThrowingBoomerang()){
 
             isUncollidable = false;
@@ -43,7 +43,7 @@ public class Boomerang extends NPC{
             else this.setLocation(playerLocation.x+70, playerLocation.y);
         }
         if(boomerangTraveling){
-            if (!isExpired()){
+            if (!isTraveling()){
                 if (direction == Direction.UP) {
                     moveY(-speed);
                 }
@@ -61,7 +61,7 @@ public class Boomerang extends NPC{
                 //moveX(velocityX);
                 lifetime -= deltaTime;
             }
-            if(isExpired()){
+            if(isTraveling()){
                 lifetime -= deltaTime;
                 if (direction == Direction.UP) {
                     moveY(speed);
@@ -93,7 +93,7 @@ public class Boomerang extends NPC{
         if (boomerangTraveling) super.draw(graphicsHandler);
     }
 
-    public boolean isExpired() {
+    public boolean isTraveling() {
         return lifetime <= 0;
     }
 }
