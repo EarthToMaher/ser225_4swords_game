@@ -40,7 +40,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
-    protected Key BOOMERAND_KEY =  Key.ENTER;
+    protected Key BOOMERANG_KEY =  Key.ENTER;
     protected Key ATTACK_KEY = Key.E;
 
     //New key: C for swapping bodies
@@ -48,6 +48,7 @@ public abstract class Player extends GameObject {
 
     protected int currencyAmount = 0;
 
+    private boolean isThrowingBoomerang;
 
     private boolean hasHitThisAttack = false;
 
@@ -146,6 +147,12 @@ public abstract class Player extends GameObject {
             map.entityInteract(this);
         }
 
+        if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
+        {
+            keyLocker.lockKey(INTERACT_KEY);
+            isThrowingBoomerang = true;
+        }
+
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
             playerState = PlayerState.ATTACKING;
@@ -190,6 +197,12 @@ public abstract class Player extends GameObject {
             resetAnimationToFirstFrame();
         }
 
+        if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
+        {
+            keyLocker.lockKey(INTERACT_KEY);
+            isThrowingBoomerang = true;
+        }
+
 
         //If space key is pressed while walking, switching should also occur
         if(!keyLocker.isKeyLocked(C_KEY) && Keyboard.isKeyDown(C_KEY)) {
@@ -225,7 +238,6 @@ public abstract class Player extends GameObject {
         else {
             currentWalkingXDirection = Direction.NONE;
         }
-
         if (Keyboard.isKeyDown(MOVE_UP_KEY)) {
             moveAmountY -= walkSpeed;
             currentWalkingYDirection = Direction.UP;
@@ -279,11 +291,19 @@ public abstract class Player extends GameObject {
         }
     }
 
+    public boolean getIsThrowingBoomerang(){return isThrowingBoomerang;}
+
 
     protected void updateLockedKeys() {
         if (Keyboard.isKeyUp(INTERACT_KEY) && !isLocked) {
             keyLocker.unlockKey(INTERACT_KEY);
         }
+
+        if (Keyboard.isKeyUp(BOOMERANG_KEY)&&!isLocked){
+            keyLocker.unlockKey(BOOMERANG_KEY);
+            isThrowingBoomerang = false;
+        }
+
 
         if (Keyboard.isKeyUp(C_KEY) && !isLocked) {
             keyLocker.unlockKey(C_KEY);
