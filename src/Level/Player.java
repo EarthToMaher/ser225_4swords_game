@@ -127,7 +127,7 @@ public abstract class Player extends GameObject {
                 SecondRobot.isActivePlayer = true;
                 System.out.println(Robot.isActivePlayer);
                 System.out.println(SecondRobot.isActivePlayer);
-            } else {
+            } else if(SecondRobot.isActivePlayer) {
                 Robot.isActivePlayer = true;
                 SecondRobot.isActivePlayer = false;
                 System.out.println(Robot.isActivePlayer);
