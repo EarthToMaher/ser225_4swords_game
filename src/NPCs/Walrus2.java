@@ -120,6 +120,7 @@ public class Walrus2 extends NPC {
         // Damage on touch player
         if (touching(player)) {
             takeDamage(1);
+            player.takeDamage(1);
         }
 
         super.update(player);

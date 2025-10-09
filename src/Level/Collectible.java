@@ -31,11 +31,11 @@ public class Collectible extends MapEntity {
     public void update(Player player) {
         isUncollidable = true;
         if (!isHidden) {
-            this.performAction(player);
+            //this.performAction(player);
             //System.out.println("Im updating");
             if(this.getBounds().getAreaOverlapped(player.getBounds())>0.5)
             {
-                //TODO: Add to currency
+                performAction(player);
                 isHidden = true;
             }
         }

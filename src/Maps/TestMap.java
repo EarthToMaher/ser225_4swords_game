@@ -1,6 +1,7 @@
 package Maps;
 
 import EnhancedMapTiles.PushableRock;
+import GameObject.Frame;
 import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
@@ -8,14 +9,17 @@ import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
 import Shrines.EmptyShrine;
-import NPCs.Bolt;
 
+import java.awt.Image;
 import java.util.ArrayList;
+
+import Engine.ImageLoader;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
 
     public static ArrayList<NPC> npcs = new ArrayList<>();
+    Projectile projectile;
 
 
     public TestMap() {
@@ -30,7 +34,7 @@ public class TestMap extends Map {
         PushableRock pushableRock = new PushableRock(getMapTile(2, 7).getLocation());
         enhancedMapTiles.add(pushableRock);
 
-        Projectile projectile = new Projectile(getMapTile(5, 7).getLocation());
+        projectile = new Projectile(getMapTile(5, 7).getLocation());
         enhancedMapTiles.add(projectile);
 
         return enhancedMapTiles;
@@ -67,6 +71,9 @@ public class TestMap extends Map {
         MrToon mrToon = new MrToon(4, getMapTile(8, 11).getLocation());
         mrToon.setInteractScript(new MrToonScript());
         npcs.add(mrToon);
+
+        Boomerang boomerang = new Boomerang(5,getMapTile(8, 11).getLocation());
+        npcs.add(boomerang);
 
         return npcs;
     }

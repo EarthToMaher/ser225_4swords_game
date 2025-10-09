@@ -6,6 +6,8 @@ import Engine.Screen;
 import Screens.CreditsScreen;
 import Screens.MenuScreen;
 import Screens.PlayLevelScreen;
+import Level.Player;
+import Screens.PlayLevelScreen;
 
 /*
  * Based on the current game state, this class determines which Screen should be shown
@@ -14,6 +16,15 @@ import Screens.PlayLevelScreen;
 public class ScreenCoordinator extends Screen {
 	// currently shown Screen
 	protected Screen currentScreen = new DefaultScreen();
+
+	private Player player;
+
+	public Player getPlayer() {
+    if (currentScreen instanceof PlayLevelScreen pls) {
+        return pls.getPlayer();
+    }
+    	return null;
+	}
 
 	// keep track of gameState so ScreenCoordinator knows which Screen to show
 	protected GameState gameState;
@@ -34,24 +45,33 @@ public class ScreenCoordinator extends Screen {
 		gameState = GameState.MENU;
 	}
 
+	
+
 	@Override
 	public void update() {
 		do {
 			// if previousGameState does not equal gameState, it means there was a change in gameState
 			// this triggers ScreenCoordinator to bring up a new Screen based on what the gameState is
 			if (previousGameState != gameState) {
-				switch(gameState) {
-					case MENU:
-						currentScreen = new MenuScreen(this);
-						break;
-					case LEVEL:
-						currentScreen = new PlayLevelScreen(this);
-						break;
-					case CREDITS:
-						currentScreen = new CreditsScreen(this);
-						break;
-				}
-				currentScreen.initialize();
+				switch (gameState) {
+    				case MENU:
+        				currentScreen = new MenuScreen(this);
+        				break;
+
+    				case LEVEL:
+        				PlayLevelScreen levelScreen = new PlayLevelScreen(this);
+        				currentScreen = levelScreen;
+        				levelScreen.initialize();
+
+        			//Player reference
+        			player = levelScreen.getPlayer();
+        			break;
+
+    				case CREDITS:
+        			currentScreen = new CreditsScreen(this);
+        			break;
+		}
+		currentScreen.initialize();
 			}
 			previousGameState = gameState;
 
