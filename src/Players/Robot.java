@@ -109,6 +109,27 @@ public class Robot extends Player {
                             .withBounds(6, 12, 12, 7)
                             .build()
             });
+
+            put("ATTACK_RIGHT", new Frame[] {
+                new FrameBuilder(spriteSheet.getSprite(0, 0), 5).withScale(3).build(),
+                new FrameBuilder(spriteSheet.getSprite(0, 1), 5).withScale(3).build(),
+                new FrameBuilder(spriteSheet.getSprite(0, 2), 5).withScale(3).build()
+            });
+
+            put("ATTACK_LEFT", new Frame[] {
+                new FrameBuilder(spriteSheet.getSprite(0, 0), 5)
+                        .withScale(3)
+                        .withImageEffect(ImageEffect.FLIP_HORIZONTAL) 
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(0, 1), 5)
+                        .withScale(3)
+                        .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(0, 2), 5)
+                        .withScale(3)
+                        .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                        .build()
+                });
         }};
     }
 }

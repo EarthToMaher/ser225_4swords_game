@@ -252,4 +252,10 @@ public class AnimatedSprite implements IntersectableRectangle {
 	public String toString() {
 		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", x, y, getWidth(), getHeight(), getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight());
 	}
+
+	public void setCurrentFrameIndex(int index) {
+    	this.currentFrameIndex = index;
+    	frameDelayCounter = getCurrentFrame().getDelay();
+    	updateCurrentFrame();
+	}
 }

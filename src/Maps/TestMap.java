@@ -3,6 +3,7 @@ package Maps;
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Door;
+import GameObject.Frame;
 import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
@@ -11,12 +12,16 @@ import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
 import Shrines.EmptyShrine;
 
+import java.awt.Image;
 import java.util.ArrayList;
+
+import Engine.ImageLoader;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
 
     public static ArrayList<NPC> npcs = new ArrayList<>();
+    Projectile projectile;
 
 
     public TestMap() {
@@ -31,7 +36,7 @@ public class TestMap extends Map {
         PushableRock pushableRock = new PushableRock(getMapTile(2, 7).getLocation());
         enhancedMapTiles.add(pushableRock);
 
-        Projectile projectile = new Projectile(getMapTile(5, 7).getLocation());
+        projectile = new Projectile(getMapTile(5, 7).getLocation());
         enhancedMapTiles.add(projectile);
 
         Key key1 = new Key(getMapTile(10, 10).getLocation());
@@ -57,7 +62,6 @@ public class TestMap extends Map {
         npc.setInteractScript(new TestScript());
         npcs.add(npc);
 
-
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(8, 20).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
@@ -82,18 +86,39 @@ public class TestMap extends Map {
         mrToon.setInteractScript(new MrToonScript());
         npcs.add(mrToon);
 
+        Boomerang boomerang = new Boomerang(5,getMapTile(8, 11).getLocation());
+        npcs.add(boomerang);
+
         return npcs;
     }
+    
 
     public ArrayList<Shrine> loadShrines()
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
-        emptyShrine.setInteractScript(new EmptyShrineScript());
-        shrines.add(emptyShrine);
+        //EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
+        //emptyShrine.setInteractScript(new EmptyShrineScript());
+        //shrines.add(emptyShrine);
 
         return shrines;
+    }
+
+    public ArrayList<Collectible> loadCollectibles()
+    {
+        ArrayList<Collectible> collectibles = new ArrayList<>();
+        Bolt bolt = new Bolt( 6, getMapTile(13,16).getLocation());
+        collectibles.add(bolt);
+
+        return collectibles;
+    }
+    @Override
+    public ArrayList<Trigger> loadTriggers() {
+        ArrayList<Trigger> triggers = new ArrayList<>();
+        // triggers.add(new Trigger(790, 1030, 100, 10, new LostBallScript(), "hasLostBall"));
+        // triggers.add(new Trigger(790, 960, 10, 80, new LostBallScript(), "hasLostBall"));
+        // triggers.add(new Trigger(890, 960, 10, 80, new LostBallScript(), "hasLostBall"));
+        return triggers;
     }
 
     @Override

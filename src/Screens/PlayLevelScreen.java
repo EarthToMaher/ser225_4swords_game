@@ -1,15 +1,18 @@
 package Screens;
 
+
 import Engine.GraphicsHandler;
+import Engine.Keyboard;
 import Engine.Screen;
+import Engine.Key;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
+import Level.Map;
 import Maps.TestMap;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
-import Utils.Point;
 
 
 //TODO: Rewrite code based around "SWITCHING" enum class
@@ -24,6 +27,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
     protected PlayLevelScreenState playLevelScreenState;
     protected WinScreen winScreen;
     protected FlagManager flagManager;
+    protected CurrencyScreen currencyScreen;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -67,6 +71,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         //map.preloadScripts();
 
         winScreen = new WinScreen(this);
+        currencyScreen = new CurrencyScreen(this);
     }
 
     public void update() {
@@ -74,6 +79,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
+               // System.out.println("Im running");
+                currencyScreen.update();
+
+                if (Keyboard.isKeyDown(Key.H)) {
+                    player.takeDamage(1);
+                }
 
                 //Swapping logic
                 //Will probably rewrite based on enum class later
@@ -114,6 +125,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
                 } else if(SecondRobot.isActivePlayer) {
                     map.draw(player2, graphicsHandler);
             }
+            currencyScreen.draw(graphicsHandler);
                 break;
             case LEVEL_COMPLETED:
                 winScreen.draw(graphicsHandler);
@@ -136,5 +148,9 @@ public class PlayLevelScreen extends Screen implements GameListener {
     // This enum represents the different states this screen can be in
     private enum PlayLevelScreenState {
         RUNNING, LEVEL_COMPLETED
+    }
+
+    public Player getPlayer() {
+    return player;
     }
 }

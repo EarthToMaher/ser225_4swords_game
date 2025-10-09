@@ -1,6 +1,7 @@
 package Engine;
 
 
+import Game.ScreenCoordinator;
 import GameObject.Rectangle;
 
 /*
@@ -11,6 +12,7 @@ import GameObject.Rectangle;
 public class ScreenManager {
     private Screen currentScreen;
     private static Rectangle screenBounds = new Rectangle(0, 0, 0, 0);
+    private ScreenCoordinator screenCoordinator;
 
     public void initialize(Rectangle screenBounds) {
         ScreenManager.screenBounds = screenBounds;
@@ -21,6 +23,10 @@ public class ScreenManager {
     public void setCurrentScreen(Screen screen) {
         screen.initialize();
         this.currentScreen = screen;
+
+        if (screen instanceof ScreenCoordinator) {
+        this.screenCoordinator = (ScreenCoordinator) screen;
+    }
     }
 
     public void update() {
@@ -44,5 +50,9 @@ public class ScreenManager {
     // gets bounds of currentScreen -- can be called from anywhere in an application
     public static Rectangle getScreenBounds() {
         return screenBounds;
+    }
+
+    public ScreenCoordinator getScreenCoordinator() {
+    return screenCoordinator;
     }
 }
