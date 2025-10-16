@@ -1,6 +1,8 @@
 package Maps;
 
 import EnhancedMapTiles.PushableRock;
+import EnhancedMapTiles.Key;
+import EnhancedMapTiles.Door;
 import GameObject.Frame;
 import EnhancedMapTiles.Projectile;
 import Level.*;
@@ -36,6 +38,18 @@ public class TestMap extends Map {
 
         projectile = new Projectile(getMapTile(5, 7).getLocation());
         enhancedMapTiles.add(projectile);
+
+        Key key1 = new Key(getMapTile(10, 10).getLocation());
+        enhancedMapTiles.add(key1);
+
+        Key key2 = new Key(getMapTile(10,11).getLocation());
+        enhancedMapTiles.add(key2);
+
+        Door door1 = new Door(getMapTile(12, 10).getLocation());
+        enhancedMapTiles.add(door1);
+
+        Door door2 = new Door(getMapTile(12,7).getLocation());
+        enhancedMapTiles.add(door2);
 
         return enhancedMapTiles;
     }

@@ -53,6 +53,7 @@ public abstract class Player extends GameObject {
     private boolean hasHitThisAttack = false;
 
     protected boolean isLocked = false;
+    protected boolean hasKey = false;
 
     private int health = 100; //int for initial health value\
 
@@ -122,6 +123,9 @@ public abstract class Player extends GameObject {
             if (this.y > maxY) this.y = maxY;
         }
     }
+
+    public boolean hasKey() { return hasKey; }
+    public void setHasKey(boolean value) { hasKey = value; }
 
     // based on player's current state, call appropriate player state handling method
     protected void handlePlayerState() {
