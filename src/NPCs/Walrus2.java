@@ -27,7 +27,7 @@ public class Walrus2 extends NPC {
     private Random random = new Random();
 
     public Walrus2(int id, Point location) {
-        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "STAND_RIGHT");
+        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("BigEnemyTest.png"), 64, 64), "STAND_RIGHT");
     }
 
     // Getter for health value
