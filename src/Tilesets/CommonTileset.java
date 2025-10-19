@@ -319,6 +319,13 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(topWaterTile);
 
+        Frame redX = new FrameBuilder(getSubImage(0, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder newTile = new MapTileBuilder(redX);
+        mapTiles.add(newTile);
+
 
         return mapTiles;
     }
