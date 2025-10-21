@@ -1,6 +1,7 @@
 package Level;
 
 import GameObject.GameObject;
+import Items.Item;
 import Utils.Direction;
 import Utils.Point;
 
@@ -64,6 +65,20 @@ public class MapCollisionHandler {
             }
         }
 
+        for (Item item : map.getActiveItems()){
+            if (!gameObject.equals(item) && !item.isUncollidable && hasCollidedWithMapEntity(gameObject, item, direction)){
+                entityCollidedWith = item;
+                float adjustedPositionX = gameObject.getX();
+                if (direction == Direction.RIGHT){
+                    float boundsDifference = gameObject.getX2() - gameObject.getBounds().getX2();
+                    adjustedPositionX = item.getBounds().getX1()-gameObject.getWidth() + boundsDifference;
+                } else if (direction == Direction.LEFT){
+                    float boundsDifference = gameObject.getBounds().getX1()-gameObject.getX();
+                    adjustedPositionX = (item.getBounds().getX2()+1) - boundsDifference;
+                }
+                return new MapCollisionCheckResult(new Point(adjustedPositionX,gameObject.getY()), entityCollidedWith);
+            }
+        }
         for (Shrine shrine : map.getActiveShrines()) {
             if (!gameObject.equals(shrine) && !shrine.isUncollidable() && hasCollidedWithMapEntity(gameObject, shrine, direction)) {
                 entityCollidedWith = shrine;
@@ -78,6 +93,8 @@ public class MapCollisionHandler {
                 return new MapCollisionCheckResult(new Point(adjustedPositionX, gameObject.getY()), entityCollidedWith);
             }
         }
+
+
 
         for (Collectible collectible : map.getActiveCollectibles()) {
             if (!gameObject.equals(collectible) && !collectible.isUncollidable() && hasCollidedWithMapEntity(gameObject, collectible, direction)) {
