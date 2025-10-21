@@ -23,8 +23,11 @@ public class Item extends MapEntity{
     }
     
     public void UseItem(Player player){
+        if(itemIsActive) return;
         itemIsActive=true;
         isUncollidable = false;
+        //System.out.println("I was used");
+
     }
 
     public void ItemFinished(){
@@ -38,10 +41,13 @@ public class Item extends MapEntity{
 
     public void update(Player player){
         super.update();
+        //System.out.println("Im updating");
         if(!itemIsActive && player.getIsThrowingBoomerang()){
+            //System.out.println("Player attempted to use item");
             UseItem(player);
         }
         if (!itemIsActive) return;
+        //System.out.println("Got past the return statement");
         ItemFunctionality();
     }
 
