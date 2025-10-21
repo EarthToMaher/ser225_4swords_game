@@ -207,6 +207,21 @@ public class MapCollisionHandler {
             }
         }
 
+        for (Item item : map.getActiveItems()){
+                   if (!gameObject.equals(item) && !item.isUncollidable() && hasCollidedWithMapEntity(gameObject, item, direction)) {
+                entityCollidedWith = item;
+                float adjustedPositionY = gameObject.getY();
+                if (direction == Direction.DOWN) {
+                    float boundsDifference = gameObject.getY2() - gameObject.getBounds().getY2();
+                    adjustedPositionY = item.getBounds().getY1() - gameObject.getHeight() + boundsDifference;
+                } else if (direction == Direction.UP) {
+                    float boundsDifference = gameObject.getBounds().getY1() - gameObject.getY();
+                    adjustedPositionY = (item.getBounds().getY2() + 1) - boundsDifference;
+                }
+                return new MapCollisionCheckResult(new Point(gameObject.getX(), adjustedPositionY), entityCollidedWith);
+            }
+        }
+
                 // check active npcs for potential collision
         for (Shrine shrine : map.getActiveShrines()) {
             if (!gameObject.equals(shrine) && !shrine.isUncollidable() && hasCollidedWithMapEntity(gameObject, shrine, direction)) {
