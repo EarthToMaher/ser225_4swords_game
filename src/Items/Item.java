@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class Item extends MapEntity{
 
     protected boolean itemIsActive = false;
+    protected boolean onShrine = true;
 
     public Item(Frame frame){
         super(0,0,frame);
@@ -39,6 +40,15 @@ public class Item extends MapEntity{
 
     }
 
+    public void PickUpItem(Player player){
+        onShrine = false;
+    }
+
+    public void PlaceItem(){
+        onShrine = true;
+        itemIsActive = false;
+    }
+
     public void update(Player player){
         super.update();
         //System.out.println("Im updating");
@@ -52,7 +62,7 @@ public class Item extends MapEntity{
     }
 
     public void draw(GraphicsHandler graphicsHandler){
-        if(itemIsActive) super.draw(graphicsHandler);
+        if(itemIsActive||onShrine) super.draw(graphicsHandler);
     }
     
 }

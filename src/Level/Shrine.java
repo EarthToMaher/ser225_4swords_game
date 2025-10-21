@@ -5,6 +5,7 @@ import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.GameObject;
 import GameObject.SpriteSheet;
+import Items.Item;
 import Utils.Direction;
 
 import java.util.HashMap;
@@ -13,10 +14,19 @@ import java.util.HashMap;
 public class Shrine extends MapEntity {
     protected int id = 0;
     protected boolean isLocked = false;
+    public Item currentItem;
 
     public Shrine(int id, float x, float y, Frame shrineSprite) {
         super(x, y, shrineSprite);
         this.id = id;
+    }
+
+    public Shrine(int id, float x, float y, Item item){
+        super(x,y,new Frame(ImageLoader.load("Shrine.png")));
+        //item.setLocation(x, y-10);
+        currentItem = item;
+        if(currentItem!=null)currentItem.setLocation(this.getLocation().x,this.getLocation().y-35);
+        if(currentItem==null) System.out.println("No item found");
     }
 
     public Shrine(int id, float x, float y)

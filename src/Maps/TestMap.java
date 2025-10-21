@@ -26,6 +26,8 @@ public class TestMap extends Map {
     public static ArrayList<NPC> npcs = new ArrayList<>();
     Projectile projectile;
 
+    public Item boomerangItem;
+
 
     public TestMap() {
         super("test_map.txt", new CommonTileset());
@@ -99,7 +101,7 @@ public class TestMap extends Map {
         ArrayList<Item> items = new ArrayList<>();
 
         Point boomerangPoint = getMapTile(8, 11).getLocation();
-        BoomerangItem boomerangItem = new BoomerangItem(boomerangPoint.x,boomerangPoint.y, new Frame(ImageLoader.load("Boomerang.png")));
+        boomerangItem = new BoomerangItem(boomerangPoint.x,boomerangPoint.y, new Frame(ImageLoader.load("Boomerang.png")));
         items.add(boomerangItem);
 
         return items;
@@ -110,9 +112,9 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        //EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
-        //emptyShrine.setInteractScript(new EmptyShrineScript());
-        //shrines.add(emptyShrine);
+        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation(),boomerangItem);
+        emptyShrine.setInteractScript(new EmptyShrineScript());
+        shrines.add(emptyShrine);
 
         return shrines;
     }

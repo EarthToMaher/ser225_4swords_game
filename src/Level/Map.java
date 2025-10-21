@@ -118,14 +118,14 @@ public abstract class Map {
             npc.setMap(this);
         }
 
-        this.shrines = loadShrines();
-        for (Shrine shrine: this.shrines){
-            shrine.setMap(this);
-        }
-
         this.items = loadItems();
         for (Item item: this.items){
             item.setMap(this);
+        }
+
+        this.shrines = loadShrines();
+        for (Shrine shrine: this.shrines){
+            shrine.setMap(this);
         }
 
         this.collectibles = loadCollectibles();
