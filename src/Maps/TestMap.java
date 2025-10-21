@@ -26,7 +26,7 @@ public class TestMap extends Map {
 
     public TestMap() {
         super("test_map.txt", new CommonTileset());
-        this.playerStartPosition = getMapTile(9, 9).getLocation();
+        this.playerStartPosition = getMapTile(15, 7).getLocation();
     }
 
     @Override
@@ -62,14 +62,14 @@ public class TestMap extends Map {
         //npc.setInteractScript(new TestScript());
         //npcs.add(npc);
 
-        inactiveRobotStatic = new InactiveRobot(5, getMapTile(8, 8).getLocation().subtractY(50));
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
         //Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
         //walrus.setInteractScript(new WalrusScript());
         //npcs.add(walrus);
 
-        Walrus2 walrus2 = new Walrus2(4, getMapTile(11, 4).getLocation().subtractY(50));
+        Walrus2 walrus2 = new Walrus2(4, getMapTile(3, 4).getLocation().subtractY(50));
         walrus2.setInteractScript(new WalrusScript());
         npcs.add(walrus2);
         

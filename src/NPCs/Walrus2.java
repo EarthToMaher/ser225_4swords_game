@@ -123,6 +123,13 @@ public class Walrus2 extends NPC {
             player.takeDamage(1);
         }
 
+        // Flip depending on direction
+        if (dx < 0) {
+            this.currentAnimationName = "STAND_LEFT";
+        } else if (dx > 0) {
+            this.currentAnimationName = "STAND_RIGHT";
+        }
+
         super.update(player);
     }
 
