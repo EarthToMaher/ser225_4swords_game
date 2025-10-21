@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class Item extends MapEntity{
 
-    protected boolean itemIsActive = false;
+    public boolean itemIsActive = false;
     protected boolean onShrine = true;
 
     public Item(Frame frame){

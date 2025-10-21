@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 import Engine.ImageLoader;
+import Scripts.*;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
@@ -113,8 +114,12 @@ public class TestMap extends Map {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
         EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation(),boomerangItem);
-        emptyShrine.setInteractScript(new EmptyShrineScript());
+        emptyShrine.setInteractScript(new BoomerangShrineScript());
         shrines.add(emptyShrine);
+
+        EmptyShrine emptyShrineReal = new EmptyShrine(6, getMapTile(10, 16).getLocation(), null);
+        emptyShrineReal.setInteractScript(new EmptyShrineScript());
+        shrines.add(emptyShrineReal);
 
         return shrines;
     }

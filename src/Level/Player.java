@@ -160,7 +160,7 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(INTERACT_KEY);
             //System.out.println("m hitting enter");
             //isThrowingBoomerang = true;
-            if (currentItem != null) currentItem.UseItem(this);
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
@@ -211,7 +211,7 @@ public abstract class Player extends GameObject {
         {
             keyLocker.lockKey(INTERACT_KEY);
             //isThrowingBoomerang = true;
-            if(currentItem!=null) currentItem.UseItem(this);
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
 

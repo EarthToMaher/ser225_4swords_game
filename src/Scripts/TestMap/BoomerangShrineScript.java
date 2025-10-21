@@ -9,7 +9,7 @@ import ScriptActions.*;
 import Items.Item;
 
 //SCript for interacting with an empty shrine
-public class EmptyShrineScript extends Script {
+public class BoomerangShrineScript extends Script {
 
 @Override
     public ArrayList<ScriptAction> loadScriptActions() {
@@ -28,7 +28,7 @@ public class EmptyShrineScript extends Script {
         scriptActions.add(new ConditionalScriptAction() {{
             addConditionalScriptActionGroup(new ConditionalScriptActionGroup() {{
                 addScriptAction(new TextboxScriptAction() {{
-                    addText("Nothing: Just empty space");
+                    addText("Boomerang: Moves forward a short distance then back.\n Hits enemies and collects items along the way!");
                 }});
             }});
         }});

@@ -25,7 +25,6 @@ public class Shrine extends MapEntity {
         super(x,y,new Frame(ImageLoader.load("Shrine.png")));
         //item.setLocation(x, y-10);
         currentItem = item;
-        if(currentItem!=null)currentItem.setLocation(this.getLocation().x,this.getLocation().y-35);
         if(currentItem==null) System.out.println("No item found");
     }
 
@@ -35,10 +34,17 @@ public class Shrine extends MapEntity {
         this.id = id;
     }
 
+    public void setItem(Item item){
+        currentItem = item;
+        //System.out.println("I ran");
+    }
+
     public int getId() { return id; }
 
 
     public void update(Player player) {
+        if(currentItem!=null)currentItem.setLocation(this.getLocation().x,this.getLocation().y-35);
+        //if (currentItem==null)System.out.println("I have no item!");
         if (!isLocked) {
             this.performAction(player);
         }
