@@ -4,24 +4,30 @@ import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
+import Items.BoomerangItem;
+import Items.Item;
 import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
 import Scripts.SimpleTextScript;
 import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
+import Utils.Point;
 import Shrines.EmptyShrine;
 
 import java.awt.Image;
 import java.util.ArrayList;
 
 import Engine.ImageLoader;
+import Scripts.*;
 
 // Represents a test map to be used in a level
 public class TestMap extends Map {
 
     public static ArrayList<NPC> npcs = new ArrayList<>();
     Projectile projectile;
+
+    public Item boomerangItem;
 
 
     public TestMap() {
@@ -86,10 +92,20 @@ public class TestMap extends Map {
         mrToon.setInteractScript(new MrToonScript());
         npcs.add(mrToon);
 
-        Boomerang boomerang = new Boomerang(5,getMapTile(8, 11).getLocation());
-        npcs.add(boomerang);
+        //Boomerang boomerang = new Boomerang(5,getMapTile(8, 11).getLocation());
+        //npcs.add(boomerang);
 
         return npcs;
+    }
+
+    public ArrayList<Item> loadItems(){
+        ArrayList<Item> items = new ArrayList<>();
+
+        Point boomerangPoint = getMapTile(8, 11).getLocation();
+        boomerangItem = new BoomerangItem(boomerangPoint.x,boomerangPoint.y, new Frame(ImageLoader.load("Boomerang.png")));
+        items.add(boomerangItem);
+
+        return items;
     }
     
 
@@ -97,9 +113,13 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        //EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation());
-        //emptyShrine.setInteractScript(new EmptyShrineScript());
-        //shrines.add(emptyShrine);
+        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation(),boomerangItem);
+        emptyShrine.setInteractScript(new BoomerangShrineScript());
+        shrines.add(emptyShrine);
+
+        EmptyShrine emptyShrineReal = new EmptyShrine(6, getMapTile(10, 16).getLocation(), null);
+        emptyShrineReal.setInteractScript(new EmptyShrineScript());
+        shrines.add(emptyShrineReal);
 
         return shrines;
     }

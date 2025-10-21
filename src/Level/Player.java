@@ -11,6 +11,7 @@ import Players.Robot;
 import Players.SecondRobot;
 import Utils.Direction;
 import NPCs.Walrus2;
+import Items.Item;
 
 public abstract class Player extends GameObject {
     // values that affect player movement
@@ -21,6 +22,7 @@ public abstract class Player extends GameObject {
     protected Direction currentWalkingYDirection;
     protected Direction lastWalkingXDirection;
     protected Direction lastWalkingYDirection;
+    public Item currentItem;
 
     // values used to handle player movement
     protected float moveAmountX, moveAmountY;
@@ -91,6 +93,8 @@ public abstract class Player extends GameObject {
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
     }
+
+    public void setItem(Item item){currentItem = item;}
 
     public void takeDamage(int damageAmount) {
             this.health -= damageAmount;
@@ -176,7 +180,9 @@ public abstract class Player extends GameObject {
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
-            isThrowingBoomerang = true;
+            //System.out.println("m hitting enter");
+            //isThrowingBoomerang = true;
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
@@ -226,7 +232,8 @@ public abstract class Player extends GameObject {
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
-            isThrowingBoomerang = true;
+            //isThrowingBoomerang = true;
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
 
