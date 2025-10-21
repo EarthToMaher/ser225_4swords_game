@@ -56,6 +56,7 @@ public abstract class Player extends GameObject {
     protected boolean hasKey = false;
 
     private int health = 100; //int for initial health value\
+    private boolean isInjured = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -75,11 +76,32 @@ public abstract class Player extends GameObject {
         return false;
     }
 
-    public int getCurrency(){return currencyAmount;}
+    public int getCurrency(){
+        return currencyAmount;
+    }
+
+    public boolean isInjured() {
+        return isInjured;
+    }
+
+    protected void onDeath() {
+        if (isInjured) return;
+        isInjured = true;
+        lock();
+        this.currentAnimationName = "INJURED";
+        resetAnimationToFirstFrame();
+    }
 
     public void takeDamage(int damageAmount) {
             this.health -= damageAmount;
             System.out.println(this.health);
+            if(isInjured) return; // Prevent taking damage while already injured
+            this.health -= damageAmount;
+            System.out.println(this.health);
+            if (this.health <= 0) {
+                this.health = 0; //Ensure health wont be negative
+                onDeath();
+            }
         }
 
         public int getHealth() {
