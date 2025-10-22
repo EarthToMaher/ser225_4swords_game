@@ -15,7 +15,7 @@ public class Door extends EnhancedMapTile {
     private boolean isOpen = false;
 
     public Door(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Door.png"), 24, 24), TileType.NOT_PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("MetalDoor.png"), 24, 24), TileType.NOT_PASSABLE);
     }
 
     @Override

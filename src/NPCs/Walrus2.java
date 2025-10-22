@@ -21,7 +21,7 @@ public class Walrus2 extends NPC {
     // Movement fields
     private float wanderSpeed = 1.0f; // Slow speed for wandering
     private float chaseSpeed = 1.5f; // Faster speed for chasing
-    private float detectionRange = 150.0f; // Pixels; start chasing if player within this
+    private float detectionRange = 150.0f; // Start chasing if player within this
     private int wanderDirection = 1; // 0=up, 1=right, 2=down, 3=left
     private long lastDirectionChange = 0; // Timestamp for changing wander direction
     private Random random = new Random();
@@ -40,7 +40,7 @@ public class Walrus2 extends NPC {
         this.health = Math.max(0, health);
     }
 
-    // Method for decreasing health (taking damage)
+    // Method for taking damage
     public void takeDamage(int damage) {
         System.out.println("I am being touched!");
         this.health -= damage;
@@ -54,9 +54,8 @@ public class Walrus2 extends NPC {
 
     @Override
     public void update(Player player) {
-        // Movement AI (horizontal only)
-        float dx = 0.0f; // Horizontal movement
-        float dy = 0.0f; // Vertical movement
+        float dx = 0.0f;
+        float dy = 0.0f; 
         boolean isMoving = false;
 
         float playerCenterX = player.getX() + 18.0f;
@@ -65,7 +64,7 @@ public class Walrus2 extends NPC {
         float walrusCenterY = this.y + 10.5f;
         float distanceToPlayer = (float) Math.hypot(playerCenterX - walrusCenterX, playerCenterY - walrusCenterY);
 
-        long currentTime = System.currentTimeMillis(); // For timing wander changes
+        long currentTime = System.currentTimeMillis(); 
 
         if (distanceToPlayer < detectionRange && distanceToPlayer > 20.0f) {
             // Move toward player
@@ -78,7 +77,7 @@ public class Walrus2 extends NPC {
             dy = 0.0f;
             isMoving = false;
         } else {
-            // Wander: Move in current direction, change randomly every 1-3 seconds
+            // Wander around: Move in current direction, change randomly every 1-3 seconds
             if (currentTime - lastDirectionChange > (1000 + random.nextInt(2000))) { // 1-3 sec
                 wanderDirection = random.nextInt(4);
                 lastDirectionChange = currentTime;
