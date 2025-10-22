@@ -13,7 +13,7 @@ import Engine.ImageLoader;
 
 public class Key extends EnhancedMapTile {
     public Key(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Key.png"), 16, 16), TileType.PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Keycard.png"), 24, 24), TileType.PASSABLE);
     }
 
     @Override

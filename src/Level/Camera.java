@@ -4,6 +4,7 @@ import Engine.GraphicsHandler;
 import Engine.ScreenManager;
 import GameObject.GameObject;
 import GameObject.Rectangle;
+import Items.Item;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Camera extends Rectangle {
     private ArrayList<Shrine> activeShrines = new ArrayList<>();
     private ArrayList<Trigger> activeTriggers = new ArrayList<>();
     private ArrayList<Collectible> activeCollectibles = new ArrayList<>();
+    private ArrayList<Item> activeItems = new ArrayList<>();
 
     // determines how many tiles off screen an entity can be before it will be deemed inactive and not included in the update/draw cycles until it comes back in range
     private final int UPDATE_OFF_SCREEN_RANGE = 4;
@@ -67,6 +69,7 @@ public class Camera extends Rectangle {
     public void updateMapEntities(Player player) {
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
         activeNPCs = loadActiveNPCs();
+        activeItems = loadActiveItems();
         activeShrines = loadActiveShrines();
         activeCollectibles = loadActiveCollectibles();
         activeTriggers = loadActiveTriggers();
@@ -77,6 +80,10 @@ public class Camera extends Rectangle {
 
         for (NPC npc : activeNPCs) {
             npc.update(player);
+        }
+
+        for (Item item : activeItems){
+            item.update(player);
         }
 
         for (Shrine shrine : activeShrines){
@@ -135,6 +142,25 @@ public class Camera extends Rectangle {
             }
         }
         return activeNPCs;
+    }
+
+    private ArrayList<Item> loadActiveItems(){
+        ArrayList<Item> activeItems = new ArrayList<>();
+        for (int i = map.getItems().size()-1; i >= 0; i--){
+            Item item = map.getItems().get(i);
+
+            if(isMapEntityActive(item)){
+                activeItems.add(item);
+                if(item.mapEntityStatus == MapEntityStatus.INACTIVE){
+                    item.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (item.getMapEntityStatus() == MapEntityStatus.ACTIVE){
+                item.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            } else if (item.getMapEntityStatus() == MapEntityStatus.REMOVED){
+                map.getItems().remove(i);
+            }
+        }
+        return activeItems;
     }
 
     private ArrayList<Shrine> loadActiveShrines() {
@@ -261,6 +287,7 @@ public class Camera extends Rectangle {
     // draws active map entities to the screen
     public void drawMapEntities(Player player, GraphicsHandler graphicsHandler) {
         ArrayList<NPC> drawNpcsAfterPlayer = new ArrayList<>();
+        ArrayList<Item> drawItemsAfterPlayer = new ArrayList<>();
         ArrayList<Shrine> drawShrinesAfterPlayer = new ArrayList<>();
         ArrayList<Collectible> drawCollectiblesAfterPlayer = new ArrayList<>();
 
@@ -274,6 +301,17 @@ public class Camera extends Rectangle {
                 }
                 else {
                     drawNpcsAfterPlayer.add(npc);
+                }
+            }
+        }
+
+        for (Item item : activeItems){
+            if(containsDraw(item)){
+                if(item.getBounds().getY()<player.getBounds().getY1() + (player.getBounds().getHeight()/2f)){
+                    item.draw(graphicsHandler);
+                }
+                else{
+                    drawItemsAfterPlayer.add(item);
                 }
             }
         }
@@ -306,6 +344,10 @@ public class Camera extends Rectangle {
         // npcs determined to be drawn after player from the above step are drawn here
         for (NPC npc : drawNpcsAfterPlayer) {
             npc.draw(graphicsHandler);
+        }
+
+        for(Item item: drawItemsAfterPlayer){
+            item.draw(graphicsHandler);
         }
 
         for (Shrine shrine : drawShrinesAfterPlayer) {
@@ -353,6 +395,10 @@ public class Camera extends Rectangle {
 
     public ArrayList<Shrine> getActiveShrines() {
         return activeShrines;
+    }
+
+    public ArrayList<Item> getActiveItems(){
+        return activeItems;
     }
 
     public ArrayList<Trigger> getActiveTriggers() {

@@ -56,7 +56,7 @@ public class EnemyProjectile extends NPC {
             float damageRadius = 40.0f;
 
             if (distance < damageRadius) {
-                player.takeDamage(50); // Deal damage
+                player.takeDamage(10); // Deal damage
                 this.mapEntityStatus = MapEntityStatus.REMOVED; // Remove projectile
             }
 

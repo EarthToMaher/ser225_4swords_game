@@ -11,6 +11,7 @@ import Players.Robot;
 import Players.SecondRobot;
 import Utils.Direction;
 import NPCs.Walrus2;
+import Items.Item;
 
 public abstract class Player extends GameObject {
     // values that affect player movement
@@ -21,6 +22,7 @@ public abstract class Player extends GameObject {
     protected Direction currentWalkingYDirection;
     protected Direction lastWalkingXDirection;
     protected Direction lastWalkingYDirection;
+    public Item currentItem;
 
     // values used to handle player movement
     protected float moveAmountX, moveAmountY;
@@ -56,6 +58,7 @@ public abstract class Player extends GameObject {
     protected boolean hasKey = false;
 
     private int health = 100; //int for initial health value\
+    private boolean isInjured = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -75,11 +78,34 @@ public abstract class Player extends GameObject {
         return false;
     }
 
-    public int getCurrency(){return currencyAmount;}
+    public int getCurrency(){
+        return currencyAmount;
+    }
+
+    public boolean isInjured() {
+        return isInjured;
+    }
+
+    protected void onDeath() {
+        if (isInjured) return;
+        isInjured = true;
+        lock();
+        this.currentAnimationName = "INJURED";
+        resetAnimationToFirstFrame();
+    }
+
+    public void setItem(Item item){currentItem = item;}
 
     public void takeDamage(int damageAmount) {
             this.health -= damageAmount;
             System.out.println(this.health);
+            if(isInjured) return; // Prevent taking damage while already injured
+            this.health -= damageAmount;
+            System.out.println(this.health);
+            if (this.health <= 0) {
+                this.health = 0; //Ensure health wont be negative
+                onDeath();
+            }
         }
 
         public int getHealth() {
@@ -154,7 +180,9 @@ public abstract class Player extends GameObject {
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
-            isThrowingBoomerang = true;
+            //System.out.println("m hitting enter");
+            //isThrowingBoomerang = true;
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
@@ -204,7 +232,8 @@ public abstract class Player extends GameObject {
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
-            isThrowingBoomerang = true;
+            //isThrowingBoomerang = true;
+            if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
 

@@ -4,6 +4,7 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.ScreenManager;
 import GameObject.Rectangle;
+import Items.Item;
 import NPCs.EnemySpawner;
 import NPCs.InactiveRobot;
 import Utils.Direction;
@@ -62,6 +63,7 @@ public abstract class Map {
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
     protected ArrayList<NPC> npcs;
     protected ArrayList<Shrine> shrines;
+    protected ArrayList<Item> items;
     protected ArrayList<Trigger> triggers;
     protected ArrayList<Collectible> collectibles;
 
@@ -115,6 +117,11 @@ public abstract class Map {
         this.npcs = loadNPCs();
         for (NPC npc: this.npcs) {
             npc.setMap(this);
+        }
+
+        this.items = loadItems();
+        for (Item item: this.items){
+            item.setMap(this);
         }
 
         this.shrines = loadShrines();
@@ -308,7 +315,13 @@ public abstract class Map {
         return new ArrayList<>();
     }
 
+
+
     protected ArrayList<Shrine> loadShrines(){
+        return new ArrayList<>();
+    }
+
+    protected ArrayList<Item> loadItems(){
         return new ArrayList<>();
     }
 
@@ -340,6 +353,10 @@ public abstract class Map {
 
     public ArrayList<Shrine> getShrines(){
         return shrines;
+    }
+
+    public ArrayList<Item> getItems(){
+        return items;
     }
 
     public ArrayList<Collectible> getCollectibles(){
@@ -471,6 +488,10 @@ public abstract class Map {
         return camera.getActiveShrines();
     }
 
+    public ArrayList<Item> getActiveItems(){
+        return camera.getActiveItems();
+    }
+
     public ArrayList<Trigger> getActiveTriggers() {
         return camera.getActiveTriggers();
     }
@@ -499,6 +520,11 @@ public abstract class Map {
     public void addShrine(Shrine shrine) {
         shrine.setMap(this);
         this.shrines.add(shrine);
+    }
+
+    public void addItem(Item item){
+        item.setMap(this);
+        this.items.add(item);
     }
 
     public void addCollectible(Collectible collectible) {
@@ -533,6 +559,7 @@ public abstract class Map {
         // gets active surrounding npcs
         surroundingMapEntities.addAll(getActiveNPCs());
         surroundingMapEntities.addAll(getActiveShrines());
+        surroundingMapEntities.addAll(getActiveItems());
         surroundingMapEntities.addAll(getActiveEnhancedMapTiles());
         return surroundingMapEntities;
     }
