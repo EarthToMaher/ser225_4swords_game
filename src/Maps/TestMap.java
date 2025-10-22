@@ -57,7 +57,7 @@ public class TestMap extends Map {
     @Override
     public ArrayList<NPC> loadNPCs() {
 
-
+        npcs.clear();
         TestNPC npc = new TestNPC(0, getMapTile(8, 20).getLocation().subtractY(40));
         npc.setInteractScript(new TestScript());
         npcs.add(npc);

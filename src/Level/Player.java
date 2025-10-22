@@ -7,6 +7,7 @@ import GameObject.Frame;
 import GameObject.GameObject;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
+import NPCs.ElectricBall;
 import Players.Robot;
 import Players.SecondRobot;
 import Utils.Direction;
@@ -33,7 +34,7 @@ public abstract class Player extends GameObject {
     protected Direction lastMovementDirection;
 
     // define keys
-    protected KeyLocker keyLocker = new KeyLocker();
+    protected static KeyLocker keyLocker = new KeyLocker();
     protected Key MOVE_LEFT_KEY = Key.LEFT;
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key MOVE_UP_KEY = Key.UP;
@@ -49,6 +50,11 @@ public abstract class Player extends GameObject {
     protected int currencyAmount = 0;
 
     private boolean isThrowingBoomerang;
+
+    private int timeBetweenReloads = 0;
+
+    private boolean isFiring = false;
+    private int ammo = 5;
 
     private boolean hasHitThisAttack = false;
 
@@ -87,6 +93,19 @@ public abstract class Player extends GameObject {
         }
 
     public void update() {
+
+        timeBetweenReloads++;
+
+        if(timeBetweenReloads >= 100 && ammo < 5) {
+            ammo++;
+            timeBetweenReloads = 0;
+        } else if(timeBetweenReloads >= 100) {
+            timeBetweenReloads = 0;
+        }
+
+        System.out.println("AMMO:" + ammo + "TIMEBETWEENRELOADS:" + timeBetweenReloads);
+
+
         if (!isLocked) {
             moveAmountX = 0;
             moveAmountY = 0;
@@ -136,9 +155,6 @@ public abstract class Player extends GameObject {
             case WALKING:
                 playerWalking();
                 break;
-            case ATTACKING:
-                playerAttacking();
-                break;
         }
     }
 
@@ -157,12 +173,20 @@ public abstract class Player extends GameObject {
             isThrowingBoomerang = true;
         }
 
+        //REDO CODE, REBUILD- Christopher F
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
-            playerState = PlayerState.ATTACKING;
             this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
-            resetAnimationToFirstFrame();
+
+            if (ammo > 0 && map != null) {
+                ElectricBall ball = new ElectricBall(12, getLocation());
+                ball.setDirection(facingDirection);
+                map.addNPC(ball);
+                ammo--;
+                System.out.println("Ammo: " + ammo);
+            }
         }
+
 
 
         // if a walk key is pressed, player enters WALKING state
@@ -185,6 +209,8 @@ public abstract class Player extends GameObject {
                 System.out.println(SecondRobot.isActivePlayer);
             }
         }
+
+
     }
 
     // player WALKING state logic
@@ -194,12 +220,20 @@ public abstract class Player extends GameObject {
             map.entityInteract(this);
         }
 
+        //REDO CODE, REBUILD- Christopher F
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
-            playerState = PlayerState.ATTACKING;
             this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
-            resetAnimationToFirstFrame();
+
+            if (ammo > 0 && map != null) {
+                ElectricBall ball = new ElectricBall(12, getLocation());
+                ball.setDirection(facingDirection);
+                map.addNPC(ball);
+                ammo--;
+                System.out.println("Ammo: " + ammo);
+            }
         }
+
 
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
@@ -269,31 +303,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    protected void playerAttacking() {
-        // Prevent moving while attacking
-        moveAmountX = 0;
-        moveAmountY = 0;
 
-        // Only deal damage once per attack animation
-        if (!hasHitThisAttack) {
-            Rectangle attackHitbox = getAttackHitbox();
-
-            // Check all active NPCs in the map
-            for (NPC npc : map.getActiveNPCs()) {
-                if (npc instanceof Walrus2 && !npc.isHidden() && attackHitbox.intersects(npc.getBounds())) {
-                    ((Walrus2) npc).takeDamage(50);  // Reduce health by 50
-                    hasHitThisAttack = true;         // prevent multiple hits in one animation
-                }
-            }
-        }
-
-        // If the attack animation has finished, return to standing
-        if (isAnimationFinished()) {
-            playerState = PlayerState.STANDING;
-            this.currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-            hasHitThisAttack = false; // reset for the next attack
-        }
-    }
 
     public boolean getIsThrowingBoomerang(){return isThrowingBoomerang;}
 
@@ -326,9 +336,6 @@ public abstract class Player extends GameObject {
         case WALKING:
             currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
             break;
-        case ATTACKING:
-            //currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
-            break;
 }
 
     }
@@ -355,6 +362,14 @@ public abstract class Player extends GameObject {
         this.facingDirection = facingDirection;
     }
 
+    public boolean getIsFiring() {return isFiring;}
+
+    public void setIsFiring(boolean firing) {this.isFiring = firing;}
+
+    public int getAmmo() {return ammo;}
+
+    public void setAmmo(int ammo) {this.ammo = ammo;}
+
     public Rectangle getInteractionRange() {
         return new Rectangle(
                 getBounds().getX1() - interactionRange,
@@ -370,7 +385,7 @@ public abstract class Player extends GameObject {
     public Direction getLastWalkingXDirection() { return lastWalkingXDirection; }
     public Direction getLastWalkingYDirection() { return lastWalkingYDirection; }
 
-    
+
     public void lock() {
         isLocked = true;
         playerState = PlayerState.STANDING;

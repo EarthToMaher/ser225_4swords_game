@@ -137,6 +137,8 @@ public abstract class Map {
         this.textbox = new Textbox(this);
     }
 
+
+
     // reads in a map file to create the map's tilemap
     private void loadMapFile() {
         Scanner fileInput;
