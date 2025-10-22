@@ -22,11 +22,14 @@ public class TestMap extends Map {
 
     public static ArrayList<NPC> npcs = new ArrayList<>();
     Projectile projectile;
+    
 
 
     public TestMap() {
         super("test_map.txt", new CommonTileset());
         this.playerStartPosition = getMapTile(17, 20).getLocation();
+
+         spawnRandomEnemies(100.0f, 100.0f, 200.0f, 200.0f);
     }
 
     @Override
@@ -79,6 +82,12 @@ public class TestMap extends Map {
         dinosaur.setInteractScript(new DinoScript());
         npcs.add(dinosaur);
         
+         Dinosaur2 dinosaur2 = new Dinosaur2(2, getMapTile(13, 2).getLocation());
+        dinosaur2.setExistenceFlag("hasTalkedToDinosaur");
+        dinosaur2.setInteractScript(new DinoScript());
+        npcs.add(dinosaur2);
+
+
         Bug bug = new Bug(3, getMapTile(7, 12).getLocation().subtractX(20));
         bug.setInteractScript(new BugScript());
         npcs.add(bug);
