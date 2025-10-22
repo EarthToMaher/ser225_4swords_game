@@ -113,11 +113,11 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(13, 16).getLocation(),boomerangItem);
+        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(15, 2).getLocation(),boomerangItem);
         emptyShrine.setInteractScript(new BoomerangShrineScript());
         shrines.add(emptyShrine);
 
-        EmptyShrine emptyShrineReal = new EmptyShrine(6, getMapTile(10, 16).getLocation(), null);
+        EmptyShrine emptyShrineReal = new EmptyShrine(6, getMapTile(2, 2).getLocation(), null);
         emptyShrineReal.setInteractScript(new EmptyShrineScript());
         shrines.add(emptyShrineReal);
 
