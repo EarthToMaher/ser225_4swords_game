@@ -97,15 +97,15 @@ public class CommonTileset extends Tileset {
         mapTiles.add(rightEndBranchTile);
         
         // tree trunk
-        Frame treeTrunkFrame = new FrameBuilder(getSubImage(1, 0))
+        Frame rockyFrame = new FrameBuilder(getSubImage(1, 0))
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder treeTrunkTile = new MapTileBuilder(grassFrame)
-                .withTopLayer(treeTrunkFrame)
-                .withTileType(TileType.PASSABLE);
+        MapTileBuilder rockyTile = new MapTileBuilder(rockyFrame);
+                //.withTopLayer(treeTrunkFrame)
+                //.withTileType(TileType.PASSABLE);
 
-        mapTiles.add(treeTrunkTile);
+        mapTiles.add(rockyTile);
 
         // tree top leaves
         Frame treeTopLeavesFrame = new FrameBuilder(getSubImage(1, 1))
@@ -140,21 +140,22 @@ public class CommonTileset extends Tileset {
 
         // purple flower
         Frame[] purpleFlowerFrames = new Frame[] {
-                new FrameBuilder(getSubImage(0, 2), 65)
+                new FrameBuilder(getSubImage(0, 2), 5)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 3), 65)
+                new FrameBuilder(getSubImage(0, 3), 5)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 2), 65)
+                new FrameBuilder(getSubImage(0, 2), 5)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 4), 65)
+                new FrameBuilder(getSubImage(0, 4), 5)
                         .withScale(tileScale)
                         .build()
         };
 
-        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames);
+        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames)
+        .withTopLayer(purpleFlowerFrames);
 
         mapTiles.add(purpleFlowerTile);
 
@@ -171,14 +172,14 @@ public class CommonTileset extends Tileset {
         mapTiles.add(middleBranchTile);
 
         // tree trunk bottom
-        Frame treeTrunkBottomFrame = new FrameBuilder(getSubImage(2, 0))
+        Frame smallRockyFrame = new FrameBuilder(getSubImage(2, 0))
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder treeTrunkBottomTile = new MapTileBuilder(treeTrunkBottomFrame)
-                .withTileType(TileType.NOT_PASSABLE);
+        MapTileBuilder smallRockyTile = new MapTileBuilder(smallRockyFrame);
+                //.withTileType(TileType.NOT_PASSABLE);
 
-        mapTiles.add(treeTrunkBottomTile);
+        mapTiles.add(smallRockyTile);
 
         // mushrooms
         Frame mushroomFrame = new FrameBuilder(getSubImage(2, 1))
@@ -318,6 +319,48 @@ public class CommonTileset extends Tileset {
                 .withTileType(TileType.NOT_PASSABLE);
 
         mapTiles.add(topWaterTile);
+
+        Frame floorEdgeN = new FrameBuilder(getSubImage(0, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeNTile = new MapTileBuilder(floorEdgeN);
+        mapTiles.add(floorEdgeNTile);
+
+        Frame floorEdgeE = new FrameBuilder(getSubImage(1, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeETile = new MapTileBuilder(floorEdgeE);
+        mapTiles.add(floorEdgeETile);
+
+        Frame floorEdgeW = new FrameBuilder(getSubImage(2, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeWTile = new MapTileBuilder(floorEdgeW);
+        mapTiles.add(floorEdgeWTile);
+
+        Frame floorEdgeS = new FrameBuilder(getSubImage(3, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeSTile = new MapTileBuilder(floorEdgeS);
+        mapTiles.add(floorEdgeSTile);
+
+        Frame floorEdgeSW = new FrameBuilder(getSubImage(4, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeSWTile = new MapTileBuilder(floorEdgeSW);
+        mapTiles.add(floorEdgeSWTile);
+
+        Frame floorEdgeSE = new FrameBuilder(getSubImage(5, 5))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floorEdgeSETile = new MapTileBuilder(floorEdgeSE);
+        mapTiles.add(floorEdgeSETile);
 
 
         return mapTiles;

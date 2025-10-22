@@ -110,6 +110,14 @@ public class SecondRobot extends Player {
                         .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                         .build()
                 });
+
+                //INJURED placeholder
+                put("INJURED", new Frame[] {
+                new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
+                        .withScale(3)
+                        .withBounds(6, 12, 12, 7)
+                        .build()
+                });
         }};
 
 

@@ -97,14 +97,3 @@ public class Boomerang extends NPC{
         return lifetime <= 0;
     }
 }
-/*if(GamePanel.isMouseClicked() && didBoomerangSpawn == false){ //Spawn projectile //Keyboard.isKeyDown(Key.E)
-            Boomerang projectile = new Boomerang(x, y,new Frame(ImageUtils.createSolidImage(new Color(255, 0, 0), 20, 20), ImageEffect.NONE, 1, null), new Point(this.getCalibratedXLocation(),this.getCalibratedYLocation()),GamePanel.getMousePositionPoint());
-            System.out.println("Player Position: " + new Point(this.getCalibratedXLocation(),this.getCalibratedYLocation()));
-            System.out.println("Click Position: " + GamePanel.getMousePositionPoint());
-            didBoomerangSpawn = true;
-            map.addBoomerang(projectile);
-            System.out.println("Spawned Boomerang");
-        }
-        if(!GamePanel.isMouseClicked() && didBoomerangSpawn == true){ //Reset projectile spawn //Keyboard.isKeyUp(Key.E)
-            didBoomerangSpawn = false;
-        }*/

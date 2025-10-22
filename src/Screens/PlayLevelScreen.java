@@ -1,6 +1,5 @@
 package Screens;
 
-
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.Screen;
@@ -14,7 +13,6 @@ import Maps.TestMap;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
-
 import static Level.Map.inactiveRobotStatic;
 
 
@@ -29,8 +27,13 @@ public class PlayLevelScreen extends Screen implements GameListener {
     protected InactiveRobot inactiveRobot;
     protected PlayLevelScreenState playLevelScreenState;
     protected WinScreen winScreen;
+    protected GameOverScreen gameOverScreen;
     protected FlagManager flagManager;
     protected CurrencyScreen currencyScreen;
+
+    private boolean gameOverTimerStarted = false;
+    private long gameOverStartTime = 0;
+    private static final long GAME_OVER_DELAY = 2000; //Delay Timer between death and game over screen in milliseconds (2000ms = 2s)
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -38,6 +41,10 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     public void initialize() {
         // setup state
+        gameOverTimerStarted = false;
+        gameOverStartTime = 0;
+        gameOverScreen = null;
+
         flagManager = new FlagManager();
         flagManager.addFlag("hasLostBall", false);
         flagManager.addFlag("hasTalkedToWalrus", false);
@@ -105,10 +112,33 @@ public class PlayLevelScreen extends Screen implements GameListener {
                     player2.update();
                     map.update(player2);
                 }
+
+                // if player health reaches 0, bring up game over screen
+                Player active = Robot.isActivePlayer ? player : player2;
+                if (active != null && active.getHealth() <=0) {
+                //Calculate delay before showing game over screen
+                    if (!gameOverTimerStarted) {
+                        gameOverTimerStarted = true;
+                        gameOverStartTime = System.currentTimeMillis();
+                    } else {
+                        long now = System.currentTimeMillis();
+                        if (now - gameOverStartTime >= GAME_OVER_DELAY) {
+                            if (gameOverScreen == null) gameOverScreen = new GameOverScreen(this);
+                            playLevelScreenState = PlayLevelScreenState.GAME_OVER;
+                        }
+                    }        
+                } else {
+                    gameOverTimerStarted = false;
+                }
                 break;
+
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
                 winScreen.update();
+                break;
+
+            case GAME_OVER:
+                if (gameOverScreen != null) gameOverScreen.update();
                 break;
         }
     }
@@ -133,6 +163,10 @@ public class PlayLevelScreen extends Screen implements GameListener {
             case LEVEL_COMPLETED:
                 winScreen.draw(graphicsHandler);
                 break;
+            case GAME_OVER:
+                if(gameOverScreen != null) {
+                    gameOverScreen.draw(graphicsHandler);
+                }
         }
     }
 
@@ -150,7 +184,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     // This enum represents the different states this screen can be in
     private enum PlayLevelScreenState {
-        RUNNING, LEVEL_COMPLETED
+        RUNNING, LEVEL_COMPLETED, GAME_OVER
     }
 
     public Player getPlayer() {
