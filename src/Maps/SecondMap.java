@@ -7,6 +7,7 @@ import Level.NPC;
 import Level.Tileset;
 import NPCs.*;
 import Tilesets.CommonTileset;
+import Utils.Point;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,8 @@ public class SecondMap extends Map {
         Key key = new Key(getMapTile(21,18).getLocation());
         enhancedMapTiles.add(key);
 
-
+        //Portal portal = new Portal(getMapTile(11,0).getLocation(), "TestMap", new Point(2,2));
+        //enhancedMapTiles.add(portal);
 
 
         return enhancedMapTiles;

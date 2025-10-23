@@ -184,7 +184,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (name) {
             case "TestMap": return new TestMap();
             case "TitleScreenMap": return new Maps.TitleScreenMap();
-            case "SecondMpa": return new SecondMap();
+            case "SecondMap": return new SecondMap();
             //add new maps here as needed
             default: return null;
         }
