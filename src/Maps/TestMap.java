@@ -45,8 +45,13 @@ public class TestMap extends Map {
         Key key1 = new Key(getMapTile(5, 10).getLocation());
         enhancedMapTiles.add(key1);
 
-        Door door1 = new Door(getMapTile(8, 0).getLocation());
+        Door door1 = new Door(getMapTile(8, 1).getLocation());
         enhancedMapTiles.add(door1);
+
+        Portal portal = new Portal(getMapTile(8,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
+        enhancedMapTiles.add(portal);
+        Portal portal2 = new Portal(getMapTile(9,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
+        enhancedMapTiles.add(portal2);
 
         return enhancedMapTiles;
     }
@@ -62,8 +67,7 @@ public class TestMap extends Map {
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
 
-        Portal portal = new Portal(getMapTile(8,0).getLocation().subtractY(50), "TitleScreenMap", new Point(2,2));
-        enhancedMapTiles.add(portal);
+
 
         return npcs;
     }

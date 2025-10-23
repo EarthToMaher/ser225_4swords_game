@@ -21,6 +21,7 @@ public class SecondMap extends Map {
 
     public ArrayList<NPC> loadNPCs() {
         npcs.clear();
+
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(12, 23).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 

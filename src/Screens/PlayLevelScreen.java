@@ -55,7 +55,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasTalkedToToon", false);
 
         // define/setup map
-        map = new SecondMap();
+        map = new TestMap();
         map.setFlagManager(flagManager);
 
         // setup player
@@ -129,7 +129,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
                     Utils.Point spawn = active.consumePendingMapLocation();
                     Map newMap = createMapByName(mapName);
                     if (newMap != null){
-                        Map.inactiveRobotStatic = null; //resets inactive robot static
                         this.map = newMap;
                         map.setFlagManager(flagManager);
                         if (Robot.isActivePlayer) {
@@ -184,7 +183,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (name) {
             case "TestMap": return new TestMap();
             case "TitleScreenMap": return new Maps.TitleScreenMap();
-            case "SecondMpa": return new SecondMap();
+            case "SecondMap": return new SecondMap();
             //add new maps here as needed
             default: return null;
         }
