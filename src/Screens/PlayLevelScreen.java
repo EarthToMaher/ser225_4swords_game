@@ -53,7 +53,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasTalkedToToon", false);
 
         // define/setup map
-        map = new SecondMap();
+        map = new TestMap();
         map.setFlagManager(flagManager);
 
         // setup player

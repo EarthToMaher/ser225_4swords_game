@@ -21,7 +21,7 @@ public class EnemyProjectile extends NPC {
 
     //Create the projectile
     public EnemyProjectile(float x, float y, float velX, float velY, int existenceFrames) {
-        super(0, x, y, new SpriteSheet(ImageLoader.load("Bug.png"), 10, 10), "DEFAULT");
+        super(0, x, y, new SpriteSheet(ImageLoader.load("evilelectric.png"), 24, 15), "DEFAULT");
         this.velX = velX;
         this.velY = velY;
         this.existenceFrames = existenceFrames;
@@ -70,7 +70,7 @@ public class EnemyProjectile extends NPC {
             {
                 put("DEFAULT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
-                                .withScale(3)
+                                .withScale(2)
                                 .withBounds(0, 0, 16, 16)
                                 .build()
                 });

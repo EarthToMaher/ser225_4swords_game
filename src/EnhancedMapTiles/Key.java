@@ -29,7 +29,7 @@ public class Key extends EnhancedMapTile {
     @Override
     protected GameObject loadBottomLayer(SpriteSheet spriteSheet) {
         Frame frame = new FrameBuilder(spriteSheet.getSubImage(0, 0))
-                .withScale(3)
+                .withScale(2)
                 .build();
         return new GameObject(x, y, frame);
     }

@@ -76,8 +76,10 @@ public class TestMap extends Map {
         //npcs.add(walrus);
 
         Walrus2 walrus2 = new Walrus2(4, getMapTile(3, 4).getLocation().subtractY(50));
-        walrus2.setInteractScript(new WalrusScript());
         npcs.add(walrus2);
+
+        Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
+        npcs.add(dinosaur2);
         
 
         //Dinosaur dinosaur = new Dinosaur(2, getMapTile(13, 4).getLocation());

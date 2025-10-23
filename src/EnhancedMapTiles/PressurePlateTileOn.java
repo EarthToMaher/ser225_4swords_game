@@ -12,30 +12,34 @@ import GameObject.Frame;
 
 
 public class PressurePlateTileOn extends EnhancedMapTile {
-    public static boolean isTouched = false;
+    public static boolean isTouchedOn = false;
 
-
+    //Tile that is initially passable
     public PressurePlateTileOn(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), TileType.PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24), TileType.PASSABLE);
 
     }
 
     public void update(Player player) {
-        if(isTouched) {
-            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("RobotOffline.png"), 24, 24));
+        if(isTouchedOn) {
+            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24));
             this.setMap(this.map);
             this.tileType = TileType.NOT_PASSABLE;
+
+
         } else {
-            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24));
+            //Can be passed through
+            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 1, 1));
             this.setMap(this.map);
             this.tileType = TileType.PASSABLE;
+
         }
     }
 
     @Override
     protected GameObject loadBottomLayer(SpriteSheet spriteSheet) {
         Frame frame = new FrameBuilder(spriteSheet.getSubImage(0, 0))
-                .withScale(3)
+                .withScale(2)
                 .build();
         return new GameObject(this.x+10, this.y, frame);
     }

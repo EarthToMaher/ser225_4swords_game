@@ -16,7 +16,7 @@ public class ElectricBall extends NPC {
     private boolean hasFired = false;
 
     public ElectricBall(int id, Point location) {
-        super(id, location.x, location.y, new Frame(ImageLoader.load("Screw.png")));
+        super(id, location.x, location.y, new Frame(ImageLoader.load("electric.png")));
     }
 
     @Override
@@ -46,6 +46,12 @@ public class ElectricBall extends NPC {
 
                 if (npc instanceof Walrus2 walrus) {
                     walrus.takeDamage(20);
+                    map.deleteNPC(this);
+                    break;
+                }
+
+                if (npc instanceof Dinosaur2 dino) {
+                    dino.takeDamage(20);
                     map.deleteNPC(this);
                     break;
                 }

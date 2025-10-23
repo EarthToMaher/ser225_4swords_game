@@ -32,7 +32,7 @@ public class Dinosaur2 extends NPC {
     private long lastFiredTime = 0;
 
     public Dinosaur2(int id, Point location) {
-        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("Dinosaur.png"), 14, 17), "STAND_LEFT");
+        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("LilShooter.png"), 64, 64), "STAND_LEFT");
     }
 
     // Getter for health value
@@ -156,6 +156,11 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
     
     // Create projectile
     EnemyProjectile projectile = new EnemyProjectile(dinosaurCenterX, dinosaurCenterY, velX, velY, 300);
+    if(projectile.touching(this)) {
+        projectile.setIsUncollidable(true);
+    } else {
+        projectile.setIsUncollidable(false);
+    }
     System.out.println("Projectile created at (" + dinosaurCenterX + ", " + dinosaurCenterY + ") with velX=" + velX + ", velY=" + velY);
     
     
@@ -174,41 +179,32 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
             {
                 put("STAND_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
-                                .withScale(3)
-                                .withBounds(4, 5, 5, 10)
+                                .withScale(2)
+                                .withBounds(7, 13, 30, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
                 put("STAND_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
-                                .withScale(3)
-                                .withBounds(4, 5, 5, 10)
-                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .withScale(2)
+                                .withBounds(7, 13, 30, 20)
                                 .build()
                 });
 
-                put("WALK_LEFT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 0), 14)
-                                .withScale(3)
-                                .withBounds(4, 5, 5, 10)
-                                .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1), 14)
-                                .withScale(3)
-                                .withBounds(4, 5, 5, 10)
-                                .build()
-                });
-
-                put("WALK_RIGHT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 0), 14)
-                                .withScale(3)
-                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                                .withBounds(4, 5, 5, 10)
-                                .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1), 14)
-                                .withScale(3)
-                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                                .withBounds(4, 5, 5, 10)
-                                .build()
-                });
+//                put("WALK_LEFT", new Frame[] {
+//                        new FrameBuilder(spriteSheet.getSprite(0, 0))
+//                                .withScale(1)
+//                                .withBounds(7, 13, 30, 20)
+//                                .build()
+//                });
+//
+//                put("WALK_RIGHT", new Frame[] {
+//                        new FrameBuilder(spriteSheet.getSprite(0, 0))
+//                                .withScale(1)
+//                                .withBounds(7, 13, 30, 20)
+//                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+//                                .build()
+//                });
             }
         };
     }
