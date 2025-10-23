@@ -1,10 +1,13 @@
 package Maps;
 
+import java.util.ArrayList;
+
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import GameObject.ImageEffect;
 import GameObject.Sprite;
 import Level.Map;
+import Level.NPC;
 import Tilesets.CommonTileset;
 import Utils.Colors;
 import Utils.Point;
@@ -22,6 +25,16 @@ public class TitleScreenMap extends Map {
         cat.setImageEffect(ImageEffect.FLIP_HORIZONTAL);
         cat.setLocation(catLocation.x, catLocation.y);
     }
+
+    @Override
+    public ArrayList<NPC> loadNPCs() {
+        ArrayList<NPC> npcs = new ArrayList<>();
+        if (inactiveRobotStatic != null) {
+            npcs.add(inactiveRobotStatic);
+        }
+        return npcs;
+    }
+    
 
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
