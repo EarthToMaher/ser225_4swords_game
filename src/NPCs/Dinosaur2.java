@@ -27,7 +27,7 @@ public class Dinosaur2 extends NPC {
     private Random random = new Random();
 
     // Projectile firing fields
-    private float firingRange = 150.0f; 
+    private float firingRange = 350.0f;
     private long fireCooldown = 2000; 
     private long lastFiredTime = 0;
 
