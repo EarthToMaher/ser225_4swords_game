@@ -5,6 +5,7 @@ import Engine.GraphicsHandler;
 import Engine.ScreenManager;
 import GameObject.Rectangle;
 import Items.Item;
+import NPCs.EnemySpawner;
 import NPCs.InactiveRobot;
 import Utils.Direction;
 import Utils.Point;
@@ -339,6 +340,12 @@ public abstract class Map {
     public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
         return enhancedMapTiles;
     }
+
+    protected void spawnRandomEnemies(float areaX, float areaY, float areaWidth, float areaHeight) {
+    EnemySpawner spawner = new EnemySpawner();
+    spawner.spawnRandomEnemies(areaX, areaY, areaWidth, areaHeight, this);
+}
+
 
     public ArrayList<NPC> getNPCs() {
         return npcs;

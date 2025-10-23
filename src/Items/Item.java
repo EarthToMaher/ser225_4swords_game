@@ -17,10 +17,12 @@ public class Item extends MapEntity{
 
     public Item(Frame frame){
         super(0,0,frame);
+        isUncollidable = true;
     }
 
     public Item(float x, float y, Frame frame){
         super(x, y,frame);
+        isUncollidable = true;
     }
     
     public void UseItem(Player player){
