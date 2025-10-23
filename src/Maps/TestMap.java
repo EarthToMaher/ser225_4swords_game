@@ -61,7 +61,7 @@ public class TestMap extends Map {
         //Door door2 = new Door(getMapTile(12,7).getLocation());
         //enhancedMapTiles.add(door2);
 
-        Portal portal = new Portal(getMapTile(22,15).getLocation(), "TitleScreenMap", new Point(2,2));
+        Portal portal = new Portal(getMapTile(12,0).getLocation(), "TitleScreenMap", new Point(2,2));
         enhancedMapTiles.add(portal);
 
         return enhancedMapTiles;
@@ -75,6 +75,7 @@ public class TestMap extends Map {
         //npc.setInteractScript(new TestScript());
         //npcs.add(npc);
 
+        ArrayList<NPC> npcs = new ArrayList<>();
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 

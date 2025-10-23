@@ -101,7 +101,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
                 if (!player.isInjured() && !player2.isInjured()) {
                 if(Robot.isActivePlayer) {
                     if (Map.inactiveRobotStatic == null) {
-                        Map.inactiveRobotStatic = new InactiveRobot(5, new Point(player2.getX(), player2.getY()));
+                        Map.inactiveRobotStatic = new InactiveRobot(4, new Point(player2.getX(), player2.getY()));
                     }
                     Map.inactiveRobotStatic.setLocation(player2.getX(), player2.getY());
                     map.setPlayer(player);
@@ -111,7 +111,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
                 } else if(SecondRobot.isActivePlayer) {
                     if (Map.inactiveRobotStatic == null) {
-                        Map.inactiveRobotStatic = new InactiveRobot(5, new Point(player.getX(), player.getY()));
+                        Map.inactiveRobotStatic = new InactiveRobot(4, new Point(player.getX(), player.getY()));
                     }
                    Map.inactiveRobotStatic.setLocation(player.getX(), player.getY());
                     map.setPlayer(player2);
