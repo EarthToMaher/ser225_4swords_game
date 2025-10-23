@@ -15,7 +15,7 @@ import GameObject.AnimatedSprite;
 
 public class PressurePlate extends EnhancedMapTile {
     public PressurePlate(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Door.png"), 24, 24), TileType.NOT_PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("PressurePlate.png"), 24, 24), TileType.PASSABLE);
     }
 
     public void update(Player player) {

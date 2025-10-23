@@ -88,7 +88,7 @@ public class Dinosaur2 extends NPC {
                 fireProjectile(player, playerCenterX, playerCenterY, dinosaurCenterX, dinosaurCenterY);
                 lastFiredTime = currentTime;
             }
-        } else if (distanceToPlayer <= 20.0f) {
+        } else if (distanceToPlayer <= 40.0f) {
             // Too close to player: stop and fire
             dx = 0.0f;
             dy = 0.0f;
@@ -150,7 +150,7 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
     System.out.println("I will fire something!");
     
     // Set speed
-    float speed = 2.0f;
+    float speed = 4.0f;
     float velX = (dx / distance) * speed;
     float velY = (dy / distance) * speed;
     
@@ -180,14 +180,14 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                 put("STAND_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 13, 30, 20)
+                                .withBounds(7, 15, 40, 30)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
                 put("STAND_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 13, 30, 20)
+                                .withBounds(7, 15, 40, 30)
                                 .build()
                 });
 

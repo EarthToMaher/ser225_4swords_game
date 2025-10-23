@@ -36,87 +36,40 @@ public class TestMap extends Map {
         super("test_map.txt", new CommonTileset());
         this.playerStartPosition = getMapTile(15, 7).getLocation();
 
-         spawnRandomEnemies(100.0f, 100.0f, 200.0f, 200.0f);
+//         spawnRandomEnemies(100.0f, 100.0f, 200.0f, 200.0f);
     }
 
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
-
-        //PushableRock pushableRock = new PushableRock(getMapTile(2, 7).getLocation());
-        //enhancedMapTiles.add(pushableRock);
-
-        //projectile = new Projectile(getMapTile(5, 7).getLocation());
-        //enhancedMapTiles.add(projectile);
-
         Key key1 = new Key(getMapTile(5, 10).getLocation());
         enhancedMapTiles.add(key1);
 
-        //Key key2 = new Key(getMapTile(5,11).getLocation());
-        //enhancedMapTiles.add(key2);
-
         Door door1 = new Door(getMapTile(8, 0).getLocation());
         enhancedMapTiles.add(door1);
-
-        //Door door2 = new Door(getMapTile(12,7).getLocation());
-        //enhancedMapTiles.add(door2);
-
-        Portal portal = new Portal(getMapTile(12,0).getLocation(), "TitleScreenMap", new Point(2,2));
-        enhancedMapTiles.add(portal);
 
         return enhancedMapTiles;
     }
 
     @Override
     public ArrayList<NPC> loadNPCs() {
-
         npcs.clear();
 
         ArrayList<NPC> npcs = new ArrayList<>();
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
-        //Walrus walrus = new Walrus(1, getMapTile(10, 28).getLocation().subtractY(50));
-        //walrus.setInteractScript(new WalrusScript());
-        //npcs.add(walrus);
-
-        Walrus2 walrus2 = new Walrus2(4, getMapTile(3, 4).getLocation().subtractY(50));
-        npcs.add(walrus2);
-
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
-        
 
-        //Dinosaur dinosaur = new Dinosaur(2, getMapTile(13, 4).getLocation());
-        //dinosaur.setExistenceFlag("hasTalkedToDinosaur");
-        //dinosaur.setInteractScript(new DinoScript());
-        //npcs.add(dinosaur);
-        
-        //Dinosaur2 dinosaur2 = new Dinosaur2(2, getMapTile(13, 2).getLocation());
-        //dinosaur2.setExistenceFlag("hasTalkedToDinosaur");
-        //dinosaur2.setInteractScript(new DinoScript());
-        //npcs.add(dinosaur2);
-
-
-        //Bug bug = new Bug(3, getMapTile(7, 12).getLocation().subtractX(20));
-        //bug.setInteractScript(new BugScript());
-        //npcs.add(bug);
-        //MrToon mrToon = new MrToon(4, getMapTile(8, 11).getLocation());
-        //mrToon.setInteractScript(new MrToonScript());
-        //npcs.add(mrToon);
-
-        //Boomerang boomerang = new Boomerang(5,getMapTile(8, 11).getLocation());
-        //npcs.add(boomerang);
+        Portal portal = new Portal(getMapTile(8,0).getLocation().subtractY(50), "TitleScreenMap", new Point(2,2));
+        enhancedMapTiles.add(portal);
 
         return npcs;
     }
 
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
-
-        Point boomerangPoint = getMapTile(8, 11).getLocation();
-        boomerangItem = new BoomerangItem(boomerangPoint.x,boomerangPoint.y, new Frame(ImageLoader.load("Boomerang.png")));
-        items.add(boomerangItem);
 
         return items;
     }
@@ -126,23 +79,12 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        EmptyShrine emptyShrine = new EmptyShrine(5, getMapTile(15, 2).getLocation(),boomerangItem);
-        emptyShrine.setInteractScript(new BoomerangShrineScript());
-        shrines.add(emptyShrine);
-
-        EmptyShrine emptyShrineReal = new EmptyShrine(6, getMapTile(2, 2).getLocation(), null);
-        emptyShrineReal.setInteractScript(new EmptyShrineScript());
-        shrines.add(emptyShrineReal);
-
         return shrines;
     }
 
     public ArrayList<Collectible> loadCollectibles()
     {
         ArrayList<Collectible> collectibles = new ArrayList<>();
-        Bolt bolt = new Bolt( 6, getMapTile(1,2).getLocation());
-        collectibles.add(bolt);
-
         return collectibles;
     }
     @Override
