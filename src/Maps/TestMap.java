@@ -2,6 +2,7 @@ package Maps;
 
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
+import EnhancedMapTiles.Portal;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
 import Items.BoomerangItem;
@@ -56,6 +57,9 @@ public class TestMap extends Map {
 
         Door door2 = new Door(getMapTile(12,7).getLocation());
         enhancedMapTiles.add(door2);
+
+        Portal portal = new Portal(getMapTile(22,15).getLocation(), "TitleScreenMap", new Point(2,2));
+        enhancedMapTiles.add(portal);
 
         return enhancedMapTiles;
     }

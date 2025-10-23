@@ -59,6 +59,8 @@ public abstract class Player extends GameObject {
 
     private int health = 100; //int for initial health value\
     private boolean isInjured = false;
+    private String pendingMapName = null;
+    private Utils.Point pendingMapLocation = null;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -110,6 +112,27 @@ public abstract class Player extends GameObject {
 
         public int getHealth() {
             return health;
+        }
+
+        public void requestMapTransition(String mapName, Utils.Point location) {
+            this.pendingMapName = mapName;
+            this.pendingMapLocation = location;
+        }
+
+        public boolean hasPendingMapRequest() {
+            return pendingMapName != null;
+        }
+
+        public String consumePendingMapName() {
+            String temp = pendingMapName;
+            pendingMapName = null;
+            return temp;
+        }
+
+        public Utils.Point consumePendingMapLocation() {
+            Utils.Point temp = pendingMapLocation;
+            pendingMapLocation = null;
+            return temp;
         }
 
     public void update() {
