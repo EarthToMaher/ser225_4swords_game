@@ -65,7 +65,7 @@ public class MapCollisionHandler {
             }
         }
 
-        for (Item item : map.getActiveItems()){
+        /*for (Item item : map.getActiveItems()){
             if (!gameObject.equals(item) && !item.isUncollidable && hasCollidedWithMapEntity(gameObject, item, direction)){
                 entityCollidedWith = item;
                 float adjustedPositionX = gameObject.getX();
@@ -78,7 +78,7 @@ public class MapCollisionHandler {
                 }
                 return new MapCollisionCheckResult(new Point(adjustedPositionX,gameObject.getY()), entityCollidedWith);
             }
-        }
+        }*/
         for (Shrine shrine : map.getActiveShrines()) {
             if (!gameObject.equals(shrine) && !shrine.isUncollidable() && hasCollidedWithMapEntity(gameObject, shrine, direction)) {
                 entityCollidedWith = shrine;
@@ -207,7 +207,7 @@ public class MapCollisionHandler {
             }
         }
 
-        for (Item item : map.getActiveItems()){
+        /*for (Item item : map.getActiveItems()){
                    if (!gameObject.equals(item) && !item.isUncollidable() && hasCollidedWithMapEntity(gameObject, item, direction)) {
                 entityCollidedWith = item;
                 float adjustedPositionY = gameObject.getY();
@@ -220,7 +220,7 @@ public class MapCollisionHandler {
                 }
                 return new MapCollisionCheckResult(new Point(gameObject.getX(), adjustedPositionY), entityCollidedWith);
             }
-        }
+        }*/
 
                 // check active npcs for potential collision
         for (Shrine shrine : map.getActiveShrines()) {
