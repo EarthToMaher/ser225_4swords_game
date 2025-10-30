@@ -20,7 +20,8 @@ public class Walrus2 extends NPC {
 
     // Movement fields
     private float wanderSpeed = 1.0f; // Slow speed for wandering
-    private float chaseSpeed = 1.5f; // Faster speed for chasing
+    private float chaseSpeed = 5f; // Faster speed for chasing
+    private float delay = 3f; //delay to "charge" enemy
     private float detectionRange = 150.0f; // Start chasing if player within this
     private int wanderDirection = 1; // 0=up, 1=right, 2=down, 3=left
     private long lastDirectionChange = 0; // Timestamp for changing wander direction
@@ -122,9 +123,9 @@ public class Walrus2 extends NPC {
         }
 
         // Flip depending on direction
-        if (dx < 0) {
+        if (dx < 1) {
             this.currentAnimationName = "STAND_LEFT";
-        } else if (dx > 0) {
+        } else if (dx > 1) {
             this.currentAnimationName = "STAND_RIGHT";
         }
 
