@@ -2,6 +2,8 @@ package Level;
 
 import GameObject.GameObject;
 import Items.Item;
+import Items.JetpackItem;
+import EnhancedMapTiles.BottomlessPitTile;
 import Utils.Direction;
 import Utils.Point;
 
@@ -65,7 +67,7 @@ public class MapCollisionHandler {
             }
         }
 
-        /*for (Item item : map.getActiveItems()){
+        for (Item item : map.getActiveItems()){
             if (!gameObject.equals(item) && !item.isUncollidable && hasCollidedWithMapEntity(gameObject, item, direction)){
                 entityCollidedWith = item;
                 float adjustedPositionX = gameObject.getX();
@@ -78,7 +80,7 @@ public class MapCollisionHandler {
                 }
                 return new MapCollisionCheckResult(new Point(adjustedPositionX,gameObject.getY()), entityCollidedWith);
             }
-        }*/
+        }
         for (Shrine shrine : map.getActiveShrines()) {
             if (!gameObject.equals(shrine) && !shrine.isUncollidable() && hasCollidedWithMapEntity(gameObject, shrine, direction)) {
                 entityCollidedWith = shrine;
@@ -207,7 +209,7 @@ public class MapCollisionHandler {
             }
         }
 
-        /*for (Item item : map.getActiveItems()){
+        for (Item item : map.getActiveItems()){
                    if (!gameObject.equals(item) && !item.isUncollidable() && hasCollidedWithMapEntity(gameObject, item, direction)) {
                 entityCollidedWith = item;
                 float adjustedPositionY = gameObject.getY();
@@ -220,7 +222,7 @@ public class MapCollisionHandler {
                 }
                 return new MapCollisionCheckResult(new Point(gameObject.getX(), adjustedPositionY), entityCollidedWith);
             }
-        }*/
+        }
 
                 // check active npcs for potential collision
         for (Shrine shrine : map.getActiveShrines()) {
@@ -288,6 +290,18 @@ public class MapCollisionHandler {
                 case PASSABLE:
                     return false;
                 case NOT_PASSABLE:
+                    // Special-case: bottomless pit can be crossed when player has an active jetpack
+                    if (mapTile instanceof BottomlessPitTile) {
+                        if (gameObject instanceof Player) {
+                            Player p = (Player) gameObject;
+                            if (p.currentItem instanceof JetpackItem) {
+                                JetpackItem jp = (JetpackItem) p.currentItem;
+                                if (jp.isJetpackActive()) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
                     return gameObject.intersects(mapTile);
                 default:
                     return false;
