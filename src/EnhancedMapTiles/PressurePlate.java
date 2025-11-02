@@ -19,8 +19,8 @@ public class PressurePlate extends EnhancedMapTile {
     }
 
     public void update(Player player) {
-        PressurePlateTileOn.isTouchedOn = player.touching(this) || Map.inactiveRobotStatic.touching(this);
-        PressurePlateTileOff.isTouchedOff = player.touching(this) || Map.inactiveRobotStatic.touching(this);
+        PressurePlateTileOn.isTouched = player.touching(this) || Map.inactiveRobotStatic.touching(this);
+
     }
     @Override
     protected GameObject loadBottomLayer(SpriteSheet spriteSheet) {

@@ -61,7 +61,7 @@ public class TestMap extends Map {
         npcs.clear();
 
         ArrayList<NPC> npcs = new ArrayList<>();
-        inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(15, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));

@@ -4,8 +4,11 @@ import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import GameObject.GameObject;
 import Level.EnhancedMapTile;
+import Level.Map;
 import Level.Player;
 import Level.TileType;
+import NPCs.InactiveRobot;
+import Screens.PlayLevelScreen;
 import Utils.Point;
 import GameObject.SpriteSheet;
 import GameObject.Frame;
@@ -13,7 +16,6 @@ import GameObject.Frame;
 
 public class PressurePlateTileOff extends EnhancedMapTile {
 
-    public static boolean isTouchedOff = false;
 
 
 
@@ -23,16 +25,20 @@ public class PressurePlateTileOff extends EnhancedMapTile {
     }
 
     public void update(Player player) {
-        if(isTouchedOff) {
-            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24));
+        if(PressurePlateTileOn.isTouched) {
+            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 1, 1));
             this.setMap(this.map);
             this.tileType = TileType.PASSABLE;
-            this.setIsHidden(true);
         } else {
             this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24));
             this.setMap(this.map);
             this.tileType = TileType.NOT_PASSABLE;
-            this.setIsHidden(false);
+        }
+
+        if(Map.inactiveRobotStatic.touching(this)) {
+            System.out.println("I am being touched!!!");
+            Map.inactiveRobotStatic.setLocation(this.x-50, this.y);
+            PlayLevelScreen.inactivePlayer.setLocation(this.x-50, this.y);
         }
     }
 

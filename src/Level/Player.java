@@ -56,7 +56,7 @@ public abstract class Player extends GameObject {
     private int timeBetweenReloads = 0;
 
     private boolean isFiring = false;
-    private int ammo = 5;
+    private static int ammo = 5;
 
     private boolean hasHitThisAttack = false;
 
@@ -224,7 +224,7 @@ public abstract class Player extends GameObject {
             if (currentItem != null&&!currentItem.itemIsActive) currentItem.UseItem(this);
         }
 
-        //REDO CODE, REBUILD- Christopher F
+
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
             this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";

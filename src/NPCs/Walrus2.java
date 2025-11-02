@@ -116,10 +116,7 @@ public class Walrus2 extends NPC {
          */
 
         // Damage on touch player
-        if (touching(player)) {
-            takeDamage(1);
-            player.takeDamage(1);
-        }
+
 
         // Flip depending on direction
         if (dx < 0) {

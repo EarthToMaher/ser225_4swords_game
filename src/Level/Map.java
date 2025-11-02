@@ -85,6 +85,8 @@ public abstract class Map {
     // reference to current player
     protected Player player;
 
+    protected Player player2;
+
     // other external classes can use this to listen for events
     protected ArrayList<GameListener> listeners = new ArrayList<>();
 
@@ -447,6 +449,14 @@ public abstract class Map {
                 trigger.getTriggerScript().initialize();
             }
         }
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+
+    public void setPlayer2Location(float x, float y) {
+        player2.setLocation(x, y);
     }
 
     public NPC getNPCById(int id) {
