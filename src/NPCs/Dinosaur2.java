@@ -54,6 +54,7 @@ public class Dinosaur2 extends NPC {
         if (this.health == 0) {
             System.out.println("The enemy is dead");
             super.setIsHidden(true);
+            map.deleteNPC(this);
         }
     }
 

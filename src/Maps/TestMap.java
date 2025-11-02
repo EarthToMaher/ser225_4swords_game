@@ -3,10 +3,12 @@ package Maps;
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
+import EnhancedMapTiles.BottomlessPitTile;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
 import Items.BoomerangItem;
 import Items.Item;
+import Items.JetpackItem;
 import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
@@ -15,6 +17,7 @@ import Scripts.TestMap.*;
 import Tilesets.CommonTileset;
 import Utils.Point;
 import Shrines.EmptyShrine;
+import Items.*;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class TestMap extends Map {
     
 
     public Item boomerangItem;
+    public Item jetpackItem;
 
 
     public TestMap() {
@@ -50,8 +54,15 @@ public class TestMap extends Map {
 
         Portal portal = new Portal(getMapTile(8,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal);
+
         Portal portal2 = new Portal(getMapTile(9,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal2);
+
+        BottomlessPitTile bottomlessPitTile = new BottomlessPitTile(getMapTile(12,10).getLocation());
+        enhancedMapTiles.add(bottomlessPitTile);
+
+        BottomlessPitTile bottomlessPitTile2 = new BottomlessPitTile(getMapTile(13,10).getLocation());
+        enhancedMapTiles.add(bottomlessPitTile2);
 
         return enhancedMapTiles;
     }
@@ -75,6 +86,9 @@ public class TestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
+        jetpackItem = new JetpackItem(getMapTile(14, 4).getLocation(), new Frame(ImageLoader.load("MrToon.png")));
+        items.add(jetpackItem);
+
         return items;
     }
     
@@ -82,6 +96,10 @@ public class TestMap extends Map {
     public ArrayList<Shrine> loadShrines()
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
+
+        Shrine jetpackShrine = new EmptyShrine(1,getMapTile(14, 4).getLocation(), jetpackItem);
+        jetpackShrine.setInteractScript(new JetpackShrineScript());
+        shrines.add(jetpackShrine);
 
         return shrines;
     }

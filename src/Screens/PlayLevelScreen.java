@@ -7,6 +7,7 @@ import Engine.Key;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
+import Maps.BoomerangTestMap;
 import Maps.SecondMap;
 import Maps.TestMap;
 import NPCs.InactiveRobot;
@@ -183,6 +184,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
             case "TestMap": return new TestMap();
             case "TitleScreenMap": return new Maps.TitleScreenMap();
             case "SecondMap": return new SecondMap();
+            case "BoomerangTestMap": return new BoomerangTestMap();
             //add new maps here as needed
             default: return null;
         }
