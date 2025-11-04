@@ -77,6 +77,8 @@ public abstract class Player extends GameObject {
         this.affectedByTriggers = true;
     }
 
+    public void CollectKey(){hasKey=true;}
+
     public void gainCurrency(int amount) {currencyAmount+=amount;}
 
     public boolean spendCurrency(int amount){

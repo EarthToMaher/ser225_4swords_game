@@ -1,5 +1,6 @@
 package NPCs;
 
+//Imports
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
@@ -12,20 +13,37 @@ import Screens.PlayLevelScreen;
 import Utils.Point;
 
 import java.util.HashMap;
-import java.util.Random; // For random wandering 
+import java.util.Random;
 
 // This class is for the walrus NPC
 public class Walrus2 extends NPC {
 
-    private int health = 100; // int for initial health value
+    private enum State {
+        WANDERING,
+        CHARGING,
+        CHARGING_ATTACK
+    }
 
-    // Movement fields
+    // Health
+    private int health = 100;
+
+    // Movement Behavior
     private float wanderSpeed = 1.0f; // Slow speed for wandering
     private float chaseSpeed = 1.5f; // Faster speed for chasing
-    private float detectionRange = 150.0f; // Start chasing if player within this
+    private float chargeDx = 0.0f;
+    private float chargeDy = 0.0f;
+    private float detectionRange = 200.0f; // Start chasing if player within this
     private int wanderDirection = 1; // 0=up, 1=right, 2=down, 3=left
     private long lastDirectionChange = 0; // Timestamp for changing wander direction
+    private long chargeAttackStartTime;
     private Random random = new Random();
+
+    // Charge Behavior
+    private State currentState = State.WANDERING; // Start in current wandering state
+    private long chargeStartTime; // Begin charge attack
+    private Point targetPosition; // Record player position to charge toward
+    private float chargeAttackSpeed = 5.0f; // Charge attack speed
+    private float chargeStopDistance = 5.0f; // Distance when charge attack stops
 
     public Walrus2(int id, Point location) {
         super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("BigEnemyTest.png"), 64, 64), "STAND_RIGHT");
@@ -49,61 +67,94 @@ public class Walrus2 extends NPC {
         if (this.health == 0) {
             System.out.println("The enemy is dead");
             super.setIsHidden(true);
+            map.deleteNPC(this);
         }
     }
 
     @Override
     public void update(Player player) {
         float dx = 0.0f;
-        float dy = 0.0f; 
+        float dy = 0.0f;
         boolean isMoving = false;
 
-        float playerCenterX = player.getX() + 18.0f;
+        // Get player and enemy center and calculate distance
+        float playerCenterX = player.getX() + 10.0f;
         float playerCenterY = player.getY() + 10.5f;
         float walrusCenterX = this.x + 16.5f;
         float walrusCenterY = this.y + 10.5f;
         float distanceToPlayer = (float) Math.hypot(playerCenterX - walrusCenterX, playerCenterY - walrusCenterY);
 
-        long currentTime = System.currentTimeMillis(); 
+        long currentTime = System.currentTimeMillis();
 
-        if (distanceToPlayer < detectionRange && distanceToPlayer > 20.0f) {
-            // Move toward player
-            dx = Math.signum(playerCenterX - walrusCenterX) * chaseSpeed;
-            dy = Math.signum(playerCenterY - walrusCenterY) * chaseSpeed;
-            isMoving = true;
-        } else if (distanceToPlayer <= 20.0f) {
-            // Stop following player
-            dx = 0.0f;
-            dy = 0.0f;
-            isMoving = false;
-        } else {
-            // Wander around: Move in current direction, change randomly every 1-3 seconds
-            if (currentTime - lastDirectionChange > (1000 + random.nextInt(2000))) { // 1-3 sec
-                wanderDirection = random.nextInt(4);
-                lastDirectionChange = currentTime;
-            }
-            switch (wanderDirection) {
-                // Move up
-                case 0:
-                    dy = -wanderSpeed;
-                    break;
-                // Move right
-                case 1:
-                    dx = wanderSpeed;
-                    break;
-                // Move down
-                case 2:
-                    dy = wanderSpeed;
-                    break;
-                // Move left
-                case 3:
-                    dx = -wanderSpeed;
-                    break;
-            }
+        switch (currentState) {
+            case WANDERING:
 
-            isMoving = true;
+                if (distanceToPlayer < detectionRange) {
+                    currentState = State.CHARGING;
+                    chargeStartTime = currentTime;
+                    targetPosition = new Point(playerCenterX, playerCenterY); // Record player's position
+                } else {
+
+                    if (currentTime - lastDirectionChange > (1000 + random.nextInt(2000))) {
+                        wanderDirection = random.nextInt(4);
+                        lastDirectionChange = currentTime;
+                    }
+                    switch (wanderDirection) {
+                        case 0:
+                            dy = -wanderSpeed;
+                            break; // Wander up
+                        case 1:
+                            dx = wanderSpeed;
+                            break; // Wander right
+                        case 2:
+                            dy = wanderSpeed;
+                            break; // Wander down
+                        case 3:
+                            dx = -wanderSpeed;
+                            break; // Wander left
+                    }
+                    isMoving = true;
+                }
+                break;
+
+            case CHARGING:
+                // Stay in place for 1 second
+                if (currentTime - chargeStartTime >= 1000) {
+                    currentState = State.CHARGING_ATTACK;
+                }
+
+                break;
+
+            case CHARGING_ATTACK:
+                // Record start time of charge attack
+                if (chargeAttackStartTime == 0) {
+                    chargeAttackStartTime = currentTime;
+                }
+
+                // Move in straight line toward recorded player position
+                if (chargeDx == 0.0f && chargeDy == 0.0f) {
+                    float targetDx = targetPosition.x - walrusCenterX;
+                    float targetDy = targetPosition.y - walrusCenterY;
+                    chargeDx = Math.signum(targetDx) * chargeAttackSpeed;
+                    chargeDy = Math.signum(targetDy) * chargeAttackSpeed;
+                }
+                // Charge toward locked location
+                dx = chargeDx;
+                dy = chargeDy;
+                isMoving = true;
+
+                float currentTargetDx = targetPosition.x - walrusCenterX;
+                float currentTargetDy = targetPosition.y - walrusCenterY;
+                float distanceToTarget = (float) Math.hypot(currentTargetDx, currentTargetDy);
+
+                if (currentTime - chargeAttackStartTime >= 2000 || distanceToTarget <= 10.0f) {
+                    currentState = State.WANDERING;
+                    chargeDx = 0.0f;
+                    chargeDy = 0.0f;
+                    chargeAttackStartTime = 0;
+                }
+                break;
         }
-
         // this.setX(this.getX() + dx);
         // this.setY(this.getY() + dy);
         this.moveXHandleCollision(dx);

@@ -71,13 +71,23 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(treeTrunkWithFullHoleTile);
 
+        // grey rock
+        Frame greyRockFrame = new FrameBuilder(getSubImage(3, 2))
+                .withScale(tileScale)
+                .build();
+
+        MapTileBuilder greyRockTile = new MapTileBuilder(greyRockFrame)
+                .withTileType(TileType.PASSABLE);
+
+        mapTiles.add(greyRockTile);
+
         // left end branch
         Frame leftEndBranchFrame = new FrameBuilder(getSubImage(2, 4))
                 .withScale(tileScale)
                 .withBounds(0, 6, 16, 4)
                 .build();
 
-        MapTileBuilder leftEndBranchTile = new MapTileBuilder(grassFrame)
+        MapTileBuilder leftEndBranchTile = new MapTileBuilder(greyRockFrame)
                 .withTopLayer(leftEndBranchFrame)
                 .withTileType(TileType.PASSABLE);
 
@@ -190,17 +200,6 @@ public class CommonTileset extends Tileset {
                 .withTileType(TileType.PASSABLE);
 
         mapTiles.add(mushroomTile);
-
-
-        // grey rock
-        Frame greyRockFrame = new FrameBuilder(getSubImage(3, 2))
-                .withScale(tileScale)
-                .build();
-
-        MapTileBuilder greyRockTile = new MapTileBuilder(greyRockFrame)
-                .withTileType(TileType.PASSABLE);
-
-        mapTiles.add(greyRockTile);
 
         // bush
         Frame bushFrame = new FrameBuilder(getSubImage(3, 3))

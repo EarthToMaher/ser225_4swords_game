@@ -2,6 +2,8 @@ package Level;
 
 import GameObject.GameObject;
 import Items.Item;
+import Items.JetpackItem;
+import EnhancedMapTiles.BottomlessPitTile;
 import Utils.Direction;
 import Utils.Point;
 
@@ -288,6 +290,18 @@ public class MapCollisionHandler {
                 case PASSABLE:
                     return false;
                 case NOT_PASSABLE:
+                    // Special-case: bottomless pit can be crossed when player has an active jetpack
+                    if (mapTile instanceof BottomlessPitTile) {
+                        if (gameObject instanceof Player) {
+                            Player p = (Player) gameObject;
+                            if (p.currentItem instanceof JetpackItem) {
+                                JetpackItem jp = (JetpackItem) p.currentItem;
+                                if (jp.isJetpackActive()) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
                     return gameObject.intersects(mapTile);
                 default:
                     return false;
