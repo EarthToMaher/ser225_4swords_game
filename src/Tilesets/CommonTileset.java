@@ -362,6 +362,90 @@ public class CommonTileset extends Tileset {
         MapTileBuilder floorEdgeSETile = new MapTileBuilder(floorEdgeSE);
         mapTiles.add(floorEdgeSETile);
 
+        Frame floor06 = new FrameBuilder(getSubImage(0, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor06Tile = new MapTileBuilder(floor06);
+        mapTiles.add(floor06Tile);
+
+        Frame floor16 = new FrameBuilder(getSubImage(1, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor16Tile = new MapTileBuilder(floor16);
+        mapTiles.add(floor16Tile);
+
+        Frame floor26 = new FrameBuilder(getSubImage(2, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor26Tile = new MapTileBuilder(floor26);
+        mapTiles.add(floor26Tile);
+
+        Frame floor36 = new FrameBuilder(getSubImage(3, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor36Tile = new MapTileBuilder(floor36);
+        mapTiles.add(floor36Tile);
+
+        Frame floor46 = new FrameBuilder(getSubImage(4, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor46Tile = new MapTileBuilder(floor46);
+        mapTiles.add(floor46Tile);
+
+        Frame floor56 = new FrameBuilder(getSubImage(5, 6))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor56Tile = new MapTileBuilder(floor56);
+        mapTiles.add(floor56Tile);
+
+        Frame floor07 = new FrameBuilder(getSubImage(0, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor07Tile = new MapTileBuilder(floor07);
+        mapTiles.add(floor07Tile);
+
+        Frame floor17 = new FrameBuilder(getSubImage(1, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor17Tile = new MapTileBuilder(floor17);
+        mapTiles.add(floor17Tile);
+
+        Frame floor27 = new FrameBuilder(getSubImage(2, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor27Tile = new MapTileBuilder(floor27);
+        mapTiles.add(floor27Tile);
+
+        Frame floor37 = new FrameBuilder(getSubImage(3, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor37Tile = new MapTileBuilder(floor37);
+        mapTiles.add(floor37Tile);
+
+        Frame floor47 = new FrameBuilder(getSubImage(4, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor47Tile = new MapTileBuilder(floor47);
+        mapTiles.add(floor47Tile);
+
+        Frame floor57 = new FrameBuilder(getSubImage(5, 7))
+        .withScale(tileScale)
+        .build();
+
+        MapTileBuilder floor57Tile = new MapTileBuilder(floor57);
+        mapTiles.add(floor57Tile);
+
 
         return mapTiles;
     }

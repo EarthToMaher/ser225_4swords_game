@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
+import Game.ScreenCoordinator;
 import GameObject.ImageEffect;
 import GameObject.Sprite;
 import Level.Map;

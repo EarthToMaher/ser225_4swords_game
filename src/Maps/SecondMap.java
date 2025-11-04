@@ -1,6 +1,7 @@
 package Maps;
 
 import EnhancedMapTiles.*;
+import Game.ScreenCoordinator;
 import Level.EnhancedMapTile;
 import Level.Map;
 import Level.NPC;

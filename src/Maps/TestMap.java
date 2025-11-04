@@ -1,6 +1,7 @@
 package Maps;
 
 import EnhancedMapTiles.PushableRock;
+import Game.ScreenCoordinator;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
 import EnhancedMapTiles.Door;
