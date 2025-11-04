@@ -7,7 +7,7 @@ import Utils.Point;
 public class JetpackItem extends Item {
 
     private long activeUntilMillis = 0;
-    private final long DURATION_MS = 3000;
+    private final long DURATION_MS = 4000;
 
     public JetpackItem(Frame frame) {
         super(frame);
