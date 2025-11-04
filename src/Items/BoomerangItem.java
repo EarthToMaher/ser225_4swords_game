@@ -115,6 +115,7 @@ public class BoomerangItem extends Item {
     public void UseItem(Player player)
     {
         super.UseItem(player);
+        this.isUncollidable=true;
         if(hitNPCs!=null)hitNPCs.clear();
         direction = player.getFacingDirection();
         Point playerLocation = player.getLocation();
