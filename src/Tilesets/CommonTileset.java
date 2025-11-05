@@ -130,16 +130,19 @@ public class CommonTileset extends Tileset {
         
         // yellow flower
         Frame[] yellowFlowerFrames = new Frame[] {
-                new FrameBuilder(getSubImage(1, 2), 65)
+                new FrameBuilder(getSubImage(1, 2), 335)
                     .withScale(tileScale)
                     .build(),
-                new FrameBuilder(getSubImage(1, 3), 65)
+                new FrameBuilder(getSubImage(1, 3), 5)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(1, 2), 65)
+                new FrameBuilder(getSubImage(1, 2), 12)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(1, 4), 65)
+                new FrameBuilder(getSubImage(1, 4), 15)
+                        .withScale(tileScale)
+                        .build(),
+                new FrameBuilder(getSubImage(1, 2), 12)
                         .withScale(tileScale)
                         .build()
         };
@@ -150,22 +153,22 @@ public class CommonTileset extends Tileset {
 
         // purple flower
         Frame[] purpleFlowerFrames = new Frame[] {
-                new FrameBuilder(getSubImage(0, 2), 5)
+                new FrameBuilder(getSubImage(0, 2), 60)
                         .withScale(tileScale)
                         .build(),
                 new FrameBuilder(getSubImage(0, 3), 5)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 2), 5)
+                new FrameBuilder(getSubImage(0, 2), 120)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 4), 5)
+                new FrameBuilder(getSubImage(0, 4), 10)
                         .withScale(tileScale)
                         .build()
         };
 
-        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames)
-        .withTopLayer(purpleFlowerFrames);
+        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames);
+        //.withTopLayer(purpleFlowerFrames);
 
         mapTiles.add(purpleFlowerTile);
 
@@ -444,6 +447,30 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder floor57Tile = new MapTileBuilder(floor57);
         mapTiles.add(floor57Tile);
+
+        Frame wireEdgeEFrame = new FrameBuilder(getSubImage(2, 3))
+                .withScale(tileScale)
+                .withBounds(0, 6, 16, 4)
+                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                .build();
+
+        MapTileBuilder wireEdgeETile = new MapTileBuilder(floorEdgeE)
+                .withTopLayer(wireEdgeEFrame)
+                .withTileType(TileType.PASSABLE);
+
+        mapTiles.add(wireEdgeETile);
+
+        Frame wireEdgeWFrame = new FrameBuilder(getSubImage(2, 3))
+                .withScale(tileScale)
+                .withBounds(0, 6, 16, 4)
+                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                .build();
+
+        MapTileBuilder wireEdgeWTile = new MapTileBuilder(floorEdgeW)
+                .withTopLayer(wireEdgeWFrame)
+                .withTileType(TileType.PASSABLE);
+
+        mapTiles.add(wireEdgeWTile);
 
 
         return mapTiles;
