@@ -3,6 +3,7 @@ package Level;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
+import Game.ScreenCoordinator;
 import GameObject.Frame;
 import GameObject.GameObject;
 import GameObject.Rectangle;
@@ -298,6 +299,9 @@ public abstract class Player extends GameObject {
         //If space key is pressed while walking, switching should also occur
         if(!keyLocker.isKeyLocked(C_KEY) && Keyboard.isKeyDown(C_KEY)) {
             keyLocker.lockKey(C_KEY);
+
+            ScreenCoordinator sc = map.getScreenCoordinator();
+            
             if(Robot.isActivePlayer) {
                 Robot.isActivePlayer = false;
                 SecondRobot.isActivePlayer = true;

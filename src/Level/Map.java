@@ -20,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import Game.ScreenCoordinator;
 
 /*
     This class is for defining a map that is used for a specific level
@@ -94,7 +95,22 @@ public abstract class Map {
     // other external classes can use this to listen for events
     protected ArrayList<GameListener> listeners = new ArrayList<>();
 
+    protected ScreenCoordinator screenCoordinator;
+
     public Map(String mapFileName, Tileset tileset) {
+        this.mapFileName = mapFileName;
+        this.tileset = tileset;
+        setupMap();
+        this.startBoundX = 0;
+        this.startBoundY = 0;
+        this.endBoundX = width * tileset.getScaledSpriteWidth();
+        this.endBoundY = height * tileset.getScaledSpriteHeight();
+        this.xMidPoint = ScreenManager.getScreenWidth() / 2;
+        this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
+        this.playerStartPosition = new Point(0, 0);
+    }
+
+    public Map(String mapFileName, Tileset tileset, ScreenCoordinator screenCoordinator) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         setupMap();
@@ -759,5 +775,9 @@ public abstract class Map {
 
     public ArrayList<GameListener> getListeners() {
         return listeners;
+    }
+
+    public ScreenCoordinator getScreenCoordinator() {
+        return screenCoordinator;
     }
 }

@@ -19,7 +19,7 @@ import Utils.Point;
 public class PlayLevelScreen extends Screen implements GameListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
-    protected Player player;
+    public static Player player;
     protected Player player2;
     public static Player inactivePlayer;
     protected InactiveRobot inactiveRobot;
@@ -53,6 +53,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasTalkedToDinosaur", false);
         flagManager.addFlag("hasFoundBall", false);
         flagManager.addFlag("hasTalkedToToon", false);
+        // flag to ensure the test map intro textbox only shows once per session
+        flagManager.addFlag("hasSeenTestMapIntro", false);
 
         // define/setup map
         map = new TestMap();
@@ -64,6 +66,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
         player2 = new SecondRobot(map.getPlayerStartPosition().x-500, map.getPlayerStartPosition().y);
         playLevelScreenState = PlayLevelScreenState.RUNNING;
         player.setMap(map);
+        // let map know which player is on it so scripts that rely on map.getPlayer() work
+        map.setPlayer(player);
 
 
 
@@ -74,6 +78,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // add this screen as a "game listener" so other areas of the game that don't normally have direct access to it (such as scripts) can "signal" to have it do something
         // this is used in the "onWin" method -- a script signals to this class that the game has been won by calling its "onWin" method
         map.addListener(this);
+
+        // show a one-time intro textbox when entering the TestMap
+        if (!flagManager.isFlagSet("hasSeenTestMapIntro")) {
+            map.setActiveScript(new Scripts.TestMap.MapEnterScript());
+            flagManager.setFlag("hasSeenTestMapIntro");
+        }
 
         // preloads all scripts ahead of time rather than loading them dynamically
         // both are supported, however preloading is recommended
@@ -260,6 +270,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
     }
 
     public Player getPlayer() {
-    return player;
+        return player;
     }
 }

@@ -1,10 +1,16 @@
 package Maps;
 
-import EnhancedMapTiles.*;
+import EnhancedMapTiles.PushableRock;
+import Game.ScreenCoordinator;
+import EnhancedMapTiles.Key;
+import EnhancedMapTiles.Portal;
+import EnhancedMapTiles.BottomlessPitTile;
+import EnhancedMapTiles.Door;
 import GameObject.Frame;
 import Items.BoomerangItem;
 import Items.Item;
 import Items.JetpackItem;
+import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
 import Scripts.SimpleTextScript;
@@ -59,9 +65,6 @@ public class TestMap extends Map {
         BottomlessPitTile bottomlessPitTile2 = new BottomlessPitTile(getMapTile(13,10).getLocation());
         enhancedMapTiles.add(bottomlessPitTile2);
 
-        FakeWall faketest = new FakeWall(getMapTile(10,10).getLocation());
-        enhancedMapTiles.add(faketest);
-
         return enhancedMapTiles;
     }
 
@@ -70,11 +73,15 @@ public class TestMap extends Map {
         npcs.clear();
 
         ArrayList<NPC> npcs = new ArrayList<>();
-        inactiveRobotStatic = new InactiveRobot(5, getMapTile(15, 4).getLocation().subtractY(50));
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
+
+        MouseDroid mouseDroid = new MouseDroid(6, getMapTile(2,4).getLocation().subtractY(50));
+        mouseDroid.setInteractScript(new MouseDroidScript());
+        npcs.add(mouseDroid);
 
 
 
@@ -84,8 +91,8 @@ public class TestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
-        boomerangItem = new BoomerangItem(getMapTile(12,4).getLocation(), new Frame(ImageLoader.load("Boomerang.png")));
-        items.add(boomerangItem);
+        jetpackItem = new JetpackItem(getMapTile(14, 4).getLocation(), new Frame(ImageLoader.load("Jetpack.png")));
+        items.add(jetpackItem);
 
         return items;
     }
@@ -95,9 +102,9 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        Shrine boomerangShrine = new EmptyShrine(2, getMapTile(12, 4).getLocation(),boomerangItem);
-        boomerangShrine.setInteractScript(new BoomerangShrineScript());
-        shrines.add(boomerangShrine);
+        Shrine jetpackShrine = new EmptyShrine(1,getMapTile(14, 4).getLocation(), jetpackItem);
+        jetpackShrine.setInteractScript(new JetpackShrineScript());
+        shrines.add(jetpackShrine);
 
         return shrines;
     }

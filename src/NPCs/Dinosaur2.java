@@ -8,6 +8,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
+import Screens.PlayLevelScreen;
 import Utils.Point;
 
 import java.util.HashMap;
@@ -137,7 +138,7 @@ public class Dinosaur2 extends NPC {
         // Damage on touch player
         if (touching(player)) {
             takeDamage(1);
-            player.takeDamage(1);
+            PlayLevelScreen.player.takeDamage(1);
         }
 
         super.update(player);
