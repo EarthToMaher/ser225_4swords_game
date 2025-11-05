@@ -13,6 +13,7 @@ import Level.MapEntity;
 import Level.MapEntityStatus;
 import Level.NPC;
 import Level.Player;
+import Screens.PlayLevelScreen;
 
 public class EnemyProjectile extends NPC {
     private float velX; 
@@ -56,7 +57,7 @@ public class EnemyProjectile extends NPC {
             float damageRadius = 40.0f;
 
             if (distance < damageRadius) {
-                player.takeDamage(10); // Deal damage
+                PlayLevelScreen.player.takeDamage(10); // Deal damage
                 this.mapEntityStatus = MapEntityStatus.REMOVED; // Remove projectile
             }
 

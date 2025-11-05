@@ -21,7 +21,7 @@ import Utils.Point;
 public class PlayLevelScreen extends Screen implements GameListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
-    protected Player player;
+    public static Player player;
     protected Player player2;
     protected InactiveRobot inactiveRobot;
     protected PlayLevelScreenState playLevelScreenState;
@@ -247,6 +247,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
     }
 
     public Player getPlayer() {
-    return player;
+        return player;
     }
 }

@@ -4,6 +4,7 @@ import Level.Map;
 import Maps.SecondMap;
 import Maps.TestMap;
 import Maps.TitleScreenMap;
+import Game.ScreenCoordinator;
 
 import java.util.ArrayList;
 

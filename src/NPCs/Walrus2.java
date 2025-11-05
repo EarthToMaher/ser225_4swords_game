@@ -9,6 +9,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
+import Screens.PlayLevelScreen;
 import Utils.Point;
 
 import java.util.HashMap;
@@ -169,7 +170,7 @@ public class Walrus2 extends NPC {
         // Damage on touch player
         if (touching(player)) {
             takeDamage(1);
-            player.takeDamage(10);
+            PlayLevelScreen.player.takeDamage(1);
         }
 
         // Flip depending on direction
