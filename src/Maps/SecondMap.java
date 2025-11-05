@@ -8,6 +8,7 @@ import Level.Tileset;
 import NPCs.*;
 import Tilesets.CommonTileset;
 import Utils.Point;
+import Scripts.TestMap.DigitalSignScript;
 
 import java.util.ArrayList;
 
@@ -26,12 +27,15 @@ public class SecondMap extends Map {
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(12, 23).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
-
         Walrus2 walrus = new Walrus2(19, getMapTile(11,12).getLocation());
         npcs.add(walrus);
 
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(11,15).getLocation().subtractY(50));
         npcs.add(dinosaur2);
+
+        DigitalSign digitalSign = new DigitalSign(20, getMapTile(20,18).getLocation().subtractY(50));
+        digitalSign.setInteractScript(new DigitalSignScript());
+        npcs.add(digitalSign);
 
         return npcs;
     }

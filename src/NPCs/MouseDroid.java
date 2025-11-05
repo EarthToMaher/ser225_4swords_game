@@ -11,11 +11,10 @@ import Utils.Point;
 
 import java.util.HashMap;
 
-// This class is for the walrus NPC
-public class Walrus extends NPC {
+public class MouseDroid extends NPC {
 
-    public Walrus(int id, Point location) {
-        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "STAND_LEFT");
+    public MouseDroid(int id, Point location) {
+        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("MouseDroid1stFrame.png"), 24, 24), "STAND_LEFT");
     }
 
     @Override
@@ -23,15 +22,15 @@ public class Walrus extends NPC {
         return new HashMap<String, Frame[]>() {{
             put("STAND_LEFT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0))
-                            .withScale(3)
-                            .withBounds(7, 10, 11, 9)
+                            .withScale(2)
+                            .withBounds(4, 4, 8, 8)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .build()
             });
             put("STAND_RIGHT", new Frame[] {
                    new FrameBuilder(spriteSheet.getSprite(0, 0))
-                           .withScale(3)
-                           .withBounds(7, 10, 11, 9)
+                           .withScale(2)
+                           .withBounds(4, 4, 8, 8)
                            .build()
            });
         }};

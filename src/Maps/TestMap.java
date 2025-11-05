@@ -78,6 +78,10 @@ public class TestMap extends Map {
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
 
+        MouseDroid mouseDroid = new MouseDroid(6, getMapTile(2,4).getLocation().subtractY(50));
+        mouseDroid.setInteractScript(new MouseDroidScript());
+        npcs.add(mouseDroid);
+
 
 
         return npcs;
@@ -86,7 +90,7 @@ public class TestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
-        jetpackItem = new JetpackItem(getMapTile(14, 4).getLocation(), new Frame(ImageLoader.load("MrToon.png")));
+        jetpackItem = new JetpackItem(getMapTile(14, 4).getLocation(), new Frame(ImageLoader.load("Jetpack.png")));
         items.add(jetpackItem);
 
         return items;
