@@ -7,9 +7,7 @@ import Engine.Key;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
-import Maps.BoomerangTestMap;
-import Maps.SecondMap;
-import Maps.TestMap;
+import Maps.*;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
@@ -87,8 +85,9 @@ public class PlayLevelScreen extends Screen implements GameListener {
         currencyScreen = new CurrencyScreen(this);
     }
 
+
+
     public void update() {
-        System.out.println(this.map.getPlayer());
         // based on screen state, perform specific actions
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
@@ -119,6 +118,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
                         Map.inactiveRobotStatic.setLocation(player.getX(), player.getY());
                         inactivePlayer = player;
                     }
+
                     map.setPlayer(player2);
                     player2.setMap(map);
                     player2.update();
@@ -128,6 +128,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
                 //handle pending map transistion requested by a portal
                 Player active = Robot.isActivePlayer ? player : player2;
+                Player inactive = (active == player) ? player2 : player;
                 if (active != null && active.hasPendingMapRequest()) {
                     String mapName = active.consumePendingMapName();
                     Utils.Point spawn = active.consumePendingMapLocation();
@@ -135,14 +136,33 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
                     if (newMap != null){
                         this.map = newMap;
-                        newMap.setPlayer2(player2);
-                        map.setFlagManager(flagManager);
-                            map.setPlayer(player);
-                            player.setMap(map);
-                            player.setLocation(spawn.x, spawn.y);
+
+//                        map.setFlagManager(flagManager);
+//                        map.setPlayer2(inactivePlayer);
+//                            map.setPlayer(player);
+//                            player.setMap(map);
+//                            player.setLocation(spawn.x, spawn.y);
+//                        map.getTextbox().setInteractKey(active.getInteractKey());
+//                        map.getTextbox().setInteractKey(active.getInteractKey());
+//                        //ensures inactive robot is removed on map switch
+//                        map.addListener(this);
+
+                        map.setPlayer(player);
+                        map.setPlayer2(player2);
+
+                        active.setMap(map);
+                        active.setLocation(spawn.x, spawn.y);
+
+
+                        inactive.setMap(map);
+                        map.setUpInactivePlayer(active,inactive);
+
+
                         map.getTextbox().setInteractKey(active.getInteractKey());
                         //ensures inactive robot is removed on map switch
-                        map.addListener(this);    
+                        map.addListener(this);
+
+
                     }
                 }
 
@@ -183,7 +203,11 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (name) {
             case "TestMap": return new TestMap();
             case "TitleScreenMap": return new Maps.TitleScreenMap();
-            case "SecondMap": return new SecondMap();
+            case "SecondMap": {
+                return new SecondMap();
+            }
+            case "ThirdMap": return new ThirdMap();
+            case "FourthMap": return new FourthMap();
             case "BoomerangTestMap": return new BoomerangTestMap();
             //add new maps here as needed
             default: return null;

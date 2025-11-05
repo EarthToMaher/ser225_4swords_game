@@ -16,7 +16,8 @@ public class Portal extends EnhancedMapTile {
     private final Point targetLocation;
 
     public Portal(Point location, String targetMapName, Point targetLocation) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("img.png"), 16, 16), TileType.PASSABLE);
+        //img.png
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Boomerang.png"), 16, 16), TileType.PASSABLE);
         this.targetMapName = targetMapName;
         this.targetLocation = targetLocation;
     }

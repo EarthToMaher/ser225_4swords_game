@@ -28,7 +28,7 @@ public class JetpackShrineScript extends Script {
         scriptActions.add(new ConditionalScriptAction() {{
             addConditionalScriptActionGroup(new ConditionalScriptActionGroup() {{
                 addScriptAction(new TextboxScriptAction() {{
-                    addText("Jetpack allows a robot to fly for a short duration over bottomless pits!");
+                    addText("Jetpack: The jetpack allows a robot to fly for a short \nduration over bottomless pits!");
                 }});
             }});
         }});

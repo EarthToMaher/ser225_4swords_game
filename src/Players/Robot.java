@@ -18,7 +18,7 @@ public class Robot extends Player {
 
     public Robot(float x, float y) {
         super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "OFFLINE");
-        walkSpeed = 2.3f;
+        walkSpeed = 4f;
     }
 
     public void update() {

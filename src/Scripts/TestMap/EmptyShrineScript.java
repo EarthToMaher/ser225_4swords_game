@@ -28,7 +28,7 @@ public class EmptyShrineScript extends Script {
         scriptActions.add(new ConditionalScriptAction() {{
             addConditionalScriptActionGroup(new ConditionalScriptActionGroup() {{
                 addScriptAction(new TextboxScriptAction() {{
-                    addText("Nothing: Just empty space");
+                    addText("A Mysterious Shrine, Empty.");
                 }});
             }});
         }});

@@ -1,15 +1,10 @@
 package Maps;
 
-import EnhancedMapTiles.PushableRock;
-import EnhancedMapTiles.Key;
-import EnhancedMapTiles.Portal;
-import EnhancedMapTiles.BottomlessPitTile;
-import EnhancedMapTiles.Door;
+import EnhancedMapTiles.*;
 import GameObject.Frame;
 import Items.BoomerangItem;
 import Items.Item;
 import Items.JetpackItem;
-import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
 import Scripts.SimpleTextScript;
@@ -64,6 +59,9 @@ public class TestMap extends Map {
         BottomlessPitTile bottomlessPitTile2 = new BottomlessPitTile(getMapTile(13,10).getLocation());
         enhancedMapTiles.add(bottomlessPitTile2);
 
+        FakeWall faketest = new FakeWall(getMapTile(10,10).getLocation());
+        enhancedMapTiles.add(faketest);
+
         return enhancedMapTiles;
     }
 
@@ -86,8 +84,8 @@ public class TestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
-        jetpackItem = new JetpackItem(getMapTile(14, 4).getLocation(), new Frame(ImageLoader.load("MrToon.png")));
-        items.add(jetpackItem);
+        boomerangItem = new BoomerangItem(getMapTile(12,4).getLocation(), new Frame(ImageLoader.load("Boomerang.png")));
+        items.add(boomerangItem);
 
         return items;
     }
@@ -97,9 +95,9 @@ public class TestMap extends Map {
     {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
-        Shrine jetpackShrine = new EmptyShrine(1,getMapTile(14, 4).getLocation(), jetpackItem);
-        jetpackShrine.setInteractScript(new JetpackShrineScript());
-        shrines.add(jetpackShrine);
+        Shrine boomerangShrine = new EmptyShrine(2, getMapTile(12, 4).getLocation(),boomerangItem);
+        boomerangShrine.setInteractScript(new BoomerangShrineScript());
+        shrines.add(boomerangShrine);
 
         return shrines;
     }

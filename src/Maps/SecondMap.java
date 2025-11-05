@@ -21,9 +21,12 @@ public class SecondMap extends Map {
 
     }
 
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
-        player2.setLocation(getMapTile(10, 22).getLocation().x, getMapTile(10, 22).getLocation().y);
+
+
+    @Override
+    public void setUpInactivePlayer(Player active, Player inactive) {
+        active.setLocation(getMapTile(10, 22).getLocation().x, getMapTile(10, 22).getLocation().y);
+        inactive.setLocation(getMapTile(12, 22).getLocation().x, getMapTile(12, 22).getLocation().y);
     }
 
 
@@ -57,6 +60,12 @@ public class SecondMap extends Map {
 
         Door exitDoor = new Door(getMapTile(11,1).getLocation());
         enhancedMapTiles.add(exitDoor);
+
+        Portal portal = new Portal(getMapTile(11,1).getLocation().subtractY(50), "ThirdMap", new Point(800,800));
+        enhancedMapTiles.add(portal);
+
+        Portal portal2 = new Portal(getMapTile(12,1).getLocation().subtractY(50), "ThirdMap", new Point(800,800));
+        enhancedMapTiles.add(portal2);
 
         Key key = new Key(getMapTile(21,18).getLocation());
         enhancedMapTiles.add(key);

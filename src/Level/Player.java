@@ -154,7 +154,7 @@ public abstract class Player extends GameObject {
             timeBetweenReloads = 0;
         }
 
-        System.out.println("AMMO:" + ammo + "TIMEBETWEENRELOADS:" + timeBetweenReloads);
+
 
 
         if (!isLocked) {
@@ -236,7 +236,6 @@ public abstract class Player extends GameObject {
                 ball.setDirection(facingDirection);
                 map.addNPC(ball);
                 ammo--;
-                System.out.println("Ammo: " + ammo);
             }
         }
 
@@ -283,7 +282,7 @@ public abstract class Player extends GameObject {
                 ball.setDirection(facingDirection);
                 map.addNPC(ball);
                 ammo--;
-                System.out.println("Ammo: " + ammo);
+
             }
         }
 
