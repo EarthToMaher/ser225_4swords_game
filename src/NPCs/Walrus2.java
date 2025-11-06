@@ -199,26 +199,26 @@ public class Walrus2 extends NPC {
                 put("STAND_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 13, 30, 20)
+                                .withBounds(7, 13, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
                 put("STAND_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 13, 30, 20)
+                                .withBounds(7, 13, 30, 40)
                                 .build()
                 });
 
                 put("WALK_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 1),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(0, 0),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
@@ -226,23 +226,23 @@ public class Walrus2 extends NPC {
                 put("WALK_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 1),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(0, 0),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .build()
                 });
 
                 put("CHARGE_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(1, 2),40)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(1, 1),140)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                 });
@@ -250,11 +250,11 @@ public class Walrus2 extends NPC {
                 put("CHARGE_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(1, 2),40)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(1, 1),140)
                                 .withScale(2)
-                                .withBounds(7, 15, 30, 20)
+                                .withBounds(7, 15, 30, 40)
                                 .build()        
                 });
             }

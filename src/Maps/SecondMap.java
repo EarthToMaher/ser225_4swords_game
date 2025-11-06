@@ -6,6 +6,7 @@ import NPCs.*;
 import Screens.PlayLevelScreen;
 import Tilesets.CommonTileset;
 import Utils.Point;
+import Scripts.TestMap.DigitalSignScript;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,10 @@ public class SecondMap extends Map {
 
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(11,15).getLocation().subtractY(50));
         npcs.add(dinosaur2);
+
+        DigitalSign digitalSign = new DigitalSign(6, getMapTile(20,17).getLocation());
+        digitalSign.setInteractScript(new DigitalSignScript());
+        npcs.add(digitalSign);
 
         return npcs;
     }
