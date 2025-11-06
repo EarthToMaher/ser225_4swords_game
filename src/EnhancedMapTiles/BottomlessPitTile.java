@@ -13,7 +13,7 @@ import Utils.Point;
 public class BottomlessPitTile extends EnhancedMapTile {
 
     public BottomlessPitTile(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BottomlessPitTile.png"), 24, 24), TileType.PASSABLE);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BottomlessPitTileUpdated.png"), 24, 24), TileType.PASSABLE);
     }
 
     @Override
