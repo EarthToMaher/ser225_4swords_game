@@ -5,9 +5,10 @@ import SpriteFont.SpriteFont;
 
 import java.awt.*;
 
-// This class is for the win level screen
+
 public class CurrencyScreen extends Screen {
     protected SpriteFont winMessage;
+    protected SpriteFont ammoMessage;
     protected SpriteFont instructions;
     protected KeyLocker keyLocker = new KeyLocker();
     protected PlayLevelScreen playLevelScreen;
@@ -20,15 +21,18 @@ public class CurrencyScreen extends Screen {
     @Override
     public void initialize() {
         winMessage = new SpriteFont("Currency Placeholder", 350, 239, "Arial", 60, Color.white);
+        ammoMessage = new SpriteFont("Ammo Placeholder", 350, 239, "Arial", 60, Color.white);
     }
 
     @Override
     public void update() {
-        winMessage = new SpriteFont("Currency: " + playLevelScreen.player.getCurrency(), 600, 50, "Arial", 30, Color.white);
+        winMessage = new SpriteFont("Currency: " + playLevelScreen.player.getCurrency(), 580, 50, "Arial", 30, Color.white);
+        ammoMessage = new SpriteFont("Ammunition: " + playLevelScreen.player.getAmmo(), 580, 100, "Arial", 30, Color.white);
         //System.out.println("Hi");
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
         winMessage.draw(graphicsHandler);
+        ammoMessage.draw(graphicsHandler);
     }
 }

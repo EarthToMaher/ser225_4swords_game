@@ -2,8 +2,12 @@ package Level;
 
 import Engine.Config;
 import Engine.GraphicsHandler;
+import Engine.ImageLoader;
 import Engine.ScreenManager;
+import EnhancedMapTiles.PressurePlate;
+import GameObject.Frame;
 import GameObject.Rectangle;
+import Items.BoomerangItem;
 import Items.Item;
 import NPCs.EnemySpawner;
 import NPCs.InactiveRobot;
@@ -85,6 +89,8 @@ public abstract class Map {
 
     // reference to current player
     protected Player player;
+
+    protected Player player2;
 
     // other external classes can use this to listen for events
     protected ArrayList<GameListener> listeners = new ArrayList<>();
@@ -208,6 +214,11 @@ public abstract class Map {
         }
 
         fileInput.close();
+    }
+
+    //To be overrided every Map
+    public void setUpInactivePlayer(Player active, Player inactive) {
+        active.setLocation(active.getX()-50, active.getY());
     }
 
     // creates an empty map file for this map if one does not exist
@@ -465,6 +476,10 @@ public abstract class Map {
         }
     }
 
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
+
     public NPC getNPCById(int id) {
         for (NPC npc : npcs) {
             if (npc.getId() == id) {
@@ -663,6 +678,7 @@ public abstract class Map {
         if (textbox.isActive()) {
             textbox.update();
         }
+
     }
 
     // based on the player's current X position (which in a level can potentially be updated each frame),

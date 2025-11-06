@@ -45,12 +45,14 @@ public class ElectricBall extends NPC {
                 System.out.println("Intersecting: " + npc.getClass().getSimpleName());
 
                 if (npc instanceof Walrus2 walrus) {
+                    this.isUncollidable = true;
                     walrus.takeDamage(20);
                     map.deleteNPC(this);
                     break;
                 }
 
                 if (npc instanceof Dinosaur2 dino) {
+                    this.isUncollidable = true;
                     dino.takeDamage(20);
                     map.deleteNPC(this);
                     break;
