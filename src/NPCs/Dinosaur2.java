@@ -184,26 +184,26 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                 put("STAND_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 30)
+                                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
                 put("STAND_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 0))
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 30)
+                                .withBounds(7, 15, 40, 40)
                                 .build()
                 });
 
                 put("WALK_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 1),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(0, 0),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
@@ -211,23 +211,23 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                 put("WALK_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(0, 1),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(0, 0),15)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .build()
                 });
 
                 put("SHOOT_LEFT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(1, 2),40)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(1, 1),80)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                 });
@@ -235,11 +235,11 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                 put("SHOOT_RIGHT", new Frame[] {
                         new FrameBuilder(spriteSheet.getSprite(1, 2),40)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .build(),
                         new FrameBuilder(spriteSheet.getSprite(1, 1),80)
                                 .withScale(2)
-                                .withBounds(7, 15, 40, 20)
+                .withBounds(7, 15, 40, 40)
                                 .build()        
                 });
             }

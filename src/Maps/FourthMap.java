@@ -255,7 +255,7 @@ public class FourthMap extends Map {
 
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
-        jetpackItem = new JetpackItem(getMapTile(22,5).getLocation(), new Frame(ImageLoader.load("MrToon.png")));
+        jetpackItem = new JetpackItem(getMapTile(22,5).getLocation(), new Frame(ImageLoader.load("Jetpack.png")));
         items.add(jetpackItem);
 
         return items;
