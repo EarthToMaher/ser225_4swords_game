@@ -3,36 +3,27 @@ package EnhancedMapTiles;
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import GameObject.GameObject;
+import GameObject.SpriteSheet;
 import Level.EnhancedMapTile;
 import Level.Map;
 import Level.Player;
 import Level.TileType;
-import NPCs.InactiveRobot;
 import Screens.PlayLevelScreen;
 import Utils.Point;
-import GameObject.SpriteSheet;
+
 import GameObject.Frame;
 
+public class FakeWall extends EnhancedMapTile {
 
-public class PressurePlateTileOff extends EnhancedMapTile {
-
-
-
-
-    public PressurePlateTileOff(Point location) {
+    public FakeWall(Point location) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24), TileType.NOT_PASSABLE);
-
     }
 
     public void update(Player player) {
-        if(PressurePlateTileOn.isTouched) {
+        if(PressurePlate.isTouched) {
             this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 1, 1));
             this.setMap(this.map);
             this.tileType = TileType.PASSABLE;
-        } else {
-            this.bottomLayer = this.loadBottomLayer(new SpriteSheet(ImageLoader.load("Bars.png"), 24, 24));
-            this.setMap(this.map);
-            this.tileType = TileType.NOT_PASSABLE;
         }
 
         if(Map.inactiveRobotStatic.touching(this)) {

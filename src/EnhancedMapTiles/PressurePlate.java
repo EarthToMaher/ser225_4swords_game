@@ -14,13 +14,15 @@ import GameObject.Frame;
 import GameObject.AnimatedSprite;
 
 public class PressurePlate extends EnhancedMapTile {
+    public static boolean isTouched = false;
     public PressurePlate(Point location) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("PressurePlate.png"), 24, 24), TileType.PASSABLE);
+        isTouched = false;
     }
 
     public void update(Player player) {
-        PressurePlateTileOn.isTouchedOn = player.touching(this) || Map.inactiveRobotStatic.touching(this);
-        PressurePlateTileOff.isTouchedOff = player.touching(this) || Map.inactiveRobotStatic.touching(this);
+        PressurePlateTileOn.isTouched = player.touching(this) || Map.inactiveRobotStatic.touching(this);
+        isTouched = player.touching(this) || Map.inactiveRobotStatic.touching(this);
     }
     @Override
     protected GameObject loadBottomLayer(SpriteSheet spriteSheet) {

@@ -1,11 +1,9 @@
 package Maps;
 
 import EnhancedMapTiles.*;
-import Level.EnhancedMapTile;
-import Level.Map;
-import Level.NPC;
-import Level.Tileset;
+import Level.*;
 import NPCs.*;
+import Screens.PlayLevelScreen;
 import Tilesets.CommonTileset;
 import Utils.Point;
 
@@ -13,19 +11,30 @@ import java.util.ArrayList;
 
 public class SecondMap extends Map {
 
+
+    protected Player player2;
     public static ArrayList<NPC> npcs = new ArrayList<>();
 
     public SecondMap() {
         super("second_map.txt", new CommonTileset());
         this.playerStartPosition = getMapTile(10, 22).getLocation();
+
     }
 
+
+
+    @Override
+    public void setUpInactivePlayer(Player active, Player inactive) {
+        active.setLocation(getMapTile(10, 22).getLocation().x, getMapTile(10, 22).getLocation().y);
+        inactive.setLocation(getMapTile(12, 22).getLocation().x, getMapTile(12, 22).getLocation().y);
+    }
+
+
     public ArrayList<NPC> loadNPCs() {
+
         npcs.clear();
-
-        inactiveRobotStatic = new InactiveRobot(5, getMapTile(12, 23).getLocation().subtractY(50));
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(10, 20).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
-
 
         Walrus2 walrus = new Walrus2(19, getMapTile(11,12).getLocation());
         npcs.add(walrus);
@@ -51,6 +60,12 @@ public class SecondMap extends Map {
 
         Door exitDoor = new Door(getMapTile(11,1).getLocation());
         enhancedMapTiles.add(exitDoor);
+
+        Portal portal = new Portal(getMapTile(11,1).getLocation().subtractY(50), "ThirdMap", new Point(800,800));
+        enhancedMapTiles.add(portal);
+
+        Portal portal2 = new Portal(getMapTile(12,1).getLocation().subtractY(50), "ThirdMap", new Point(800,800));
+        enhancedMapTiles.add(portal2);
 
         Key key = new Key(getMapTile(21,18).getLocation());
         enhancedMapTiles.add(key);

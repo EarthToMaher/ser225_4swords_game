@@ -7,9 +7,7 @@ import Engine.Key;
 import Game.GameState;
 import Game.ScreenCoordinator;
 import Level.*;
-import Maps.BoomerangTestMap;
-import Maps.SecondMap;
-import Maps.TestMap;
+import Maps.*;
 import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
@@ -21,8 +19,9 @@ import Utils.Point;
 public class PlayLevelScreen extends Screen implements GameListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
-    protected Player player;
+    public static Player player;
     protected Player player2;
+    public static Player inactivePlayer;
     protected InactiveRobot inactiveRobot;
     protected PlayLevelScreenState playLevelScreenState;
     protected WinScreen winScreen;
@@ -54,6 +53,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasTalkedToDinosaur", false);
         flagManager.addFlag("hasFoundBall", false);
         flagManager.addFlag("hasTalkedToToon", false);
+        // flag to ensure the test map intro textbox only shows once per session
+        flagManager.addFlag("hasSeenTestMapIntro", false);
 
         // define/setup map
         map = new TestMap();
@@ -62,9 +63,11 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // setup player
         // two players are declared, alongside a null inactiveRobot
         player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
-        player2 = new SecondRobot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        player2 = new SecondRobot(map.getPlayerStartPosition().x-500, map.getPlayerStartPosition().y);
         playLevelScreenState = PlayLevelScreenState.RUNNING;
         player.setMap(map);
+        // let map know which player is on it so scripts that rely on map.getPlayer() work
+        map.setPlayer(player);
 
 
 
@@ -76,6 +79,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // this is used in the "onWin" method -- a script signals to this class that the game has been won by calling its "onWin" method
         map.addListener(this);
 
+        // show a one-time intro textbox when entering the TestMap
+        /*if (!flagManager.isFlagSet("hasSeenTestMapIntro")) {
+            map.setActiveScript(new Scripts.TestMap.MapEnterScript());
+            flagManager.setFlag("hasSeenTestMapIntro");
+        }*/
+
         // preloads all scripts ahead of time rather than loading them dynamically
         // both are supported, however preloading is recommended
 
@@ -85,6 +94,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
         winScreen = new WinScreen(this);
         currencyScreen = new CurrencyScreen(this);
     }
+
+
 
     public void update() {
         // based on screen state, perform specific actions
@@ -102,20 +113,22 @@ public class PlayLevelScreen extends Screen implements GameListener {
                 //Will probably rewrite based on enum class later
                 if (!player.isInjured() && !player2.isInjured()) {
                 if(Robot.isActivePlayer) {
-                    if (Map.inactiveRobotStatic == null) {
-                        Map.inactiveRobotStatic = new InactiveRobot(4, new Point(player2.getX(), player2.getY()));
+                    if (Map.inactiveRobotStatic != null) {
+                        Map.inactiveRobotStatic.setLocation(player2.getX(), player2.getY());
+                        inactivePlayer = player2;
                     }
-                    Map.inactiveRobotStatic.setLocation(player2.getX(), player2.getY());
+
                     map.setPlayer(player);
                     player.setMap(map);
                     player.update();
                     map.update(player);
 
                 } else if(SecondRobot.isActivePlayer) {
-                    if (Map.inactiveRobotStatic == null) {
-                        Map.inactiveRobotStatic = new InactiveRobot(4, new Point(player.getX(), player.getY()));
+                    if (Map.inactiveRobotStatic != null) {
+                        Map.inactiveRobotStatic.setLocation(player.getX(), player.getY());
+                        inactivePlayer = player;
                     }
-                   Map.inactiveRobotStatic.setLocation(player.getX(), player.getY());
+
                     map.setPlayer(player2);
                     player2.setMap(map);
                     player2.update();
@@ -125,25 +138,41 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
                 //handle pending map transistion requested by a portal
                 Player active = Robot.isActivePlayer ? player : player2;
+                Player inactive = (active == player) ? player2 : player;
                 if (active != null && active.hasPendingMapRequest()) {
                     String mapName = active.consumePendingMapName();
                     Utils.Point spawn = active.consumePendingMapLocation();
                     Map newMap = createMapByName(mapName);
+
                     if (newMap != null){
                         this.map = newMap;
-                        map.setFlagManager(flagManager);
-                        if (Robot.isActivePlayer) {
-                            map.setPlayer(player);
-                            player.setMap(map);
-                            player.setLocation(spawn.x, spawn.y);
-                        } else {
-                            map.setPlayer(player2);
-                            player2.setMap(map);
-                            player2.setLocation(spawn.x, spawn.y);
-                        }
+
+//                        map.setFlagManager(flagManager);
+//                        map.setPlayer2(inactivePlayer);
+//                            map.setPlayer(player);
+//                            player.setMap(map);
+//                            player.setLocation(spawn.x, spawn.y);
+//                        map.getTextbox().setInteractKey(active.getInteractKey());
+//                        map.getTextbox().setInteractKey(active.getInteractKey());
+//                        //ensures inactive robot is removed on map switch
+//                        map.addListener(this);
+
+                        map.setPlayer(player);
+                        map.setPlayer2(player2);
+
+                        active.setMap(map);
+                        active.setLocation(spawn.x, spawn.y);
+
+
+                        inactive.setMap(map);
+                        map.setUpInactivePlayer(active,inactive);
+
+
                         map.getTextbox().setInteractKey(active.getInteractKey());
                         //ensures inactive robot is removed on map switch
-                        map.addListener(this);    
+                        map.addListener(this);
+
+
                     }
                 }
 
@@ -184,7 +213,11 @@ public class PlayLevelScreen extends Screen implements GameListener {
         switch (name) {
             case "TestMap": return new TestMap();
             case "TitleScreenMap": return new Maps.TitleScreenMap();
-            case "SecondMap": return new SecondMap();
+            case "SecondMap": {
+                return new SecondMap();
+            }
+            case "ThirdMap": return new ThirdMap();
+            case "FourthMap": return new FourthMap();
             case "BoomerangTestMap": return new BoomerangTestMap();
             //add new maps here as needed
             default: return null;
@@ -237,6 +270,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
     }
 
     public Player getPlayer() {
-    return player;
+        return player;
     }
 }

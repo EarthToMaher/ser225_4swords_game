@@ -19,11 +19,15 @@ public class ScreenCoordinator extends Screen {
 
 	private Player player;
 
+	public void setPlayer(Player player) {
+    	this.player = player;
+	}
+
 	public Player getPlayer() {
-    if (currentScreen instanceof PlayLevelScreen pls) {
-        return pls.getPlayer();
-    }
-    	return null;
+    	if (currentScreen instanceof PlayLevelScreen pls) {
+        	return pls.getPlayer();
+    	}
+    	return player; // fallback for HUD access
 	}
 
 	// keep track of gameState so ScreenCoordinator knows which Screen to show
@@ -85,4 +89,6 @@ public class ScreenCoordinator extends Screen {
 		// call the draw method for the currentScreen
 		currentScreen.draw(graphicsHandler);
 	}
+
+	
 }

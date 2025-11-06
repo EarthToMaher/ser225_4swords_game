@@ -9,6 +9,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
+import Screens.PlayLevelScreen;
 import Utils.Point;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -110,12 +111,14 @@ public class Walrus2 extends NPC {
                             break; // Wander up
                         case 1:
                             dx = wanderSpeed;
+                            this.setCurrentAnimationName("WALK_RIGHT");
                             break; // Wander right
                         case 2:
                             dy = wanderSpeed;
                             break; // Wander down
                         case 3:
                             dx = -wanderSpeed;
+                            this.setCurrentAnimationName("WALK_LEFT");
                             break; // Wander left
                     }
                     isMoving = true;
@@ -176,14 +179,14 @@ public class Walrus2 extends NPC {
         // Damage on touch player
         if (touching(player)) {
             takeDamage(1);
-            player.takeDamage(10);
+            PlayLevelScreen.player.takeDamage(1);
         }
 
         // Flip depending on direction the enemy is facing the player
         if (dx < 0) {
-            this.currentAnimationName = "STAND_LEFT";
+            this.currentAnimationName = "CHARGE_LEFT";
         } else if (dx > 0) {
-            this.currentAnimationName = "STAND_RIGHT";
+            this.currentAnimationName = "CHARGE_RIGHT";
         }
 
         super.update(player);
@@ -205,6 +208,54 @@ public class Walrus2 extends NPC {
                                 .withScale(2)
                                 .withBounds(7, 13, 30, 20)
                                 .build()
+                });
+
+                put("WALK_LEFT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build()
+                });
+
+                put("WALK_RIGHT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .build()
+                });
+
+                put("CHARGE_LEFT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(1, 1),140)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                });
+
+                put("CHARGE_RIGHT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(1, 1),140)
+                                .withScale(2)
+                                .withBounds(7, 15, 30, 20)
+                                .build()        
                 });
             }
         };
