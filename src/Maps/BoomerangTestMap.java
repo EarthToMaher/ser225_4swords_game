@@ -94,7 +94,7 @@ public class BoomerangTestMap extends Map {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
         Shrine boomerangShrine = new EmptyShrine(1,getMapTile(6, 4).getLocation(),boomerangItem);
-        boomerangShrine.setInteractScript(new BoomerangShrineScript());
+        boomerangShrine.setInteractScript(new LandMineShrineScript());
         shrines.add(boomerangShrine);
 
         return shrines;
