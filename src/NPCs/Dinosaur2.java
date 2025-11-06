@@ -81,9 +81,9 @@ public class Dinosaur2 extends NPC {
             isMoving = false;
             // Face the player
             if (playerCenterX < dinosaurCenterX) {
-                this.setCurrentAnimationName("STAND_LEFT");
+                this.setCurrentAnimationName("SHOOT_LEFT");
             } else {
-                this.setCurrentAnimationName("STAND_RIGHT");
+                this.setCurrentAnimationName("SHOOT_RIGHT");
             }
             // Fire if cooldown passed
             if (currentTime - lastFiredTime > fireCooldown) {
@@ -109,6 +109,7 @@ public class Dinosaur2 extends NPC {
                 // Move right
                 case 1:
                     dx = wanderSpeed;
+                    this.setCurrentAnimationName("WALK_RIGHT");
                     break;
                 // Move down
                 case 2:
@@ -117,6 +118,7 @@ public class Dinosaur2 extends NPC {
                 // Move left
                 case 3:
                     dx = -wanderSpeed;
+                    this.setCurrentAnimationName("WALK_LEFT");
                     break;
             }
 
@@ -193,20 +195,53 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                                 .build()
                 });
 
-//                put("WALK_LEFT", new Frame[] {
-//                        new FrameBuilder(spriteSheet.getSprite(0, 0))
-//                                .withScale(1)
-//                                .withBounds(7, 13, 30, 20)
-//                                .build()
-//                });
-//
-//                put("WALK_RIGHT", new Frame[] {
-//                        new FrameBuilder(spriteSheet.getSprite(0, 0))
-//                                .withScale(1)
-//                                .withBounds(7, 13, 30, 20)
-//                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-//                                .build()
-//                });
+                put("WALK_LEFT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build()
+                });
+
+                put("WALK_RIGHT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .build()
+                });
+
+                put("SHOOT_LEFT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(1, 1),80)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build(),
+                });
+
+                put("SHOOT_RIGHT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .build(),
+                        new FrameBuilder(spriteSheet.getSprite(1, 1),80)
+                                .withScale(2)
+                                .withBounds(7, 15, 40, 20)
+                                .build()        
+                });
             }
         };
     }

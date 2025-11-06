@@ -126,6 +126,7 @@ public abstract class Player extends GameObject {
         public void requestMapTransition(String mapName, Utils.Point location) {
             this.pendingMapName = mapName;
             this.pendingMapLocation = location;
+            this.currentItem = null;
         }
 
         public boolean hasPendingMapRequest() {
