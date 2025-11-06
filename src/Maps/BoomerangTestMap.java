@@ -5,6 +5,7 @@ import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
+import GameObject.SpriteSheet;
 import Items.BoomerangItem;
 import Items.Item;
 import EnhancedMapTiles.Projectile;
@@ -75,7 +76,7 @@ public class BoomerangTestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
-        boomerangItem = new BoomerangItem(getMapTile(6, 4).getLocation(), new Frame(ImageLoader.load("Boomerang.png")));
+        boomerangItem = new BoomerangItem(getMapTile(6, 4).getLocation(), new SpriteSheet(ImageLoader.load("BoomerangItem.png"),23,24),"IDLE");
         items.add(boomerangItem);
 
         return items;

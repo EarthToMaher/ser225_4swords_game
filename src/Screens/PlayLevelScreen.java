@@ -81,10 +81,10 @@ public class PlayLevelScreen extends Screen implements GameListener {
         map.addListener(this);
 
         // show a one-time intro textbox when entering the TestMap
-        if (!flagManager.isFlagSet("hasSeenTestMapIntro")) {
+        /*if (!flagManager.isFlagSet("hasSeenTestMapIntro")) {
             map.setActiveScript(new Scripts.TestMap.MapEnterScript());
             flagManager.setFlag("hasSeenTestMapIntro");
-        }
+        }*/
 
         // preloads all scripts ahead of time rather than loading them dynamically
         // both are supported, however preloading is recommended
