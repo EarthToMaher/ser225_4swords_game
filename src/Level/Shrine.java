@@ -36,7 +36,7 @@ public class Shrine extends MapEntity {
 
     public void setItem(Item item){
         currentItem = item;
-        //System.out.println("I ran");
+        System.out.println("I ran");
     }
 
     public int getId() { return id; }

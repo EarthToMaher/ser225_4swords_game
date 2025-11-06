@@ -24,6 +24,11 @@ public class Item extends MapEntity{
         super(x, y,frame);
         isUncollidable = true;
     }
+
+    public Item(float x, float y, SpriteSheet spriteSheet, String startingAnimation){
+        super(x,y,spriteSheet,startingAnimation);
+        isUncollidable = true;
+    }
     
     public void UseItem(Player player){
         if(itemIsActive) return;
