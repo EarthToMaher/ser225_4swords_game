@@ -9,7 +9,7 @@ import java.awt.*;
 // it has some properties, rectangle math methods, and draw logic
 // the methods here are pretty self explanatory
 public class Rectangle implements IntersectableRectangle {
-	protected float x;
+	public float x;
 	protected float y;
 	protected int width;
 	protected int height;

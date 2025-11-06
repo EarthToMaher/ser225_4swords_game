@@ -10,11 +10,13 @@ import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
 import Utils.Point;
-
+import java.awt.AlphaComposite;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Random;
 
-// This class is for the walrus NPC
+
 public class Walrus2 extends NPC {
 
     private enum State {
@@ -27,11 +29,11 @@ public class Walrus2 extends NPC {
     private int health = 100;
 
     // Movement Behavior
-    private float wanderSpeed = 1.0f; // Slow speed for wandering
-    private float chaseSpeed = 1.5f; // Faster speed for chasing
+    private float wanderSpeed = 1.0f; 
+    private float chaseSpeed = 1.5f; 
     private float chargeDx = 0.0f;
     private float chargeDy = 0.0f;
-    private float detectionRange = 200.0f; // Start chasing if player within this
+    private float detectionRange = 200.0f;
     private int wanderDirection = 1; // 0=up, 1=right, 2=down, 3=left
     private long lastDirectionChange = 0; // Timestamp for changing wander direction
     private long chargeAttackStartTime;
@@ -39,10 +41,10 @@ public class Walrus2 extends NPC {
 
     // Charge Behavior
     private State currentState = State.WANDERING; // Start in current wandering state
-    private long chargeStartTime; // Begin charge attack
+    private long chargeStartTime; 
     private Point targetPosition; // Record player position to charge toward
-    private float chargeAttackSpeed = 5.0f; // Charge attack speed
-    private float chargeStopDistance = 5.0f; // Distance when charge attack stops
+    private float chargeAttackSpeed = 5.0f; 
+    private float chargeStopDistance = 5.0f; 
 
     public Walrus2(int id, Point location) {
         super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("BigEnemyTest.png"), 64, 64), "STAND_RIGHT");
@@ -76,15 +78,19 @@ public class Walrus2 extends NPC {
         float dy = 0.0f;
         boolean isMoving = false;
 
-        // Get player and enemy center and calculate distance
-        float playerCenterX = player.getX() + 10.0f;
-        float playerCenterY = player.getY() + 10.5f;
+        if (currentState == State.CHARGING) {
+            System.out.println("Walrus entered CHARGING state");
+        }
+
+        // Get player and enemy center then calculate distance between them for attack
+        float playerCenterX = player.getX() + 1.0f;
+        float playerCenterY = player.getY() + 1.0f;
         float walrusCenterX = this.x + 16.5f;
         float walrusCenterY = this.y + 10.5f;
         float distanceToPlayer = (float) Math.hypot(playerCenterX - walrusCenterX, playerCenterY - walrusCenterY);
 
         long currentTime = System.currentTimeMillis();
-
+        // Change to Charge state when the player is detected
         switch (currentState) {
             case WANDERING:
 
@@ -93,7 +99,7 @@ public class Walrus2 extends NPC {
                     chargeStartTime = currentTime;
                     targetPosition = new Point(playerCenterX, playerCenterY); // Record player's position
                 } else {
-
+                    // Wait a few seconds after charge to return back to random Wandering state
                     if (currentTime - lastDirectionChange > (1000 + random.nextInt(2000))) {
                         wanderDirection = random.nextInt(4);
                         lastDirectionChange = currentTime;
@@ -117,7 +123,7 @@ public class Walrus2 extends NPC {
                 break;
 
             case CHARGING:
-                // Stay in place for 1 second
+                // Stay in place for 1 second to indicate charge will happen
                 if (currentTime - chargeStartTime >= 1000) {
                     currentState = State.CHARGING_ATTACK;
                 }
@@ -125,7 +131,7 @@ public class Walrus2 extends NPC {
                 break;
 
             case CHARGING_ATTACK:
-                // Record start time of charge attack
+                // Record the start time of charge attack for reset mechanic
                 if (chargeAttackStartTime == 0) {
                     chargeAttackStartTime = currentTime;
                 }
@@ -137,7 +143,7 @@ public class Walrus2 extends NPC {
                     chargeDx = Math.signum(targetDx) * chargeAttackSpeed;
                     chargeDy = Math.signum(targetDy) * chargeAttackSpeed;
                 }
-                // Charge toward locked location
+                // Charge toward the locked location (player's last known position)
                 dx = chargeDx;
                 dy = chargeDy;
                 isMoving = true;
@@ -146,7 +152,8 @@ public class Walrus2 extends NPC {
                 float currentTargetDy = targetPosition.y - walrusCenterY;
                 float distanceToTarget = (float) Math.hypot(currentTargetDx, currentTargetDy);
 
-                if (currentTime - chargeAttackStartTime >= 2000 || distanceToTarget <= 10.0f) {
+                // Reset if player is no longer detected or after 1 second of charge without detection
+                if (currentTime - chargeAttackStartTime >= 1000 || distanceToTarget <= 10.0f) {
                     currentState = State.WANDERING;
                     chargeDx = 0.0f;
                     chargeDy = 0.0f;
@@ -172,7 +179,7 @@ public class Walrus2 extends NPC {
             player.takeDamage(10);
         }
 
-        // Flip depending on direction
+        // Flip depending on direction the enemy is facing the player
         if (dx < 0) {
             this.currentAnimationName = "STAND_LEFT";
         } else if (dx > 0) {
@@ -205,6 +212,32 @@ public class Walrus2 extends NPC {
 
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
+        // Draw normal sprite 
         super.draw(graphicsHandler);
+        System.out
+                .println("Drawing walrus, state: " + currentState + ", position: " + this.getX() + ", " + this.getY());
+        // If current state is charging or charging attack, display indicator
+        if (currentState == State.CHARGING || currentState == State.CHARGING_ATTACK) {
+            System.out.println("Applying red overlay");
+            Graphics2D g = graphicsHandler.getGraphics();
+
+            Composite originalComposite = g.getComposite();
+
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+
+            // Get camera for exact enemy position
+            int screenX = (int) (this.getX() - map.getCamera().getX());
+            int screenY = (int) (this.getY() - map.getCamera().getY());
+
+            // Draw red rectangle
+            graphicsHandler.drawFilledRectangle(
+                    screenX,
+                    screenY,
+                    128,
+                    128,
+                    java.awt.Color.RED);
+
+            g.setComposite(originalComposite);
+        }
     }
 }
