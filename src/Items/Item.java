@@ -33,7 +33,7 @@ public class Item extends MapEntity{
     public void UseItem(Player player){
         if(itemIsActive) return;
         itemIsActive=true;
-        isUncollidable = false;
+        //isUncollidable = false;
         //System.out.println("I was used");
 
     }

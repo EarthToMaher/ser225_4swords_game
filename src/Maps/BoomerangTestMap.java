@@ -3,11 +3,13 @@ package Maps;
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
+import EnhancedMapTiles.BreakableWall;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import Items.BoomerangItem;
 import Items.Item;
+import Items.LandMineItem;
 import EnhancedMapTiles.Projectile;
 import Level.*;
 import NPCs.*;
@@ -46,13 +48,17 @@ public class BoomerangTestMap extends Map {
         Key key1 = new Key(getMapTile(5, 10).getLocation());
         enhancedMapTiles.add(key1);
 
-        Door door1 = new Door(getMapTile(8, 1).getLocation());
+        BreakableWall door1 = new BreakableWall(getMapTile(8, 3).getLocation());
         enhancedMapTiles.add(door1);
+
+        BreakableWall door2 = new BreakableWall(getMapTile(9, 3).getLocation());
+        enhancedMapTiles.add(door2);
 
         Portal portal = new Portal(getMapTile(8,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal);
         Portal portal2 = new Portal(getMapTile(9,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal2);
+
 
         return enhancedMapTiles;
     }
@@ -65,7 +71,7 @@ public class BoomerangTestMap extends Map {
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(4, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
-        Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
+        Walrus2 dinosaur2 = new Walrus2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
 
 
@@ -76,7 +82,7 @@ public class BoomerangTestMap extends Map {
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
 
-        boomerangItem = new BoomerangItem(getMapTile(6, 4).getLocation(), new SpriteSheet(ImageLoader.load("BoomerangItem.png"),23,24),"IDLE");
+        boomerangItem = new LandMineItem(getMapTile(6, 4).getLocation(), new Frame(ImageLoader.load("Landmine.png")));
         items.add(boomerangItem);
 
         return items;
@@ -88,7 +94,7 @@ public class BoomerangTestMap extends Map {
         ArrayList<Shrine> shrines = new ArrayList<>();
 
         Shrine boomerangShrine = new EmptyShrine(1,getMapTile(6, 4).getLocation(),boomerangItem);
-        boomerangShrine.setInteractScript(new BoomerangShrineScript());
+        boomerangShrine.setInteractScript(new LandMineShrineScript());
         shrines.add(boomerangShrine);
 
         return shrines;
