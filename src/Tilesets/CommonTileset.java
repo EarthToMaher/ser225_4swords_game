@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CommonTileset extends Tileset {
 
     public CommonTileset() {
-        super(ImageLoader.load("img.png"), 16, 16, 3);
+        super(ImageLoader.load("spritesheetest2.png"), 16, 16, 3);
     }
 
     @Override
