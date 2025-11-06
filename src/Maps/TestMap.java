@@ -73,10 +73,13 @@ public class TestMap extends Map {
         Dinosaur2 dinosaur2 = new Dinosaur2(5, getMapTile(5,5).getLocation().subtractY(50));
         npcs.add(dinosaur2);
 
-        /*MouseDroid mouseDroid = new MouseDroid(6, getMapTile(2,4).getLocation().subtractY(50));
+        MouseDroid mouseDroid = new MouseDroid(6, getMapTile(2,4).getLocation().subtractY(50));
         mouseDroid.setInteractScript(new MouseDroidScript());
-        npcs.add(mouseDroid);*/
+        npcs.add(mouseDroid);
 
+        DigitalSign digitalSign2 = new DigitalSign(7, getMapTile(10,3).getLocation());
+        digitalSign2.setInteractScript(new DigitalSignScript2());
+        npcs.add(digitalSign2);   
 
 
         return npcs;
