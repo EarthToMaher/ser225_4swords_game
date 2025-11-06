@@ -21,7 +21,7 @@ public class Robot extends Player {
                 super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "OFFLINE");
                 // after AnimatedSprite constructor runs, animations are loaded for the default sprite sheet
                 // store a reference to the default animations and also build the jetpack animations for later swapping
-                walkSpeed = 2.3f;
+                
                 try {
                         SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4.png"), 24, 24);
                         this.jetpackAnimations = buildAnimations(jetpackSheet);
@@ -30,6 +30,7 @@ public class Robot extends Player {
                         this.jetpackAnimations = null;
                         this.defaultAnimations = this.animations;
                 }
+                walkSpeed = 4f;
     }
 
         // keep both animation sets in memory so we can swap at runtime

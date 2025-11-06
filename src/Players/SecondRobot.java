@@ -21,7 +21,6 @@ public class SecondRobot extends Player {
     public SecondRobot(float x, float y) {
         super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "STAND_RIGHT");
 
-        walkSpeed = 2.3F;
         try {
             SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4.png"), 24, 24);
             this.jetpackAnimations = buildAnimations(jetpackSheet);
