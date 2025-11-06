@@ -265,7 +265,7 @@ public class Walrus2 extends NPC {
     public void draw(GraphicsHandler graphicsHandler) {
         // Draw normal sprite 
         super.draw(graphicsHandler);
-        System.out
+        /*System.out
                 .println("Drawing walrus, state: " + currentState + ", position: " + this.getX() + ", " + this.getY());
         // If current state is charging or charging attack, display indicator
         if (currentState == State.CHARGING || currentState == State.CHARGING_ATTACK) {
@@ -287,8 +287,9 @@ public class Walrus2 extends NPC {
                     128,
                     128,
                     java.awt.Color.RED);
-
+                
             g.setComposite(originalComposite);
         }
+            */
     }
 }
