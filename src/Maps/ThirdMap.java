@@ -3,6 +3,7 @@ package Maps;
 import Engine.ImageLoader;
 import EnhancedMapTiles.*;
 import GameObject.Frame;
+import GameObject.SpriteSheet;
 import Items.BoomerangItem;
 import Items.Item;
 import Items.JetpackItem;
@@ -186,7 +187,7 @@ public class ThirdMap extends Map {
 
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
-        boomerangItem = new BoomerangItem(getMapTile(0,0).getLocation(), new Frame(ImageLoader.load("Boomerang.png")));
+        boomerangItem = new BoomerangItem(getMapTile(6, 4).getLocation(), new SpriteSheet(ImageLoader.load("BoomerangItem.png"),23,24),"IDLE");
         items.add(boomerangItem);
 
         return items;
