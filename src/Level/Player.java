@@ -69,6 +69,11 @@ public abstract class Player extends GameObject {
     private String pendingMapName = null;
     private Utils.Point pendingMapLocation = null;
 
+    public boolean isInvincible = false;
+    public long invStartTime;
+    public final long invDuration = 800;
+
+
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
         facingDirection = Direction.RIGHT;
@@ -108,14 +113,17 @@ public abstract class Player extends GameObject {
     public void setItem(Item item){currentItem = item;}
 
     public void takeDamage(int damageAmount) {
-            this.health -= damageAmount;
-            System.out.println(this.health);
-            if(isInjured) return; // Prevent taking damage while already injured
-            this.health -= damageAmount;
-            System.out.println(this.health);
-            if (this.health <= 0) {
-                this.health = 0; //Ensure health wont be negative
-                onDeath();
+            if (!isInvincible) {
+                this.health -= damageAmount;
+                isInvincible = true;
+                invStartTime = System.currentTimeMillis();
+                System.out.println(this.health);
+                if(isInjured) return;
+                System.out.println(this.health);
+                if (this.health <= 0) {
+                    this.health = 0; //Ensure health wont be negative
+                    onDeath();
+                }
             }
         }
 
@@ -194,6 +202,7 @@ public abstract class Player extends GameObject {
             if (this.x > maxX) this.x = maxX;
             if (this.y > maxY) this.y = maxY;
         }
+
     }
 
     public boolean hasKey() { return hasKey; }
