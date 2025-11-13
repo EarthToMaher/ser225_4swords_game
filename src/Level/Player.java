@@ -64,7 +64,7 @@ public abstract class Player extends GameObject {
     protected boolean isLocked = false;
     protected boolean hasKey = false;
 
-    private int health = 100; //int for initial health value\
+    private int health = 60; //int for initial health value\
     private boolean isInjured = false;
     private String pendingMapName = null;
     private Utils.Point pendingMapLocation = null;
