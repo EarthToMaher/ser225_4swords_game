@@ -146,8 +146,14 @@ public class Dinosaur2 extends NPC {
 
         // Damage on touch player
         if (touching(player)) {
-            takeDamage(1);
-            PlayLevelScreen.player.takeDamage(1);
+            //takeDamage(1);
+            PlayLevelScreen.player.takeDamage(10);
+        }
+
+        if (player.isInvincible) {
+            if (currentTime - player.invStartTime >= player.invDuration) {
+                player.isInvincible = false;
+            }
         }
 
         // Hit Duration
