@@ -23,6 +23,7 @@ import Shrines.EmptyShrine;
 import Items.*;
 
 import java.awt.Image;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 
 import Engine.ImageLoader;
@@ -49,7 +50,6 @@ public class TestMap extends Map {
     public TestMap() {
         super("test_map.txt", new CommonTileset());
         this.playerStartPosition = getMapTile(3, 17).getLocation();
-
 //         spawnRandomEnemies(100.0f, 100.0f, 200.0f, 200.0f);
     }
 
@@ -72,7 +72,7 @@ public class TestMap extends Map {
     @Override
     public void setUpInactivePlayer(Player active, Player inactive) {
         active.setLocation(getMapTile(3, 17).getLocation().x, getMapTile(3, 17).getLocation().y);
-        inactive.setLocation(getMapTile(7, 19).getLocation().x, getMapTile(7, 19).getLocation().y);
+        inactive.setLocation(getMapTile(3, 18).getLocation().x, getMapTile(3, 18).getLocation().y);
     }
 
     @Override

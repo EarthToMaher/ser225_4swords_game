@@ -147,7 +147,7 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames);
+        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames).withTileType(TileType.NOT_PASSABLE);
 
         mapTiles.add(yellowFlowerTile);
 
@@ -167,7 +167,7 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames);
+        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames).withTileType(TileType.NOT_PASSABLE);
         //.withTopLayer(purpleFlowerFrames);
 
         mapTiles.add(purpleFlowerTile);
