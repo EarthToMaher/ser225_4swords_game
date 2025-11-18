@@ -54,6 +54,12 @@ public class TestMap extends Map {
     }
 
     @Override
+    public void setUpInactivePlayer(Player active, Player inactive) {
+        active.setLocation(getMapTile(3, 17).getLocation().x, getMapTile(3, 17).getLocation().y);
+        inactive.setLocation(getMapTile(2, 17).getLocation().x, getMapTile(2, 17).getLocation().y);
+    }
+
+    @Override
     public void update(Player player) {
         super.update(player);
         if(PressurePlate.isTouched) {
@@ -66,13 +72,6 @@ public class TestMap extends Map {
                 System.out.println(boomerangSet);
 
         }
-    }
-
-
-    @Override
-    public void setUpInactivePlayer(Player active, Player inactive) {
-        active.setLocation(getMapTile(3, 17).getLocation().x, getMapTile(3, 17).getLocation().y);
-        inactive.setLocation(getMapTile(3, 18).getLocation().x, getMapTile(3, 18).getLocation().y);
     }
 
     @Override
