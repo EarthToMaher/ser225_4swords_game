@@ -1,11 +1,13 @@
 package Maps;
 
 import EnhancedMapTiles.PushableRock;
+import EnhancedMapTiles.WinTile;
 import Game.ScreenCoordinator;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
 import EnhancedMapTiles.BottomlessPitTile;
 import EnhancedMapTiles.Door;
+import EnhancedMapTiles.WinTile;
 import GameObject.Frame;
 import Items.BoomerangItem;
 import Items.Item;
@@ -64,6 +66,9 @@ public class TestMap extends Map {
 
         BottomlessPitTile bottomlessPitTile2 = new BottomlessPitTile(getMapTile(13,10).getLocation());
         enhancedMapTiles.add(bottomlessPitTile2);
+
+        WinTile winTile = new WinTile(getMapTile(13, 4).getLocation());
+        enhancedMapTiles.add(winTile); 
 
         return enhancedMapTiles;
     }

@@ -12,6 +12,7 @@ import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
 import Utils.Point;
+import Maps.FourthMap;
 
 //TODO: Rewrite code based around "SWITCHING" enum class
 
@@ -227,7 +228,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
     @Override
     public void onWin() {
         // when this method is called within the game, it signals the game has been "won"
-        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        // if this was the final map, go to the End Game screen via the ScreenCoordinator
+        if (map instanceof TestMap) {
+            screenCoordinator.setGameState(Game.GameState.ENDGAME);
+        } else {
+            playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        }
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
