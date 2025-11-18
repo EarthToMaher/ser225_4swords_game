@@ -16,11 +16,11 @@ import Level.Player;
 import Screens.PlayLevelScreen;
 
 public class EnemyProjectile extends NPC {
-    private float velX; 
-    private float velY; 
+    private float velX;
+    private float velY;
     private int existenceFrames; // Projectile existence, Frames until the projectile disappears
 
-    //Create the projectile
+    // Create the projectile
     public EnemyProjectile(float x, float y, float velX, float velY, int existenceFrames) {
         super(0, x, y, new SpriteSheet(ImageLoader.load("evilelectric.png"), 24, 15), "DEFAULT");
         this.velX = velX;
@@ -37,14 +37,14 @@ public class EnemyProjectile extends NPC {
 
     @Override
     public void update(Player player) {
-        // Timer for the projectile existence time
+        // Projectile existence time
         existenceFrames--;
 
-        // If timer hits 0, remove the projectile
+        // If existence time hits 0, remove the projectile
         if (existenceFrames <= 0) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;
         } else {
-            // Move the projectile directly 
+            // Move the projectile directly
             this.x += velX;
             this.y += velY;
 

@@ -17,7 +17,6 @@ import java.util.Random;
 public class Dinosaur2 extends NPC {
 
     private int health = 65; // int for health
-    
 
     // Movement fields
     private float wanderSpeed = .6f; // Slow speed for wandering
@@ -29,8 +28,13 @@ public class Dinosaur2 extends NPC {
 
     // Projectile firing fields
     private float firingRange = 350.0f;
-    private long fireCooldown = 2000; 
+    private long fireCooldown = 2000;
     private long lastFiredTime = 0;
+
+    // Hit Indicator
+    private boolean isHit = false;
+    private long hitStartTime;
+    private final int HIT_DURATION = 500;
 
     public Dinosaur2(int id, Point location) {
         super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("LilShooter.png"), 64, 64), "STAND_LEFT");
@@ -52,6 +56,8 @@ public class Dinosaur2 extends NPC {
         this.health -= damage;
         this.health = Math.max(0, this.health);
         System.out.println("Entity health: " + this.health);
+        this.isHit = true;
+        this.hitStartTime = System.currentTimeMillis();
         if (this.health == 0) {
             System.out.println("The enemy is dead");
             super.setIsHidden(true);
@@ -65,14 +71,13 @@ public class Dinosaur2 extends NPC {
         float dy = 0.0f; // Vertical movement
         boolean isMoving = false;
 
-        
         float playerCenterX = player.getX() + 18.0f;
         float playerCenterY = player.getY() + 10.5f;
         float dinosaurCenterX = this.x + 16.5f;
         float dinosaurCenterY = this.y + 10.5f;
         float distanceToPlayer = (float) Math.hypot(playerCenterX - dinosaurCenterX, playerCenterY - dinosaurCenterY);
 
-        long currentTime = System.currentTimeMillis(); 
+        long currentTime = System.currentTimeMillis();
 
         if (distanceToPlayer < firingRange && distanceToPlayer > 20.0f) {
             // Stop and fire projectile at player
@@ -96,7 +101,8 @@ public class Dinosaur2 extends NPC {
             dy = 0.0f;
             isMoving = false;
         } else {
-            // Wander around: Move in current direction, change direction randomly every 1-3 seconds
+            // Wander around: Move in current direction, change direction randomly every 1-3
+            // seconds
             if (currentTime - lastDirectionChange > (1000 + random.nextInt(2000))) {
                 wanderDirection = random.nextInt(4);
                 lastDirectionChange = currentTime;
@@ -130,7 +136,8 @@ public class Dinosaur2 extends NPC {
         this.moveXHandleCollision(dx);
         this.moveYHandleCollision(dy);
 
-        /* testing code for enemy movement
+        /*
+         * testing code for enemy movement
          * if (isMoving) {
          * System.out.println("Walrus moving: dx=" + dx + ", distance to player=" +
          * distanceToPlayer);
@@ -139,44 +146,68 @@ public class Dinosaur2 extends NPC {
 
         // Damage on touch player
         if (touching(player)) {
-            takeDamage(1);
-            PlayLevelScreen.player.takeDamage(1);
+            //takeDamage(1);
+            PlayLevelScreen.player.takeDamage(10);
+        }
+
+        if (player.isInvincible) {
+            if (currentTime - player.invStartTime >= player.invDuration) {
+                player.isInvincible = false;
+            }
+        }
+
+        // Hit Duration
+        if (isHit && System.currentTimeMillis() - hitStartTime > HIT_DURATION) {
+            isHit = false;
         }
 
         super.update(player);
     }
 
-   // Method to fire a projectile toward the player
-private void fireProjectile(Player player, float playerCenterX, float playerCenterY, float dinosaurCenterX, float dinosaurCenterY) {
-    float dx = playerCenterX - dinosaurCenterX;
-    float dy = playerCenterY - dinosaurCenterY;
-    float distance = (float) Math.hypot(dx, dy);
-    System.out.println("I will fire something!");
-    
-    // Set speed
-    float speed = 4.0f;
-    float velX = (dx / distance) * speed;
-    float velY = (dy / distance) * speed;
-    
-    // Create projectile
-    EnemyProjectile projectile = new EnemyProjectile(dinosaurCenterX, dinosaurCenterY, velX, velY, 300);
-    if(projectile.touching(this)) {
-        projectile.setIsUncollidable(true);
-    } else {
-        projectile.setIsUncollidable(false);
-    }
-    System.out.println("Projectile created at (" + dinosaurCenterX + ", " + dinosaurCenterY + ") with velX=" + velX + ", velY=" + velY);
-    
-    
-    if (this.map != null) {
-        this.map.addNPC(projectile);
-        System.out.println("Projectile added to map.");
-    } else {
-        System.out.println("ERROR: Map is null, cannot add projectile!");
-    }
-}
+    // Method to fire a projectile toward the player
+    private void fireProjectile(Player player, float playerCenterX, float playerCenterY, float dinosaurCenterX,
+            float dinosaurCenterY) {
+        float dx = playerCenterX - dinosaurCenterX;
+        float dy = playerCenterY - dinosaurCenterY;
+        float distance = (float) Math.hypot(dx, dy);
+        System.out.println("I will fire something!");
 
+        // Set speed
+        float speed = 4.0f;
+        float velX = (dx / distance) * speed;
+        float velY = (dy / distance) * speed;
 
+        // Projectile spawn location offsets
+        float offsetX = 0.0f;
+        float offsetY = 0.0f;
+        if (this.getCurrentAnimationName().equals("SHOOT_LEFT")) {
+            offsetX = -20.0f;
+            offsetY = 57.0f;
+        } else if (this.getCurrentAnimationName().equals("SHOOT_RIGHT")) {
+            offsetX = 65.0f;
+            offsetY = 55.0f;
+        }
+
+        float startX = dinosaurCenterX + offsetX;
+        float startY = dinosaurCenterY + offsetY;
+
+        // Create projectile at the calculated starting position
+        EnemyProjectile projectile = new EnemyProjectile(startX, startY, velX, velY, 500);
+        if (projectile.touching(this)) {
+            projectile.setIsUncollidable(true);
+        } else {
+            projectile.setIsUncollidable(false);
+        }
+        System.out
+                .println("Projectile created at (" + startX + ", " + startY + ") with velX=" + velX + ", velY=" + velY);
+
+        if (this.map != null) {
+            this.map.addNPC(projectile);
+            System.out.println("Projectile added to map.");
+        } else {
+            System.out.println("ERROR: Map is null, cannot add projectile!");
+        }
+    }
 
     public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {
@@ -196,58 +227,67 @@ private void fireProjectile(Player player, float playerCenterX, float playerCent
                 });
 
                 put("WALK_LEFT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 1), 15)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 0), 15)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build()
                 });
 
                 put("WALK_RIGHT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 1), 15)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 0), 15)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .build()
                 });
 
                 put("SHOOT_LEFT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                        new FrameBuilder(spriteSheet.getSprite(1, 2), 40)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1),80)
+                        new FrameBuilder(spriteSheet.getSprite(1, 1), 80)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
                 });
 
                 put("SHOOT_RIGHT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                        new FrameBuilder(spriteSheet.getSprite(1, 2), 40)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
+                                .withBounds(7, 15, 40, 40)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1),80)
+                        new FrameBuilder(spriteSheet.getSprite(1, 1), 80)
                                 .withScale(2)
-                .withBounds(7, 15, 40, 40)
-                                .build()        
+                                .withBounds(7, 15, 40, 40)
+                                .build()
                 });
             }
         };
     }
 
+    // Hit Indicator: Blinking Effect and Time Duration
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
+        if (isHit) {
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime % 200 < 100) {
+                super.draw(graphicsHandler);
+            }
+        } else {
+            super.draw(graphicsHandler);
+        }
     }
 }
