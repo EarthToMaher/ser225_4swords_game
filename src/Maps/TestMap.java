@@ -1,6 +1,7 @@
 package Maps;
 
 import EnhancedMapTiles.PushableRock;
+import EnhancedMapTiles.WinTile;
 import Game.ScreenCoordinator;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
@@ -10,6 +11,7 @@ import EnhancedMapTiles.PressurePlateTileOn;
 import EnhancedMapTiles.BottomlessPitTile;
 import EnhancedMapTiles.BreakableWall;
 import EnhancedMapTiles.Door;
+import EnhancedMapTiles.WinTile;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import EnhancedMapTiles.Projectile;
@@ -228,6 +230,9 @@ public class TestMap extends Map {
 
         BreakableWall secBWall14 = new BreakableWall(getMapTile(2, 12).getLocation());
         enhancedMapTiles.add(secBWall14);
+
+        WinTile winTile = new WinTile(getMapTile(13, 4).getLocation());
+        enhancedMapTiles.add(winTile); 
 
         return enhancedMapTiles;
     }
