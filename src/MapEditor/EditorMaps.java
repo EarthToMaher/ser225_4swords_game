@@ -13,6 +13,7 @@ public class EditorMaps {
             add("SecondMap");
             add("ThirdMap");
             add("FourthMap");
+            add("FifthMap");
         }};
     }
 
@@ -28,6 +29,8 @@ public class EditorMaps {
                 return new ThirdMap();
             case "FourthMap":
                 return new FourthMap();
+            case "FifthMap":
+                return new FifthMap();
             default:
                 throw new RuntimeException("Unrecognized map name");
         }

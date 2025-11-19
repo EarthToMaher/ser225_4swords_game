@@ -42,6 +42,11 @@ public class BoomerangTestMap extends Map {
 //         spawnRandomEnemies(100.0f, 100.0f, 200.0f, 200.0f);
     }
 
+    public void setUpInactivePlayer(Player active, Player inactive) {
+        active.setLocation(getMapTile(14, 7).getLocation().x, getMapTile(14, 4).getLocation().y);
+        inactive.setLocation(getMapTile(14, 7).getLocation().x, getMapTile(14, 4).getLocation().y);
+    }
+
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();

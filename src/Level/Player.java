@@ -46,6 +46,7 @@ public abstract class Player extends GameObject {
     protected Key PROJECTILE_KEY = Key.K;
     protected Key BOOMERANG_KEY =  Key.ENTER;
     protected Key ATTACK_KEY = Key.E;
+    protected Key DASH_KEY = Key.R;
 
     //New key: C for swapping bodies
     protected Key C_KEY = Key.C;
@@ -56,6 +57,8 @@ public abstract class Player extends GameObject {
 
     private int timeBetweenReloads = 0;
 
+    private int timeAfterDash = 0;
+
     private boolean isFiring = false;
     private static int ammo = 5;
 
@@ -63,8 +66,9 @@ public abstract class Player extends GameObject {
 
     protected boolean isLocked = false;
     protected boolean hasKey = false;
+    protected boolean isDashing = false;
 
-    private int health = 100; //int for initial health value\
+    private int health = 100; //int for initial health value
     private boolean isInjured = false;
     private String pendingMapName = null;
     private Utils.Point pendingMapLocation = null;
@@ -148,6 +152,31 @@ public abstract class Player extends GameObject {
     public void update() {
 
         timeBetweenReloads++;
+
+        //Create a boolean value isDashing, initially set to false DONE
+        //After player starts dashing, set it to true
+        //If it's true, then start updating timeafterdash and increase player speed
+        //once timeafterdash reaches a certain value, say 50, isdashing returns to false
+        //this sets the player speed back down to its initial speed
+
+        if(isDashing) {
+            timeAfterDash++;
+
+            if(timeAfterDash >= 15) {
+                isDashing = false;
+                this.walkSpeed = 4F;
+            }
+        }
+
+        if(!keyLocker.isKeyLocked(DASH_KEY) && Keyboard.isKeyDown(DASH_KEY)) {
+            keyLocker.lockKey(DASH_KEY);
+            if(ammo > 1 && !isDashing) {
+                isDashing = true;
+                timeAfterDash = 0;
+                ammo -=2;
+                this.walkSpeed = 9F;
+            }
+        }
 
         if(timeBetweenReloads >= 100 && ammo < 5) {
             ammo++;
@@ -274,6 +303,10 @@ public abstract class Player extends GameObject {
             map.entityInteract(this);
         }
 
+
+        //Dashing Logic goes here
+
+
         //REDO CODE, REBUILD- Christopher F
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
@@ -369,6 +402,10 @@ public abstract class Player extends GameObject {
     protected void updateLockedKeys() {
         if (Keyboard.isKeyUp(INTERACT_KEY) && !isLocked) {
             keyLocker.unlockKey(INTERACT_KEY);
+        }
+
+        if (Keyboard.isKeyUp(DASH_KEY) && !isLocked) {
+            keyLocker.unlockKey(DASH_KEY);
         }
 
         if (Keyboard.isKeyUp(BOOMERANG_KEY)&&!isLocked){

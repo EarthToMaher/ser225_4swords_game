@@ -56,8 +56,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // flag to ensure the test map intro textbox only shows once per session
         flagManager.addFlag("hasSeenTestMapIntro", false);
 
-        // define/setup map
-        map = new TestMap();
+        // define/setup map                                                      ////////////////////////////
+        map = new FifthMap();
         map.setFlagManager(flagManager);
 
         // setup player
@@ -218,6 +218,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
             }
             case "ThirdMap": return new ThirdMap();
             case "FourthMap": return new FourthMap();
+            case "FifthMap": return new FifthMap();
             case "BoomerangTestMap": return new BoomerangTestMap();
             //add new maps here as needed
             default: return null;

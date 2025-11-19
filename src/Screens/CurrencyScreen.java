@@ -27,7 +27,7 @@ public class CurrencyScreen extends Screen {
     @Override
     public void update() {
         winMessage = new SpriteFont("Currency: " + playLevelScreen.player.getCurrency(), 580, 50, "Arial", 30, Color.white);
-        ammoMessage = new SpriteFont("Ammunition: " + playLevelScreen.player.getAmmo(), 580, 100, "Arial", 30, Color.white);
+        ammoMessage = new SpriteFont("Charges: " + playLevelScreen.player.getAmmo(), 580, 100, "Arial", 30, Color.white);
         //System.out.println("Hi");
     }
 

@@ -53,6 +53,9 @@ public class TestMap extends Map {
         Door door1 = new Door(getMapTile(8, 1).getLocation());
         enhancedMapTiles.add(door1);
 
+        BottomlessPitTile pit = new BottomlessPitTile((getMapTile(7,10).getLocation()));
+        enhancedMapTiles.add(pit);
+
         Portal portal = new Portal(getMapTile(8,1).getLocation().subtractY(50), "BoomerangTestMap", new Point(700,800));
         enhancedMapTiles.add(portal);
 
