@@ -12,6 +12,7 @@ import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
 import Utils.Point;
+import Maps.FourthMap;
 import Utils.SoundManager;
 
 //TODO: Rewrite code based around "SWITCHING" enum class
@@ -251,7 +252,12 @@ private void initializeSounds() {
     @Override
     public void onWin() {
         // when this method is called within the game, it signals the game has been "won"
-        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        // if this was the final map, go to the End Game screen via the ScreenCoordinator
+        if (map instanceof TestMap) {
+            screenCoordinator.setGameState(Game.GameState.ENDGAME);
+        } else {
+            playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        }
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
@@ -281,7 +287,30 @@ private void initializeSounds() {
 
     public void resetLevel() {
         Map.inactiveRobotStatic = null;
+        // keep track of the current map
+        String currentMapName = map != null ? map.getClass().getSimpleName() : "TestMap";
+
+        // re-run initialization to reset screen state and flags
         initialize();
+
+        // replace the temporary map (initialize() loads TestMap by default) with the same map type
+        Map newMap = createMapByName(currentMapName);
+        if (newMap != null) {
+            this.map = newMap;
+            map.setFlagManager(flagManager);
+            
+            player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+            player2 = new SecondRobot(map.getPlayerStartPosition().x - 500, map.getPlayerStartPosition().y);
+
+            player.setMap(map);
+            player2.setMap(map);
+
+            map.setPlayer(player);
+            map.setPlayer2(player2);
+
+            map.getTextbox().setInteractKey(player.getInteractKey());
+            map.addListener(this);
+        }
     }
 
     public void goBackToMenu() {

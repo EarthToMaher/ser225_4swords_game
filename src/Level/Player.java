@@ -105,7 +105,6 @@ public abstract class Player extends GameObject {
     protected void onDeath() {
         if (isInjured) return;
         isInjured = true;
-        lock();
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
     }
@@ -190,7 +189,6 @@ public abstract class Player extends GameObject {
         // update player's animation
         super.update();
 
-        //Prevent player from going out of bounds --Evan
         if(map != null){
             float minX = 0;
             float minY = 0;

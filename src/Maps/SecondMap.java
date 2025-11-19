@@ -1,6 +1,7 @@
 package Maps;
 
 import EnhancedMapTiles.*;
+import GameObject.SpriteSheet;
 import Level.*;
 import NPCs.*;
 import Screens.PlayLevelScreen;
@@ -9,6 +10,8 @@ import Utils.Point;
 import Scripts.TestMap.DigitalSignScript;
 
 import java.util.ArrayList;
+
+import Engine.ImageLoader;
 
 public class SecondMap extends Map {
 
@@ -60,8 +63,20 @@ public class SecondMap extends Map {
         PressurePlateTileOff plateTile2 = new PressurePlateTileOff(getMapTile(18,18).getLocation());
         enhancedMapTiles.add(plateTile2);
 
+        wall Wall1 = new wall(getMapTile(22,24).getLocation());
+        enhancedMapTiles.add(Wall1);
+
+        wall Wall2 = new wall(getMapTile(23,24).getLocation());
+        enhancedMapTiles.add(Wall2);
+
+        wall Wall3 = new wall(getMapTile(24,24).getLocation());
+        enhancedMapTiles.add(Wall3);
+
         PressurePlate plate1 = new PressurePlate(getMapTile(2,4).getLocation());
         enhancedMapTiles.add(plate1);
+
+        PressurePlate plate2 = new PressurePlate(getMapTile(23,23).getLocation());
+        enhancedMapTiles.add(plate2);
 
         Door exitDoor = new Door(getMapTile(11,1).getLocation());
         enhancedMapTiles.add(exitDoor);
