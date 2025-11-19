@@ -263,7 +263,30 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     public void resetLevel() {
         Map.inactiveRobotStatic = null;
+        // keep track of the current map
+        String currentMapName = map != null ? map.getClass().getSimpleName() : "TestMap";
+
+        // re-run initialization to reset screen state and flags
         initialize();
+
+        // replace the temporary map (initialize() loads TestMap by default) with the same map type
+        Map newMap = createMapByName(currentMapName);
+        if (newMap != null) {
+            this.map = newMap;
+            map.setFlagManager(flagManager);
+            
+            player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+            player2 = new SecondRobot(map.getPlayerStartPosition().x - 500, map.getPlayerStartPosition().y);
+
+            player.setMap(map);
+            player2.setMap(map);
+
+            map.setPlayer(player);
+            map.setPlayer2(player2);
+
+            map.getTextbox().setInteractKey(player.getInteractKey());
+            map.addListener(this);
+        }
     }
 
     public void goBackToMenu() {

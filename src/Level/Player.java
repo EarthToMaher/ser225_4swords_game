@@ -105,7 +105,6 @@ public abstract class Player extends GameObject {
     protected void onDeath() {
         if (isInjured) return;
         isInjured = true;
-        lock();
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
     }
