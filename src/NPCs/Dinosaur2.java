@@ -10,6 +10,7 @@ import Level.NPC;
 import Level.Player;
 import Screens.PlayLevelScreen;
 import Utils.Point;
+import Utils.SoundManager;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -63,6 +64,7 @@ public class Dinosaur2 extends NPC {
             super.setIsHidden(true);
             map.deleteNPC(this);
         }
+        SoundManager.playSoundEffect("hit"); //Play the hit sound when damaged
     }
 
     @Override

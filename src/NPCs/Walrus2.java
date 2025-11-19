@@ -11,6 +11,8 @@ import Level.NPC;
 import Level.Player;
 import Screens.PlayLevelScreen;
 import Utils.Point;
+import Utils.SoundManager;
+
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -77,6 +79,7 @@ public class Walrus2 extends NPC {
             super.setIsHidden(true);
             map.deleteNPC(this);
         }
+        SoundManager.playSoundEffect("hit"); //Play the hit sound when damaged
     }
 
     @Override
@@ -136,6 +139,7 @@ public class Walrus2 extends NPC {
                 if (currentTime - chargeStartTime >= 1000) {
                     currentState = State.CHARGING_ATTACK;
                 }
+                
 
                 break;
 
