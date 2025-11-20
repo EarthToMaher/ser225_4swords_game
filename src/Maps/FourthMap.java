@@ -69,6 +69,12 @@ public class FourthMap extends Map {
         PressurePlate plate = new PressurePlate(getMapTile(43,6).getLocation());
         enhancedMapTiles.add(plate);
 
+        Portal portal = new Portal(getMapTile(33,27).getLocation().subtractY(50), "FifthMap", new Point(800,800));
+        enhancedMapTiles.add(portal);
+
+        Portal portal2 = new Portal(getMapTile(33,27).getLocation().subtractY(50), "FifthMap", new Point(800,800));
+        enhancedMapTiles.add(portal2);
+
 
         //FAKEWALLS
         //________________________________________
@@ -232,7 +238,6 @@ public class FourthMap extends Map {
 
         BottomlessPitTile pit19 = new BottomlessPitTile(getMapTile(39,5).getLocation());
         enhancedMapTiles.add(pit19);
-
 
         BottomlessPitTile pit20 = new BottomlessPitTile(getMapTile(35,6).getLocation());
         enhancedMapTiles.add(pit20);

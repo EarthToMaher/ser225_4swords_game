@@ -1,11 +1,9 @@
 package Screens;
 
-import Engine.GraphicsHandler;
-import Engine.Keyboard;
-import Engine.Screen;
-import Engine.Key;
+import Engine.*;
 import Game.GameState;
 import Game.ScreenCoordinator;
+import GameObject.SpriteSheet;
 import Level.*;
 import Maps.*;
 import NPCs.InactiveRobot;
@@ -30,6 +28,11 @@ public class PlayLevelScreen extends Screen implements GameListener {
     protected GameOverScreen gameOverScreen;
     protected FlagManager flagManager;
     protected CurrencyScreen currencyScreen;
+
+    private boolean hasSwitchedSpriteSheet1 = false;
+    private boolean hasSwitchedSpriteSheet2 = false;
+
+
 
     private boolean gameOverTimerStarted = false;
     private long gameOverStartTime = 0;
@@ -58,14 +61,24 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // flag to ensure the test map intro textbox only shows once per session
         flagManager.addFlag("hasSeenTestMapIntro", false);
 
-        // define/setup map
+        // define/setup map                                                      ////////////////////////////
         map = new TestMap();
         map.setFlagManager(flagManager);
 
         // setup player
         // two players are declared, alongside a null inactiveRobot
         player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
-        player2 = new SecondRobot(map.getPlayerStartPosition().x-500, map.getPlayerStartPosition().y);
+//        player2 = new SecondRobot(map.getPlayerStartPosition().x-500, map.getPlayerStartPosition().y);
+        Utils.Point player2StartPosition;
+        if (Map.inactiveRobotStatic != null) {
+            // Get the starting location from the robot the map just created
+            player2StartPosition = Map.inactiveRobotStatic.getLocation();
+        } else {
+            // Fallback just in case a map has no inactive robot
+            player2StartPosition = new Utils.Point(map.getPlayerStartPosition().x - 500, map.getPlayerStartPosition().y);
+        }
+        player2 = new SecondRobot(player2StartPosition.x, player2StartPosition.y);
+
         playLevelScreenState = PlayLevelScreenState.RUNNING;
         player.setMap(map);
         // let map know which player is on it so scripts that rely on map.getPlayer() work
@@ -87,11 +100,6 @@ public class PlayLevelScreen extends Screen implements GameListener {
             flagManager.setFlag("hasSeenTestMapIntro");
         }
 
-        // preloads all scripts ahead of time rather than loading them dynamically
-        // both are supported, however preloading is recommended
-
-        // TEMPORARY FIX- Commented out preloadScripts method until NullPointerException is figured out- Chris F
-        //map.preloadScripts();
 
         winScreen = new WinScreen(this);
         currencyScreen = new CurrencyScreen(this);
@@ -109,6 +117,11 @@ private void initializeSounds() {
     soundManager.loadSound("projectile", "sounds/projectile.wav");
     soundManager.loadSound("battlecry", "Utils/sounds/battlecry.wav");
     soundManager.loadSound("robot_shot", "Utils/sounds/robotshot.wav");
+    soundManager.loadSound("BoomerHit.wav", "Utils/sounds/BoomerandHit.wav");
+    soundManager.loadSound("BoomerangThrow.wav", "Utils/sounds/BoomerangThrow.wav");
+    soundManager.loadSound("Jetpack.wav", "Utils/sounds/Jetpack.wav");
+    soundManager.loadSound("Keycard.wav", "Utils/sounds/Keycard.wav");
+    soundManager.loadSound("Landmine.wav", "Utils/sounds/Landmine.wav");
     
     // Load background music
     soundManager.loadSound("background_music", "Utils/music/background.wav");
@@ -139,10 +152,15 @@ private void initializeSounds() {
                 // Always update the active player and the map so animations (including death) continue playing
                 if(Robot.isActivePlayer) {
                     if (Map.inactiveRobotStatic != null) {
+
+                        if(!hasSwitchedSpriteSheet1) {
+                            Map.inactiveRobotStatic.setSpriteSheet(new SpriteSheet(ImageLoader.load("img_1.png"), 24, 24));
+                            hasSwitchedSpriteSheet1 = true;
+                            hasSwitchedSpriteSheet2 = false;
+                        }
                         Map.inactiveRobotStatic.setLocation(player2.getX(), player2.getY());
                         inactivePlayer = player2;
                     }
-
                     map.setPlayer(player);
                     player.setMap(map);
                     player.update();
@@ -150,6 +168,11 @@ private void initializeSounds() {
 
                 } else if(SecondRobot.isActivePlayer) {
                     if (Map.inactiveRobotStatic != null) {
+                        if(!hasSwitchedSpriteSheet2) {
+                            Map.inactiveRobotStatic.setSpriteSheet(new SpriteSheet(ImageLoader.load("RobotFull5.png"), 24, 24));
+                            hasSwitchedSpriteSheet1 = false;
+                            hasSwitchedSpriteSheet2 = true;
+                        }
                         Map.inactiveRobotStatic.setLocation(player.getX(), player.getY());
                         inactivePlayer = player;
                     }
@@ -164,6 +187,8 @@ private void initializeSounds() {
                 Player active = Robot.isActivePlayer ? player : player2;
                 Player inactive = (active == player) ? player2 : player;
                 if (active != null && active.hasPendingMapRequest()) {
+                    hasSwitchedSpriteSheet2 = false;
+                    hasSwitchedSpriteSheet1 =false;
                     String mapName = active.consumePendingMapName();
                     Utils.Point spawn = active.consumePendingMapLocation();
                     Map newMap = createMapByName(mapName);
@@ -242,7 +267,9 @@ private void initializeSounds() {
             }
             case "ThirdMap": return new ThirdMap();
             case "FourthMap": return new FourthMap();
+            case "FifthMap": return new FifthMap();
             case "BoomerangTestMap": return new BoomerangTestMap();
+            case "FinalMap": return new FinalMap();
             //add new maps here as needed
             default: return null;
         }

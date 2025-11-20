@@ -8,6 +8,7 @@ import Level.MapEntityStatus;
 import Level.Player;
 import Level.TileType;
 import Utils.Point;
+import Utils.SoundManager;
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
 
@@ -20,6 +21,7 @@ public class Key extends EnhancedMapTile {
     public void update(Player player) {
         super.update(player);
         if (player.touching(this)) {
+            SoundManager.playSoundEffect("Keycard.wav");
             if(player.hasKey()) return; // Prevent picking up multiple keys
             player.setHasKey(true); 
             this.mapEntityStatus = MapEntityStatus.REMOVED; 

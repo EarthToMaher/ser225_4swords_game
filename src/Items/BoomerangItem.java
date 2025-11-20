@@ -14,6 +14,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Utils.Direction;
 import Utils.Point;
+import Utils.SoundManager;
 import Level.NPC;
 
 import java.util.ArrayList;
@@ -146,12 +147,14 @@ public class BoomerangItem extends Item {
                 System.out.println("Boomerang is Intersecting: " + npc.getClass().getSimpleName());
 
                 if (npc instanceof Walrus2 walrus) {
+                    SoundManager.playSoundEffect("BoomerangHit.wav");
                     walrus.takeDamage(dmg);
                     hitNPCs.add(npc);
                     break;
                 }
 
                 if (npc instanceof Dinosaur2 dino) {
+                    SoundManager.playSoundEffect("BoomerangThrow.wav");
                     dino.takeDamage(dmg);
                     hitNPCs.add(npc);
                     break;
@@ -163,6 +166,8 @@ public class BoomerangItem extends Item {
     public boolean KeyCollector(){
         for(EnhancedMapTile tile: map.getActiveEnhancedMapTiles()){
             if(this.touching(tile)&& tile instanceof Key key){
+
+                SoundManager.playSoundEffect("Keycard.wav");
                 key.setMapEntityStatus(MapEntityStatus.REMOVED);
                 return true;
             }

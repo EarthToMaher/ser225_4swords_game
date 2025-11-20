@@ -19,7 +19,7 @@ public class SecondRobot extends Player {
     private HashMap<String, Frame[]> defaultAnimations = null;
 
     public SecondRobot(float x, float y) {
-        super(new SpriteSheet(ImageLoader.load("RobotFull5Revised.png"), 24, 24), x, y, "STAND_RIGHT");
+        super(new SpriteSheet(ImageLoader.load("RobotFull5Revised"), 24, 24), x, y, "STAND_RIGHT");
 
         try {
             SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4Revised.png"), 24, 24);
@@ -50,9 +50,6 @@ public class SecondRobot extends Player {
         }
 
         super.update();
-    }
-    private boolean canMoveOverBottomlessPits() {
-        return currentItem instanceof Items.JetpackItem;
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

@@ -19,8 +19,10 @@ public class AnimatedSprite implements IntersectableRectangle {
 
 	// maps animation name to an array of Frames representing one animation
 	protected HashMap<String, Frame[]> animations;
+    protected SpriteSheet spriteSheet;
 
-	// keeps track of current animation the sprite is using
+
+    // keeps track of current animation the sprite is using
 	protected String currentAnimationName = "";
 	protected String previousAnimationName = "";
 
@@ -37,13 +39,17 @@ public class AnimatedSprite implements IntersectableRectangle {
 	// frame delay before transitioning into the next frame of an animation
 	private int frameDelayCounter;
 
-	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
-		this.x = x;
-		this.y = y;
-		this.animations = loadAnimations(spriteSheet);
-		this.currentAnimationName = startingAnimationName;
-		updateCurrentFrame();
-	}
+    public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
+        this.x = x;
+        this.y = y;
+
+        this.spriteSheet = spriteSheet; // 🔥 important
+
+        this.animations = loadAnimations(spriteSheet);
+        this.currentAnimationName = startingAnimationName;
+        updateCurrentFrame();
+    }
+
 
     public AnimatedSprite(float x, float y, HashMap<String, Frame[]> animations, String startingAnimationName) {
         this.x = x;

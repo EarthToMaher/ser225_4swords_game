@@ -3,6 +3,7 @@ package Items;
 import Level.Player;
 import GameObject.Frame;
 import Utils.Point;
+import Utils.*;
 
 public class JetpackItem extends Item {
 
@@ -26,6 +27,7 @@ public class JetpackItem extends Item {
         itemIsActive = true;
         isUncollidable = false;
         activeUntilMillis = System.currentTimeMillis() + DURATION_MS;
+        SoundManager.playBackgroundMusic("Jetpack.wav");
     }
 
     @Override
@@ -40,6 +42,7 @@ public class JetpackItem extends Item {
     @Override
     public void ItemFinished() {
         super.ItemFinished();
+        itemIsActive = false;
         activeUntilMillis = 0;
     }
 

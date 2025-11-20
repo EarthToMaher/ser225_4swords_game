@@ -5,12 +5,14 @@ import Level.MapEntity;
 import Level.MapEntityStatus;
 import Level.NPC;
 import Level.Player;
+import NPCs.Boss;
 import NPCs.Dinosaur2;
 import NPCs.Walrus2;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Utils.Direction;
 import Utils.Point;
+import Utils.SoundManager;
 import Level.NPC;
 import GameObject.*;
 
@@ -126,6 +128,10 @@ public class LandMineItem extends Item {
                     if(!exploding) Detonate();
                     dinoToRemove.add(dino);
                 }
+                if (npc instanceof Boss boss) {
+                    if(!exploding) Detonate();
+                    boss.takeDamage(100);
+                }
             }
         }
 
@@ -158,6 +164,7 @@ public class LandMineItem extends Item {
     }
 
     public void Detonate(){
+        SoundManager.playSoundEffect("Landmine.wav");
         exploding = true;
         //this.setBounds(new Rectangle(this.getLocation().x,this.getLocation().y,explosionRadius,explosionRadius));
         //EnemyDetection();
