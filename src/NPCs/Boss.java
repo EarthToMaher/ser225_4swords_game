@@ -12,6 +12,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
+import NPCs.Boss.bossState;
 import Screens.PlayLevelScreen;
 import Utils.Point;
 
@@ -33,8 +34,29 @@ private bossState[] initialOrder = {
 };
 
  public Boss(int id, Point location) {
-        super(id, location.x, location.y, new Frame(ImageLoader.load("MrToon.png")));
+        super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("boss.png"), 64, 64), "STAND_RIGHT");
         System.out.println("Boss made");
+    }
+
+    @Override
+    public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
+        return new HashMap<String, Frame[]>() {
+            {
+                put("STAND_LEFT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 0))
+                                .withScale(2)
+                                .withBounds(7, 13, 30, 40)
+                                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                                .build()
+                });
+                put("STAND_RIGHT", new Frame[] {
+                        new FrameBuilder(spriteSheet.getSprite(0, 0))
+                                .withScale(2)
+                                .withBounds(7, 13, 30, 40)
+                                .build()
+                });
+        }
+        };
     }
 
 private int initialIndex = 0;
