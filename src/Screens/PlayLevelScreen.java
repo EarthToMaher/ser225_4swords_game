@@ -13,6 +13,7 @@ import Players.Robot;
 import Players.SecondRobot;
 import Utils.Point;
 import Maps.FourthMap;
+import Utils.SoundManager;
 
 //TODO: Rewrite code based around "SWITCHING" enum class
 
@@ -94,7 +95,30 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
         winScreen = new WinScreen(this);
         currencyScreen = new CurrencyScreen(this);
+
+        initializeSounds();
     }
+
+
+
+private void initializeSounds() {
+    SoundManager soundManager = SoundManager.getInstance();
+    
+    // Load sound effects
+    soundManager.loadSound("hit", "Utils/sounds/hit.wav");
+    soundManager.loadSound("projectile", "sounds/projectile.wav");
+    soundManager.loadSound("battlecry", "Utils/sounds/battlecry.wav");
+    soundManager.loadSound("robot_shot", "Utils/sounds/robotshot.wav");
+    
+    // Load background music
+    soundManager.loadSound("background_music", "Utils/music/background.wav");
+    
+    // Start background music per level (call this when entering a level for level specific music)
+    SoundManager.playBackgroundMusic("background_music");
+    
+    // Set volume if needed (0.0 to 1.0)
+    SoundManager.setMasterVolume(0.8f);
+}
 
 
 

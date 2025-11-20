@@ -8,6 +8,9 @@ import EnhancedMapTiles.Portal;
 import EnhancedMapTiles.PressurePlate;
 import EnhancedMapTiles.PressurePlateTileOff;
 import EnhancedMapTiles.PressurePlateTileOn;
+import EnhancedMapTiles.NewPressurePlate;
+import EnhancedMapTiles.NewPressurePlateTileOff;
+import EnhancedMapTiles.NewPressurePlateTileOn;
 import EnhancedMapTiles.BottomlessPitTile;
 import EnhancedMapTiles.BreakableWall;
 import EnhancedMapTiles.Door;
@@ -64,16 +67,22 @@ public class TestMap extends Map {
     @Override
     public void update(Player player) {
         super.update(player);
-        if(PressurePlate.isTouched) {
-                boomerangShrine.setInteractScript(new BoomerangShrineScript());
+        boomerangShrine.setInteractScript(new BoomerangShrineScript());
                 if(!boomerangSet) {
                     boomerangItem.setLocation(getMapTile(32,40).getX(), getMapTile(32,40).getY());
                     boomerangShrine.setItem(boomerangItem);
                     boomerangSet = true;
                 }
-                System.out.println(boomerangSet);
+        //if(PressurePlate.isTouched) {
+        //        boomerangShrine.setInteractScript(new BoomerangShrineScript());
+        //        if(!boomerangSet) {
+        //            boomerangItem.setLocation(getMapTile(32,40).getX(), getMapTile(32,40).getY());
+        //            boomerangShrine.setItem(boomerangItem);
+        //            boomerangSet = true;
+        //        }
+        //        System.out.println(boomerangSet);
 
-        }
+        //}
     }
 
     @Override
@@ -103,40 +112,40 @@ public class TestMap extends Map {
         Portal portal2 = new Portal(getMapTile(0,49).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal2);
 
-        PressurePlate plate1 = new PressurePlate(getMapTile(32,14).getLocation());
+        NewPressurePlate plate1 = new NewPressurePlate(getMapTile(32,14).getLocation());
         enhancedMapTiles.add(plate1);
 
-        PressurePlateTileOff plateTile1 = new PressurePlateTileOff(getMapTile(36,13).getLocation());
+        NewPressurePlateTileOff plateTile1 = new NewPressurePlateTileOff(getMapTile(36,13).getLocation());
         enhancedMapTiles.add(plateTile1);
 
-        PressurePlateTileOff plateTile2 = new PressurePlateTileOff(getMapTile(36,14).getLocation());
+        NewPressurePlateTileOff plateTile2 = new NewPressurePlateTileOff(getMapTile(36,14).getLocation());
         enhancedMapTiles.add(plateTile2);
 
-        PressurePlateTileOff plateTile3 = new PressurePlateTileOff(getMapTile(36,15).getLocation());
+        NewPressurePlateTileOff plateTile3 = new NewPressurePlateTileOff(getMapTile(36,15).getLocation());
         enhancedMapTiles.add(plateTile3);
 
-        PressurePlateTileOff plateTile4 = new PressurePlateTileOff(getMapTile(36,16).getLocation());
+        NewPressurePlateTileOff plateTile4 = new NewPressurePlateTileOff(getMapTile(36,16).getLocation());
         enhancedMapTiles.add(plateTile4);
 
-        PressurePlateTileOff plateTile5 = new PressurePlateTileOff(getMapTile(36,17).getLocation());
+        NewPressurePlateTileOff plateTile5 = new NewPressurePlateTileOff(getMapTile(36,17).getLocation());
         enhancedMapTiles.add(plateTile5);
 
-        PressurePlateTileOff plateTile6 = new PressurePlateTileOff(getMapTile(36,18).getLocation());
+        NewPressurePlateTileOff plateTile6 = new NewPressurePlateTileOff(getMapTile(36,18).getLocation());
         enhancedMapTiles.add(plateTile6);
 
-        PressurePlateTileOff plateTile7 = new PressurePlateTileOff(getMapTile(36,19).getLocation());
+        NewPressurePlateTileOff plateTile7 = new NewPressurePlateTileOff(getMapTile(36,19).getLocation());
         enhancedMapTiles.add(plateTile7);
 
-        PressurePlateTileOff plateTile8 = new PressurePlateTileOff(getMapTile(36,20).getLocation());
+        NewPressurePlateTileOff plateTile8 = new NewPressurePlateTileOff(getMapTile(36,20).getLocation());
         enhancedMapTiles.add(plateTile8);
 
-        PressurePlateTileOff plateTile9 = new PressurePlateTileOff(getMapTile(36,21).getLocation());
+        NewPressurePlateTileOff plateTile9 = new NewPressurePlateTileOff(getMapTile(36,21).getLocation());
         enhancedMapTiles.add(plateTile9);
 
-        PressurePlateTileOff plateTile10 = new PressurePlateTileOff(getMapTile(36,22).getLocation());
+        NewPressurePlateTileOff plateTile10 = new NewPressurePlateTileOff(getMapTile(36,22).getLocation());
         enhancedMapTiles.add(plateTile10);
 
-        PressurePlateTileOff plateTile11 = new PressurePlateTileOff(getMapTile(36,23).getLocation());
+        NewPressurePlateTileOff plateTile11 = new NewPressurePlateTileOff(getMapTile(36,23).getLocation());
         enhancedMapTiles.add(plateTile11);
 
         BottomlessPitTile bottomless2PitTile = new BottomlessPitTile(getMapTile(59,51).getLocation());
