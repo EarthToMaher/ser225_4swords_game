@@ -106,10 +106,10 @@ public class TestMap extends Map {
         Door door3 = new Door(getMapTile(57, 48).getLocation());
         enhancedMapTiles.add(door3);
 
-        Portal portal = new Portal(getMapTile(0,48).getLocation().subtractY(50), "FifthMap", new Point(700,800));
+        Portal portal = new Portal(getMapTile(0,48).getLocation().subtractY(50), "FinalMap", new Point(700,800));
         enhancedMapTiles.add(portal);
 
-        Portal portal2 = new Portal(getMapTile(0,49).getLocation().subtractY(50), "FifthMap", new Point(700,800));
+        Portal portal2 = new Portal(getMapTile(0,49).getLocation().subtractY(50), "FinalMap", new Point(700,800));
         enhancedMapTiles.add(portal2);
 
         NewPressurePlate plate1 = new NewPressurePlate(getMapTile(32,14).getLocation());
