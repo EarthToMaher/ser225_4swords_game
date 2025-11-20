@@ -12,6 +12,8 @@ import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
 import Utils.Point;
+import Maps.FourthMap;
+import Utils.SoundManager;
 
 //TODO: Rewrite code based around "SWITCHING" enum class
 
@@ -93,7 +95,30 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
         winScreen = new WinScreen(this);
         currencyScreen = new CurrencyScreen(this);
+
+        initializeSounds();
     }
+
+
+
+private void initializeSounds() {
+    SoundManager soundManager = SoundManager.getInstance();
+    
+    // Load sound effects
+    soundManager.loadSound("hit", "Utils/sounds/hit.wav");
+    soundManager.loadSound("projectile", "sounds/projectile.wav");
+    soundManager.loadSound("battlecry", "Utils/sounds/battlecry.wav");
+    soundManager.loadSound("robot_shot", "Utils/sounds/robotshot.wav");
+    
+    // Load background music
+    soundManager.loadSound("background_music", "Utils/music/background.wav");
+    
+    // Start background music per level (call this when entering a level for level specific music)
+    SoundManager.playBackgroundMusic("background_music");
+    
+    // Set volume if needed (0.0 to 1.0)
+    SoundManager.setMasterVolume(0.8f);
+}
 
 
 
@@ -228,7 +253,12 @@ public class PlayLevelScreen extends Screen implements GameListener {
     @Override
     public void onWin() {
         // when this method is called within the game, it signals the game has been "won"
-        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        // if this was the final map, go to the End Game screen via the ScreenCoordinator
+        if (map instanceof TestMap) {
+            screenCoordinator.setGameState(Game.GameState.ENDGAME);
+        } else {
+            playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        }
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
@@ -258,7 +288,30 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     public void resetLevel() {
         Map.inactiveRobotStatic = null;
+        // keep track of the current map
+        String currentMapName = map != null ? map.getClass().getSimpleName() : "TestMap";
+
+        // re-run initialization to reset screen state and flags
         initialize();
+
+        // replace the temporary map (initialize() loads TestMap by default) with the same map type
+        Map newMap = createMapByName(currentMapName);
+        if (newMap != null) {
+            this.map = newMap;
+            map.setFlagManager(flagManager);
+            
+            player = new Robot(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+            player2 = new SecondRobot(map.getPlayerStartPosition().x - 500, map.getPlayerStartPosition().y);
+
+            player.setMap(map);
+            player2.setMap(map);
+
+            map.setPlayer(player);
+            map.setPlayer2(player2);
+
+            map.getTextbox().setInteractKey(player.getInteractKey());
+            map.addListener(this);
+        }
     }
 
     public void goBackToMenu() {

@@ -1,9 +1,9 @@
 package Scripts.TestMap;
 
-import Level.Script;
-import ScriptActions.*;
-
 import java.util.ArrayList;
+
+import Level.*;
+import ScriptActions.*;
 
 public class DigitalSignScript3 extends Script {
 
@@ -14,10 +14,9 @@ public class DigitalSignScript3 extends Script {
         scriptActions.add(new LockPlayerScriptAction());
         scriptActions.add(new NPCFacePlayerScriptAction());
         scriptActions.add(new TextboxScriptAction() {{
-            addText("Researchers Note #3:");
-            addText("The chargers and shooters are good defense,");
-            addText("But sometimes the best solution to protecting assets is\n the simplest one.");
-            addText("A massive bottomless pit!");
+            addText("WARNING:");
+            addText("Dangerous test area up ahead.");
+            addText("Ensure you have the proper safety defenses \n(Like Pressing 'E')");
             
         }});
         scriptActions.add(new UnlockPlayerScriptAction());

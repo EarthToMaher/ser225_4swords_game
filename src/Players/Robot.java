@@ -18,7 +18,7 @@ public class Robot extends Player {
     public static Boolean isActivePlayer = true;
 
     public Robot(float x, float y) {
-                super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "OFFLINE");
+                super(new SpriteSheet(ImageLoader.load("RobotFull5.png"), 24, 24), x, y, "OFFLINE");
                 // after AnimatedSprite constructor runs, animations are loaded for the default sprite sheet
                 // store a reference to the default animations and also build the jetpack animations for later swapping
                 
@@ -155,9 +155,16 @@ public class Robot extends Player {
                 new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
-                        .build()
-        });
-        
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(2, 1), 14)
+                        .withScale(3)
+                        .withBounds(6, 12, 12, 7)
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(2, 2), 14)
+                         .withScale(3)
+                         .withBounds(6, 12, 12, 7)
+                         .build(),
+                });
         }};
     }
 

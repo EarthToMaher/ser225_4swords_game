@@ -130,12 +130,12 @@ public class GamePanel extends JPanel {
 				//System.out.println(health);
 
         		String heartImage;
-        		if (health >= 83) heartImage = "heartFULL.png";
-        		else if (health >= 66) heartImage = "heart2.5.png";
-        		else if (health >= 50) heartImage = "heart2.png";
-        		else if (health >= 33) heartImage = "heart1,5.png";
-        		else if (health >= 16) heartImage = "heart1.png";
-        		else if (health > 0) heartImage = "heart0.5.png";
+        		if (health >= 60) heartImage = "heartFULL.png";
+        		else if (health >= 50) heartImage = "heart2.5.png";
+        		else if (health >= 40) heartImage = "heart2.png";
+        		else if (health >= 30) heartImage = "heart1,5.png";
+        		else if (health >= 20) heartImage = "heart1.png";
+        		else if (health >= 10) heartImage = "heart0.5.png";
         		else heartImage = "heart0.png";
 
         graphicsHandler.drawImage(ImageLoader.load(heartImage), 10, 10, 110, 28);

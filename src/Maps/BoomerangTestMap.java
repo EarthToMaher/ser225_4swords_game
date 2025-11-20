@@ -3,6 +3,7 @@ package Maps;
 import EnhancedMapTiles.PushableRock;
 import EnhancedMapTiles.Key;
 import EnhancedMapTiles.Portal;
+import EnhancedMapTiles.BottomlessPitTile;
 import EnhancedMapTiles.BreakableWall;
 import EnhancedMapTiles.Door;
 import GameObject.Frame;
@@ -61,8 +62,12 @@ public class BoomerangTestMap extends Map {
 
         Portal portal = new Portal(getMapTile(8,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal);
+
         Portal portal2 = new Portal(getMapTile(9,1).getLocation().subtractY(50), "SecondMap", new Point(700,800));
         enhancedMapTiles.add(portal2);
+
+        BottomlessPitTile pit = new BottomlessPitTile(getMapTile(12,12).getLocation());
+        enhancedMapTiles.add(pit);
 
 
         return enhancedMapTiles;
