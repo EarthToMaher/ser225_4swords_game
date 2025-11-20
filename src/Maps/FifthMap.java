@@ -88,17 +88,17 @@ public class FifthMap extends Map {
         Key keycard4 = new Key(getMapTile(60,45).getLocation());
         enhancedMapTiles.add(keycard4);
 
-//        Door door = new Door(getMapTile(67,5).getLocation());
-//        enhancedMapTiles.add(door);
-//
-//        Door door2 = new Door(getMapTile(67,3).getLocation());
-//        enhancedMapTiles.add(door2);
-//
-//        Door door3 = new Door(getMapTile(67,1).getLocation());
-//        enhancedMapTiles.add(door3);
-//
-//        Door door4 = new Door(getMapTile(67,7).getLocation());
-//        enhancedMapTiles.add(door4);
+        Door door = new Door(getMapTile(67,5).getLocation());
+        enhancedMapTiles.add(door);
+
+        Door door2 = new Door(getMapTile(67,3).getLocation());
+        enhancedMapTiles.add(door2);
+
+        Door door3 = new Door(getMapTile(67,1).getLocation());
+        enhancedMapTiles.add(door3);
+
+        Door door4 = new Door(getMapTile(67,7).getLocation());
+        enhancedMapTiles.add(door4);
 
         Portal portal2 = new Portal(getMapTile(67,0).getLocation(), "FinalMap", new Point(800,800));
         Portal portal3 = new Portal(getMapTile(68,0).getLocation(), "FinalMap", new Point(800,800));

@@ -10,7 +10,6 @@ import NPCs.InactiveRobot;
 import Players.Robot;
 import Players.SecondRobot;
 import Utils.Point;
-import Maps.FourthMap;
 import Utils.SoundManager;
 
 //TODO: Rewrite code based around "SWITCHING" enum class
@@ -63,7 +62,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasSeenTestMapIntro", false);
 
         // define/setup map                                                      ////////////////////////////
-        map = new FifthMap();
+        map = new TestMap();
         map.setFlagManager(flagManager);
 
         // setup player

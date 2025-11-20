@@ -27,7 +27,7 @@ public class JetpackItem extends Item {
         itemIsActive = true;
         isUncollidable = false;
         activeUntilMillis = System.currentTimeMillis() + DURATION_MS;
-        SoundManager.playBackgroundMusic("Jetpack.wav");
+        SoundManager.playSoundEffect("Jetpack.wav");
     }
 
     @Override
