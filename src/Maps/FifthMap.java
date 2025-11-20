@@ -50,21 +50,20 @@ public class FifthMap extends Map {
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(2, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
-
-//        Dinosaur2 shooter1 = new Dinosaur2(1, getMapTile(34,18).getLocation());
-//        npcs.add(shooter1);
-//        Dinosaur2 shooter2 = new Dinosaur2(2, getMapTile(54,25).getLocation());
-//        npcs.add(shooter2);
-//        Dinosaur2 shooter3 = new Dinosaur2(3, getMapTile(58,25).getLocation());
-//        npcs.add(shooter3);
-//        Dinosaur2 shooter4 = new Dinosaur2(4, getMapTile(26,29).getLocation());
-//        npcs.add(shooter4);
-//        Dinosaur2 shooter5 = new Dinosaur2(4, getMapTile(64,21).getLocation());
-//        npcs.add(shooter5);
-//        Dinosaur2 shooter6 = new Dinosaur2(4, getMapTile(64,28).getLocation());
-//        npcs.add(shooter6);
-//        Dinosaur2 shooter7 = new Dinosaur2(4, getMapTile(64,36).getLocation());
-//        npcs.add(shooter7);
+        /*Dinosaur2 shooter1 = new Dinosaur2(1, getMapTile(34,18).getLocation());
+        npcs.add(shooter1);
+        Dinosaur2 shooter2 = new Dinosaur2(2, getMapTile(54,25).getLocation());
+        npcs.add(shooter2);
+        Dinosaur2 shooter3 = new Dinosaur2(3, getMapTile(58,25).getLocation());
+        npcs.add(shooter3);
+        Dinosaur2 shooter4 = new Dinosaur2(4, getMapTile(26,29).getLocation());
+        npcs.add(shooter4);
+        Dinosaur2 shooter5 = new Dinosaur2(4, getMapTile(64,21).getLocation());
+        npcs.add(shooter5);
+        Dinosaur2 shooter6 = new Dinosaur2(4, getMapTile(64,28).getLocation());
+        npcs.add(shooter6);
+        Dinosaur2 shooter7 = new Dinosaur2(4, getMapTile(64,36).getLocation());
+        npcs.add(shooter7);*/
 
 //        Walrus2 charger2 = new Walrus2(5, getMapTile(9,11).getLocation());
 //        npcs.add(charger2);
