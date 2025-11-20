@@ -75,7 +75,7 @@ public class SoundManager {
         if (clip != null) {
             backgroundMusic = clip;
             clip.setFramePosition(0);
-            setVolume(clip, masterVolume * 0.5f); 
+            setVolume(clip, masterVolume * 1f); 
             clip.loop(Clip.LOOP_CONTINUOUSLY); 
         } else {
             System.err.println("Background music not loaded: " + name);
