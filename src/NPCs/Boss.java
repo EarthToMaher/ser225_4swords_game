@@ -78,7 +78,7 @@ private bossState lastState;
     //#endregion
 
     //#region === SHARED VARIABLES ===
-    private int health = 1000000000;
+    private int health = 1000;
 
     private Random rand = new Random();
 
@@ -341,16 +341,10 @@ public void updateBossState() {
         return health;
     }
 
-    // Setter for health value
-    public void setHealth(int health) {
-        this.health = Math.max(0, health);
-    }
-
     // Method for taking damage
     public void takeDamage(int damage) {
         System.out.println("I am being touched!");
         this.health -= damage;
-        this.health = Math.max(0, this.health);
         System.out.println("Entity health: " + this.health);
         if (this.health == 0) {
             System.out.println("The enemy is dead");

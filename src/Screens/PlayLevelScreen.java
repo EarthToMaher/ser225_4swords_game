@@ -36,7 +36,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     private boolean gameOverTimerStarted = false;
     private long gameOverStartTime = 0;
-    private static final long GAME_OVER_DELAY = 2000; //Delay Timer between death and game over screen in milliseconds (2000ms = 2s)
+    private static final long GAME_OVER_DELAY = 1000; //Delay Timer between death and game over screen in milliseconds (2000ms = 2s)
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -44,7 +44,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     public void initialize() {
         // setup state
-        Map.inactiveRobotStatic = null;
+        // initialize to a harmless placeholder so tiles and scripts can safely reference it
+        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
         Robot.isActivePlayer = true;
         SecondRobot.isActivePlayer = false;
 
@@ -117,6 +118,11 @@ private void initializeSounds() {
     soundManager.loadSound("projectile", "sounds/projectile.wav");
     soundManager.loadSound("battlecry", "Utils/sounds/battlecry.wav");
     soundManager.loadSound("robot_shot", "Utils/sounds/robotshot.wav");
+    soundManager.loadSound("BoomerHit.wav", "Utils/sounds/BoomerandHit.wav");
+    soundManager.loadSound("BoomerangThrow.wav", "Utils/sounds/BoomerangThrow.wav");
+    soundManager.loadSound("Jetpack.wav", "Utils/sounds/Jetpack.wav");
+    soundManager.loadSound("Keycard.wav", "Utils/sounds/Keycard.wav");
+    soundManager.loadSound("Landmine.wav", "Utils/sounds/Landmine.wav");
     
     // Load background music
     soundManager.loadSound("background_music", "Utils/music/background.wav");
@@ -144,7 +150,7 @@ private void initializeSounds() {
 
                 //Swapping logic
                 //Will probably rewrite based on enum class later
-                if (!player.isInjured() && !player2.isInjured()) {
+                // Always update the active player and the map so animations (including death) continue playing
                 if(Robot.isActivePlayer) {
                     if (Map.inactiveRobotStatic != null) {
 
@@ -177,7 +183,6 @@ private void initializeSounds() {
                     player2.update();
                     map.update(player2);
                 }
-            }
 
                 //handle pending map transistion requested by a portal
                 Player active = Robot.isActivePlayer ? player : player2;
@@ -226,10 +231,11 @@ private void initializeSounds() {
                 Player active2 = Robot.isActivePlayer ? player : player2;
                 if (active2 != null && active2.getHealth() <=0) {
                 //Calculate delay before showing game over screen
-                    if (!gameOverTimerStarted) {
+                        if (!gameOverTimerStarted) {
                         gameOverTimerStarted = true;
                         gameOverStartTime = System.currentTimeMillis();
-                        Map.inactiveRobotStatic = null; //Clears static robot on player death
+                        // replace static robot with a harmless placeholder instead of nulling it
+                        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
                     } else {
                         long now = System.currentTimeMillis();
                         if (now - gameOverStartTime >= GAME_OVER_DELAY) {
@@ -308,7 +314,8 @@ private void initializeSounds() {
     }
 
     public void resetLevel() {
-        Map.inactiveRobotStatic = null;
+        // reset static inactive robot to a harmless placeholder rather than null
+        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
         // keep track of the current map
         String currentMapName = map != null ? map.getClass().getSimpleName() : "TestMap";
 
