@@ -117,6 +117,11 @@ private void initializeSounds() {
     soundManager.loadSound("projectile", "sounds/projectile.wav");
     soundManager.loadSound("battlecry", "Utils/sounds/battlecry.wav");
     soundManager.loadSound("robot_shot", "Utils/sounds/robotshot.wav");
+    soundManager.loadSound("BoomerHit.wav", "Utils/sounds/BoomerandHit.wav");
+    soundManager.loadSound("BoomerangThrow.wav", "Utils/sounds/BoomerangThrow.wav");
+    soundManager.loadSound("Jetpack.wav", "Utils/sounds/Jetpack.wav");
+    soundManager.loadSound("Keycard.wav", "Utils/sounds/Keycard.wav");
+    soundManager.loadSound("Landmine.wav", "Utils/sounds/Landmine.wav");
     
     // Load background music
     soundManager.loadSound("background_music", "Utils/music/background.wav");
