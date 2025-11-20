@@ -107,6 +107,7 @@ public abstract class Player extends GameObject {
         isInjured = true;
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
+        this.isLocked = true;
     }
 
     public void setItem(Item item){currentItem = item;}
@@ -394,14 +395,20 @@ public abstract class Player extends GameObject {
 
     // anything extra the player should do based on interactions can be handled here
     protected void handlePlayerAnimation() {
+        // If the player is injured (dying), force INJURED animation and don't overwrite it
+        if (isInjured) {
+            currentAnimationName = "INJURED";
+            return;
+        }
+
         switch (playerState) {
-        case STANDING:
-            currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-            break;
-        case WALKING:
-            currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-            break;
-}
+            case STANDING:
+                currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+                break;
+            case WALKING:
+                currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+                break;
+        }
 
     }
 

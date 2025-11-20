@@ -18,12 +18,12 @@ public class Robot extends Player {
     public static Boolean isActivePlayer = true;
 
     public Robot(float x, float y) {
-                super(new SpriteSheet(ImageLoader.load("RobotFull5.png"), 24, 24), x, y, "OFFLINE");
+                super(new SpriteSheet(ImageLoader.load("RobotFull5Revised.png"), 24, 24), x, y, "OFFLINE");
                 // after AnimatedSprite constructor runs, animations are loaded for the default sprite sheet
                 // store a reference to the default animations and also build the jetpack animations for later swapping
                 
                 try {
-                        SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4.png"), 24, 24);
+                        SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4Revised.png"), 24, 24);
                         this.jetpackAnimations = buildAnimations(jetpackSheet);
                         this.defaultAnimations = this.animations;
                 } catch (Exception ex) {
@@ -50,9 +50,27 @@ public class Robot extends Player {
 
         // helper used to construct the animation map from a given spritesheet
         private HashMap<String, Frame[]> buildAnimations(SpriteSheet spriteSheet) {
-                return new HashMap<>() {{
+            return new HashMap<>() {{
+                put("JETPACK_ACTIVE", new Frame[] {
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 1), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 2), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 3), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build()
+                });
 
-                        put("OFFLINE", new Frame[] {
+                put("OFFLINE", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
                             .withScale(3)
                             .withBounds(6, 12, 12, 6)
@@ -152,38 +170,43 @@ public class Robot extends Player {
                 
         //INJURED placeholder
         put("INJURED", new Frame[] {
-                new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 0), 18)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
                         .build(),
-                new FrameBuilder(spriteSheet.getSprite(2, 1), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 1), 18)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
                         .build(),
-                new FrameBuilder(spriteSheet.getSprite(2, 2), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 2), 18)
                          .withScale(3)
                          .withBounds(6, 12, 12, 7)
                          .build(),
+                new FrameBuilder(spriteSheet.getSprite(3, 3), 18)
+                         .withScale(3)
+                        .withBounds(6, 12, 12, 7)
+                        .build(),
                 });
         }};
     }
 
         @Override
         public void update() {
-                // swap animations if the player has a jetpack item
-                boolean hasJetpack = currentItem != null && currentItem instanceof JetpackItem;
-
-                if (hasJetpack && jetpackAnimations != null && this.animations != jetpackAnimations) {
-                        this.animations = jetpackAnimations;
-                        // preserve current animation name but reset indices for new animation set
-                        this.setCurrentAnimationName(this.currentAnimationName);
+            boolean hasJetpack = currentItem != null && currentItem instanceof JetpackItem;
+            boolean jetpackActive = hasJetpack && ((JetpackItem)currentItem).isJetpackActive();
+            if (hasJetpack && jetpackAnimations != null) {
+                if (this.animations != jetpackAnimations) {
+                    this.animations = jetpackAnimations;
                 }
-                else if (!hasJetpack && defaultAnimations != null && this.animations != defaultAnimations) {
-                        this.animations = defaultAnimations;
-                        this.setCurrentAnimationName(this.currentAnimationName);
+                if (jetpackActive) {
+                    this.setCurrentAnimationName("JETPACK_ACTIVE");
                 }
-
-                super.update();
+            } else if (!hasJetpack && defaultAnimations != null && this.animations != defaultAnimations) {
+                this.animations = defaultAnimations;
+                this.setCurrentAnimationName(this.currentAnimationName);
+            }
+            super.update();
         }
 }
+
 
