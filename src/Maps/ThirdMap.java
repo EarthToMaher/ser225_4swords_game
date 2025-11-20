@@ -29,6 +29,7 @@ public class ThirdMap extends Map {
 
     public ThirdMap() {
         super("third_map.txt", new CommonTileset());
+        this.playerStartPosition = getMapTile(32, 48).getLocation();
     }
 
     @Override

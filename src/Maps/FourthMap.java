@@ -27,6 +27,7 @@ public class FourthMap extends Map {
 
     public FourthMap() {
         super("fourth_map.txt", new CommonTileset());
+        this.playerStartPosition = getMapTile(1, 3).getLocation();
     }
 
     @Override

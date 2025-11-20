@@ -29,6 +29,7 @@ public class FinalMap extends Map {
 
     public FinalMap() {
         super("final_map.txt", new CommonTileset());
+        this.playerStartPosition = getMapTile(25, 33).getLocation();
     }
 
     @Override

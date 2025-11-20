@@ -31,6 +31,7 @@ public class FifthMap extends Map {
 
     public FifthMap() {
         super("fifth_map.txt", new CommonTileset());
+        this.playerStartPosition = getMapTile(2, 3).getLocation();
     }
 
     @Override
