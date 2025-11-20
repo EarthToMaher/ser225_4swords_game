@@ -29,7 +29,7 @@ public class SecondRobot extends Player {
             this.jetpackAnimations = null;
             this.defaultAnimations = this.animations;
         }
-        walkSpeed = 10F;
+        walkSpeed = 4F;
         //2.3
     }
 
