@@ -49,6 +49,7 @@ public class FifthMap extends Map {
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(2, 4).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
+
         Dinosaur2 shooter1 = new Dinosaur2(1, getMapTile(34,18).getLocation());
         npcs.add(shooter1);
         Dinosaur2 shooter2 = new Dinosaur2(2, getMapTile(54,25).getLocation());

@@ -248,7 +248,6 @@ public class TestMap extends Map {
 
     @Override
     public ArrayList<NPC> loadNPCs() {
-        npcs.clear();
 
         ArrayList<NPC> npcs = new ArrayList<>();
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(7, 18).getLocation().subtractY(50));

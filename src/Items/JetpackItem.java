@@ -40,6 +40,7 @@ public class JetpackItem extends Item {
     @Override
     public void ItemFinished() {
         super.ItemFinished();
+        itemIsActive = false;
         activeUntilMillis = 0;
     }
 
