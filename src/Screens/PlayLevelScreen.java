@@ -36,7 +36,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     private boolean gameOverTimerStarted = false;
     private long gameOverStartTime = 0;
-    private static final long GAME_OVER_DELAY = 2000; //Delay Timer between death and game over screen in milliseconds (2000ms = 2s)
+    private static final long GAME_OVER_DELAY = 1000; //Delay Timer between death and game over screen in milliseconds (2000ms = 2s)
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -149,7 +149,7 @@ private void initializeSounds() {
 
                 //Swapping logic
                 //Will probably rewrite based on enum class later
-                if (!player.isInjured() && !player2.isInjured()) {
+                // Always update the active player and the map so animations (including death) continue playing
                 if(Robot.isActivePlayer) {
                     if (Map.inactiveRobotStatic != null) {
 
@@ -182,7 +182,6 @@ private void initializeSounds() {
                     player2.update();
                     map.update(player2);
                 }
-            }
 
                 //handle pending map transistion requested by a portal
                 Player active = Robot.isActivePlayer ? player : player2;

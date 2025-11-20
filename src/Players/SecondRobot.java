@@ -19,10 +19,10 @@ public class SecondRobot extends Player {
     private HashMap<String, Frame[]> defaultAnimations = null;
 
     public SecondRobot(float x, float y) {
-        super(new SpriteSheet(ImageLoader.load("img_1.png"), 24, 24), x, y, "STAND_RIGHT");
+        super(new SpriteSheet(ImageLoader.load("SecondRobotSpriteSheet.png"), 24, 24), x, y, "STAND_RIGHT");
 
         try {
-            SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4.png"), 24, 24);
+            SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4Revised.png"), 24, 24);
             this.jetpackAnimations = buildAnimations(jetpackSheet);
             this.defaultAnimations = this.animations;
         } catch (Exception ex) {
@@ -35,15 +35,16 @@ public class SecondRobot extends Player {
 
     @Override
     public void update() {
-        // swap animations if the player has a jetpack item
         boolean hasJetpack = currentItem != null && currentItem instanceof Items.JetpackItem;
-
-        if (hasJetpack && jetpackAnimations != null && this.animations != jetpackAnimations) {
-            this.animations = jetpackAnimations;
-            // preserve current animation name but reset indices for new animation set
-            this.setCurrentAnimationName(this.currentAnimationName);
-        }
-        else if (!hasJetpack && defaultAnimations != null && this.animations != defaultAnimations) {
+        boolean jetpackActive = hasJetpack && ((Items.JetpackItem)currentItem).isJetpackActive();
+        if (hasJetpack && jetpackAnimations != null) {
+            if (this.animations != jetpackAnimations) {
+                this.animations = jetpackAnimations;
+            }
+            if (jetpackActive) {
+                this.setCurrentAnimationName("JETPACK_ACTIVE");
+            }
+        } else if (!hasJetpack && defaultAnimations != null && this.animations != defaultAnimations) {
             this.animations = defaultAnimations;
             this.setCurrentAnimationName(this.currentAnimationName);
         }
@@ -63,6 +64,24 @@ public class SecondRobot extends Player {
     // helper used to construct the animation map from a given spritesheet
     private HashMap<String, Frame[]> buildAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
+            put("JETPACK_ACTIVE", new Frame[] {
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 1), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 2), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(3, 3), 14)
+                            .withScale(3)
+                            .withBounds(6, 12, 12, 7)
+                            .build()
+                });
 
             put("STAND_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0))
@@ -144,18 +163,22 @@ public class SecondRobot extends Player {
 
                 //INJURED placeholder
                 put("INJURED", new Frame[] {
-                new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 0), 18)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
                         .build(),
-                new FrameBuilder(spriteSheet.getSprite(2, 1), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 1), 18)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
                         .build(),
-                new FrameBuilder(spriteSheet.getSprite(2, 2), 14)
+                new FrameBuilder(spriteSheet.getSprite(3, 2), 18)
                          .withScale(3)
                          .withBounds(6, 12, 12, 7)
                          .build(),
+                new FrameBuilder(spriteSheet.getSprite(3, 3), 18)
+                         .withScale(3)
+                        .withBounds(6, 12, 12, 7)
+                        .build(),
                 });
         }};
 
