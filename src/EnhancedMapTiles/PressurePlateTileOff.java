@@ -35,10 +35,13 @@ public class PressurePlateTileOff extends EnhancedMapTile {
             this.tileType = TileType.NOT_PASSABLE;
         }
 
-        if(Map.inactiveRobotStatic.touching(this)) {
+        // Map.inactiveRobotStatic may be nulled when the player dies; guard against that
+        if (Map.inactiveRobotStatic != null && Map.inactiveRobotStatic.touching(this)) {
             System.out.println("I am being touched!!!");
             Map.inactiveRobotStatic.setLocation(this.x-50, this.y);
-            PlayLevelScreen.inactivePlayer.setLocation(this.x-50, this.y);
+            if (PlayLevelScreen.inactivePlayer != null) {
+                PlayLevelScreen.inactivePlayer.setLocation(this.x-50, this.y);
+            }
         }
     }
 

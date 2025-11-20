@@ -44,7 +44,8 @@ public class PlayLevelScreen extends Screen implements GameListener {
 
     public void initialize() {
         // setup state
-        Map.inactiveRobotStatic = null;
+        // initialize to a harmless placeholder so tiles and scripts can safely reference it
+        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
         Robot.isActivePlayer = true;
         SecondRobot.isActivePlayer = false;
 
@@ -230,10 +231,11 @@ private void initializeSounds() {
                 Player active2 = Robot.isActivePlayer ? player : player2;
                 if (active2 != null && active2.getHealth() <=0) {
                 //Calculate delay before showing game over screen
-                    if (!gameOverTimerStarted) {
+                        if (!gameOverTimerStarted) {
                         gameOverTimerStarted = true;
                         gameOverStartTime = System.currentTimeMillis();
-                        Map.inactiveRobotStatic = null; //Clears static robot on player death
+                        // replace static robot with a harmless placeholder instead of nulling it
+                        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
                     } else {
                         long now = System.currentTimeMillis();
                         if (now - gameOverStartTime >= GAME_OVER_DELAY) {
@@ -312,7 +314,8 @@ private void initializeSounds() {
     }
 
     public void resetLevel() {
-        Map.inactiveRobotStatic = null;
+        // reset static inactive robot to a harmless placeholder rather than null
+        Map.inactiveRobotStatic = new InactiveRobot(-1, new Point(-1000, -1000));
         // keep track of the current map
         String currentMapName = map != null ? map.getClass().getSimpleName() : "TestMap";
 
