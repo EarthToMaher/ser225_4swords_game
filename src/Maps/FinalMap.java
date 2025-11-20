@@ -37,11 +37,14 @@ public class FinalMap extends Map {
 
     @Override
     public void setUpInactivePlayer(Player active, Player inactive) {
-        active.setLocation(getMapTile(2, 3).getLocation().x, getMapTile(25, 46).getLocation().y);
-        inactive.setLocation(getMapTile(2, 4).getLocation().x, getMapTile(26, 46).getLocation().y);
+
+        active.setLocation(getMapTile(25, 46).getLocation().x, getMapTile(25, 46).getLocation().y);
+
+
+        inactive.setLocation(getMapTile(26, 46).getLocation().x, getMapTile(26, 46).getLocation().y);
     }
 
-    public ArrayList<NPC> loadNPCs(Player inactive) {
+    public ArrayList<NPC> loadNPCs() {
 
         npcs.clear();
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(26, 46).getLocation().subtractY(50));
