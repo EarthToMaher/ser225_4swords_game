@@ -38,18 +38,19 @@ public class FinalMap extends Map {
 
     @Override
     public void setUpInactivePlayer(Player active, Player inactive) {
-        active.setLocation(getMapTile(2, 3).getLocation().x, getMapTile(2, 3).getLocation().y);
-        inactive.setLocation(getMapTile(2, 4).getLocation().x, getMapTile(2, 4).getLocation().y);
+        active.setLocation(getMapTile(2, 3).getLocation().x, getMapTile(25, 46).getLocation().y);
+        inactive.setLocation(getMapTile(2, 4).getLocation().x, getMapTile(26, 46).getLocation().y);
     }
 
     public ArrayList<NPC> loadNPCs(Player inactive) {
 
         npcs.clear();
-        inactiveRobotStatic = new InactiveRobot(5, getMapTile(2, 4).getLocation().subtractY(50));
-        npcs.add(inactiveRobotStatic); 
 
         Boss boss = new Boss(8,getMapTile(2, 4).getLocation().subtractY(50));
-        npcs.add(boss);
+        npcs.add(boss); 
+        
+        inactiveRobotStatic = new InactiveRobot(5, getMapTile(26, 46).getLocation().subtractY(50));
+        npcs.add(inactiveRobotStatic);
 
 
         return npcs;
@@ -63,7 +64,7 @@ public class FinalMap extends Map {
 
     public ArrayList<Item> loadItems(){
         ArrayList<Item> items = new ArrayList<>();
-        mineItem = new LandMineItem(getMapTile(22,5).getLocation(), new Frame(ImageLoader.load("Landmine.png")));
+        mineItem = new LandMineItem(getMapTile(25,33).getLocation(), new Frame(ImageLoader.load("Landmine.png")));
         items.add(mineItem);
 
         return items;
@@ -71,7 +72,7 @@ public class FinalMap extends Map {
 
     public ArrayList<Shrine> loadShrines() {
         ArrayList<Shrine> shrines = new ArrayList<>();
-        Shrine mineShrine = new EmptyShrine(32, getMapTile(1,11).getLocation(),mineItem);
+        Shrine mineShrine = new EmptyShrine(32, getMapTile(25,33).getLocation(),mineItem);
         mineShrine.setInteractScript(new LandMineShrineScript());
         shrines.add(mineShrine);
 

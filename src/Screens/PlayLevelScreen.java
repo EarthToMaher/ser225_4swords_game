@@ -63,7 +63,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         flagManager.addFlag("hasSeenTestMapIntro", false);
 
         // define/setup map                                                      ////////////////////////////
-        map = new TestMap();
+        map = new FifthMap();
         map.setFlagManager(flagManager);
 
         // setup player
