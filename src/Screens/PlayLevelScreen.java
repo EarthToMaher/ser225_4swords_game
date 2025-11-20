@@ -62,7 +62,7 @@ public class PlayLevelScreen extends Screen implements GameListener {
         // flag to ensure the test map intro textbox only shows once per session
         flagManager.addFlag("hasSeenTestMapIntro", false);
 
-        // define/setup map                                                      ////////////////////////////
+        // define/setup map                                                      
         map = new TestMap();
         map.setFlagManager(flagManager);
 

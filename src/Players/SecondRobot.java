@@ -22,7 +22,7 @@ public class SecondRobot extends Player {
         super(new SpriteSheet(ImageLoader.load("SecondRobotSpriteSheet.png"), 24, 24), x, y, "STAND_RIGHT");
 
         try {
-            SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4Revised.png"), 24, 24);
+            SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("SecondRobotJetpackSpriteSheet.png"), 24, 24);
             this.jetpackAnimations = buildAnimations(jetpackSheet);
             this.defaultAnimations = this.animations;
         } catch (Exception ex) {
