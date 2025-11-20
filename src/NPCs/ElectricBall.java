@@ -60,7 +60,7 @@ public class ElectricBall extends NPC {
 
                 if (npc instanceof Boss boss){
                     this.isUncollidable = true;
-                    dino.takeDamage(20);
+                    boss.takeDamage(20);
                     map.deleteNPC(this);
                     break;
                 }
