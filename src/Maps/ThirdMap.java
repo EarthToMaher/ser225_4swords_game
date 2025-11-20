@@ -8,12 +8,11 @@ import Items.BoomerangItem;
 import Items.Item;
 import Items.JetpackItem;
 import Level.*;
+import NPCs.DigitalSign;
 import NPCs.Dinosaur2;
 import NPCs.InactiveRobot;
 import NPCs.Walrus2;
-import Scripts.TestMap.BoomerangShrineScript;
-import Scripts.TestMap.EmptyShrineScript;
-import Scripts.TestMap.JetpackShrineScript;
+import Scripts.TestMap.*;
 import Shrines.EmptyShrine;
 import Tilesets.CommonTileset;
 import Utils.Point;
@@ -78,12 +77,20 @@ public class ThirdMap extends Map {
         npcs.add(charger);
 
 
+        DigitalSign digitalSign2 = new DigitalSign(7, getMapTile(17,27).getLocation());
+        digitalSign2.setInteractScript(new DigitalSignScript3());
+        npcs.add(digitalSign2);
+
 
         return npcs;
     }
 
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
+
+        //17,27
+
+
 
 
         PressurePlate plate = new PressurePlate(getMapTile(62,28).getLocation());

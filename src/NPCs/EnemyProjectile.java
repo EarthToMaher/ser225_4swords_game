@@ -30,8 +30,6 @@ public class EnemyProjectile extends NPC {
 
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
-        System.out.println("EnemyProjectile DRAW: Drawing at (" + getX() + ", " + getY() + "), status: "
-                + mapEntityStatus + ", animation: " + getCurrentAnimationName());
         super.draw(graphicsHandler);
     }
 

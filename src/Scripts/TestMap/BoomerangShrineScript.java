@@ -28,7 +28,7 @@ public class BoomerangShrineScript extends Script {
         scriptActions.add(new ConditionalScriptAction() {{
             addConditionalScriptActionGroup(new ConditionalScriptActionGroup() {{
                 addScriptAction(new TextboxScriptAction() {{
-                    addText("Boomerang: Moves forward a short distance then back.\n Hits enemies and collects items along the way!");
+                    addText("Boomerang: Throws forward then returns back.\n Hits enemies and collects items along the way!");
                 }});
             }});
         }});

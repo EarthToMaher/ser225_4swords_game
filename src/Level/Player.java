@@ -44,35 +44,36 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
-    protected Key BOOMERANG_KEY =  Key.Q;
     protected Key ATTACK_KEY = Key.E;
-
-    //New key: C for swapping bodies
     protected Key C_KEY = Key.C;
 
+    // --- MERGED KEYS ---
+    protected Key BOOMERANG_KEY =  Key.Q;     // From Class 2
+    protected Key DASH_KEY = Key.R;          // From Class 1
+
     protected int currencyAmount = 0;
-
     private boolean isThrowingBoomerang;
-
     private int timeBetweenReloads = 0;
-
     private boolean isFiring = false;
     private static int ammo = 5;
-
     private boolean hasHitThisAttack = false;
-
     protected boolean isLocked = false;
     protected boolean hasKey = false;
 
-    private int health = 60; //int for initial health value\
-    private boolean isInjured = false;
-    private String pendingMapName = null;
-    private Utils.Point pendingMapLocation = null;
+    // --- DASH FIELDS (From Class 1) ---
+    protected boolean isDashing = false;
+    private int timeAfterDash = 0;
 
+    // --- HEALTH/DAMAGE FIELDS (From Class 2) ---
+    private int health = 60; // From Class 2
+    private boolean isInjured = false;
     public boolean isInvincible = false;
     public long invStartTime;
     public final long invDuration = 800;
 
+    // Map transition fields
+    private String pendingMapName = null;
+    private Utils.Point pendingMapLocation = null;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -102,60 +103,76 @@ public abstract class Player extends GameObject {
         return isInjured;
     }
 
+    // --- onDeath (From Class 1, includes lock()) ---
     protected void onDeath() {
         if (isInjured) return;
         isInjured = true;
+        lock(); // From Class 1
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
     }
 
     public void setItem(Item item){currentItem = item;}
 
+    // --- takeDamage (From Class 2, includes invincibility) ---
     public void takeDamage(int damageAmount) {
-            if (!isInvincible) {
-                this.health -= damageAmount;
-                isInvincible = true;
-                invStartTime = System.currentTimeMillis();
-                System.out.println(this.health);
-                if(isInjured) return;
-                System.out.println(this.health);
-                if (this.health <= 0) {
-                    this.health = 0; //Ensure health wont be negative
-                    onDeath();
-                }
+        if (!isInvincible) {
+            this.health -= damageAmount;
+            isInvincible = true;
+            invStartTime = System.currentTimeMillis();
+            System.out.println(this.health);
+            if(isInjured) return;
+            // System.out.println(this.health); // Removed duplicate print and double damage bug from Class 1
+            if (this.health <= 0) {
+                this.health = 0; //Ensure health wont be negative
+                onDeath();
             }
         }
+    }
 
-        public int getHealth() {
-            return health;
-        }
+    public int getHealth() {
+        return health;
+    }
 
-        public void requestMapTransition(String mapName, Utils.Point location) {
-            this.pendingMapName = mapName;
-            this.pendingMapLocation = location;
-            this.currentItem = null;
-        }
+    public void requestMapTransition(String mapName, Utils.Point location) {
+        this.pendingMapName = mapName;
+        this.pendingMapLocation = location;
+        this.currentItem = null;
+    }
 
-        public boolean hasPendingMapRequest() {
-            return pendingMapName != null;
-        }
+    public boolean hasPendingMapRequest() {
+        return pendingMapName != null;
+    }
 
-        public String consumePendingMapName() {
-            String temp = pendingMapName;
-            pendingMapName = null;
-            return temp;
-        }
+    public String consumePendingMapName() {
+        String temp = pendingMapName;
+        pendingMapName = null;
+        return temp;
+    }
 
-        public Utils.Point consumePendingMapLocation() {
-            Utils.Point temp = pendingMapLocation;
-            pendingMapLocation = null;
-            return temp;
-        }
+    public Utils.Point consumePendingMapLocation() {
+        Utils.Point temp = pendingMapLocation;
+        pendingMapLocation = null;
+        return temp;
+    }
 
     public void update() {
 
-        timeBetweenReloads++;
+        // --- MERGED LOGIC ---
 
+        // Added: Logic to reset invincibility (from Class 2's fields)
+        if (isInvincible) {
+            if (System.currentTimeMillis() - invStartTime > invDuration) {
+                isInvincible = false;
+            }
+        }
+
+        if (currentItem != null) {
+            currentItem.update(this);
+        }
+
+        // Ammo reload logic (present in both)
+        timeBetweenReloads++;
         if(timeBetweenReloads >= 100 && ammo < 5) {
             ammo++;
             timeBetweenReloads = 0;
@@ -163,7 +180,26 @@ public abstract class Player extends GameObject {
             timeBetweenReloads = 0;
         }
 
+        // Dash logic (from Class 1)
+        if(isDashing) {
+            timeAfterDash++;
+            if(timeAfterDash >= 15) {
+                isDashing = false;
+                this.walkSpeed = 4F; // Resets to base walk speed (assuming 4F)
+            }
+        }
 
+        if(!keyLocker.isKeyLocked(DASH_KEY) && Keyboard.isKeyDown(DASH_KEY)) {
+            keyLocker.lockKey(DASH_KEY);
+            if(ammo > 1 && !isDashing) {
+                isDashing = true;
+                timeAfterDash = 0;
+                ammo -=2;
+                this.walkSpeed = 9F; // Dash speed
+            }
+        }
+
+        // --- END MERGED LOGIC ---
 
 
         if (!isLocked) {
@@ -189,6 +225,7 @@ public abstract class Player extends GameObject {
         // update player's animation
         super.update();
 
+        //Prevent player from going out of bounds
         if(map != null){
             float minX = 0;
             float minY = 0;
@@ -200,7 +237,6 @@ public abstract class Player extends GameObject {
             if (this.x > maxX) this.x = maxX;
             if (this.y > maxY) this.y = maxY;
         }
-
     }
 
     public boolean hasKey() { return hasKey; }
@@ -227,6 +263,7 @@ public abstract class Player extends GameObject {
             map.entityInteract(this);
         }
 
+        // Uses BOOMERANG_KEY (set to Q)
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
@@ -281,7 +318,6 @@ public abstract class Player extends GameObject {
             map.entityInteract(this);
         }
 
-        //REDO CODE, REBUILD- Christopher F
         if (!keyLocker.isKeyLocked(ATTACK_KEY) && Keyboard.isKeyDown(ATTACK_KEY)) {
             keyLocker.lockKey(ATTACK_KEY);
             this.currentAnimationName = facingDirection == Direction.RIGHT ? "ATTACK_RIGHT" : "ATTACK_LEFT";
@@ -295,7 +331,7 @@ public abstract class Player extends GameObject {
             }
         }
 
-
+        // Uses BOOMERANG_KEY (set to Q)
         if (!keyLocker.isKeyLocked(BOOMERANG_KEY)&& Keyboard.isKeyDown(BOOMERANG_KEY))
         {
             keyLocker.lockKey(INTERACT_KEY);
@@ -309,7 +345,7 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(C_KEY);
 
             ScreenCoordinator sc = map.getScreenCoordinator();
-            
+
             if(Robot.isActivePlayer) {
                 Robot.isActivePlayer = false;
                 SecondRobot.isActivePlayer = true;
@@ -372,17 +408,20 @@ public abstract class Player extends GameObject {
 
     public boolean getIsThrowingBoomerang(){return isThrowingBoomerang;}
 
-
+    // --- updateLockedKeys (From Class 1, includes DASH_KEY) ---
     protected void updateLockedKeys() {
         if (Keyboard.isKeyUp(INTERACT_KEY) && !isLocked) {
             keyLocker.unlockKey(INTERACT_KEY);
+        }
+
+        if (Keyboard.isKeyUp(DASH_KEY) && !isLocked) {
+            keyLocker.unlockKey(DASH_KEY);
         }
 
         if (Keyboard.isKeyUp(BOOMERANG_KEY)&&!isLocked){
             keyLocker.unlockKey(BOOMERANG_KEY);
             isThrowingBoomerang = false;
         }
-
 
         if (Keyboard.isKeyUp(C_KEY) && !isLocked) {
             keyLocker.unlockKey(C_KEY);
@@ -395,14 +434,13 @@ public abstract class Player extends GameObject {
     // anything extra the player should do based on interactions can be handled here
     protected void handlePlayerAnimation() {
         switch (playerState) {
-        case STANDING:
-            currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-            break;
-        case WALKING:
-            currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-            break;
-}
-
+            case STANDING:
+                currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+                break;
+            case WALKING:
+                currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+                break;
+        }
     }
 
     @Override
@@ -510,25 +548,17 @@ public abstract class Player extends GameObject {
     }
 
     protected Rectangle getAttackHitbox() {
-    int hitboxWidth = 30; // width of the attack area
-    int hitboxHeight = 20; // height of the attack area
-    float hitboxX = x;
-    float hitboxY = y + getBounds().getHeight() / 4; // adjust Y so it's roughly at waist level
+        int hitboxWidth = 30; // width of the attack area
+        int hitboxHeight = 20; // height of the attack area
+        float hitboxX = x;
+        float hitboxY = y + getBounds().getHeight() / 4; // adjust Y so it's roughly at waist level
 
-    if (facingDirection == Direction.RIGHT) {
-        hitboxX += getBounds().getWidth(); // in front of player
-    } else if (facingDirection == Direction.LEFT) {
-        hitboxX -= hitboxWidth; // in front of player
-    }
+        if (facingDirection == Direction.RIGHT) {
+            hitboxX += getBounds().getWidth(); // in front of player
+        } else if (facingDirection == Direction.LEFT) {
+            hitboxX -= hitboxWidth; // in front of player
+        }
 
-    return new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
+        return new Rectangle(hitboxX, hitboxY, hitboxWidth, hitboxHeight);
     }
-
-    // Uncomment this to have game draw player's bounds to make it easier to visualize
-    /*
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
-        drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
-    }
-    */
 }
