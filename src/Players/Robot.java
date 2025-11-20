@@ -30,7 +30,7 @@ public class Robot extends Player {
                         this.jetpackAnimations = null;
                         this.defaultAnimations = this.animations;
                 }
-                walkSpeed = 4f;
+                walkSpeed = 10f;
     }
 
         // keep both animation sets in memory so we can swap at runtime
