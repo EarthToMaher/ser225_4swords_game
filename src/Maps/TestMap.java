@@ -70,6 +70,7 @@ public class TestMap extends Map {
 
     @Override
     public ArrayList<NPC> loadNPCs() {
+
         npcs.clear();
 
         ArrayList<NPC> npcs = new ArrayList<>();
