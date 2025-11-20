@@ -19,7 +19,7 @@ public class SecondRobot extends Player {
     private HashMap<String, Frame[]> defaultAnimations = null;
 
     public SecondRobot(float x, float y) {
-        super(new SpriteSheet(ImageLoader.load("RobotFull4.png"), 24, 24), x, y, "STAND_RIGHT");
+        super(new SpriteSheet(ImageLoader.load("RobotFull5.png"), 24, 24), x, y, "STAND_RIGHT");
 
         try {
             SpriteSheet jetpackSheet = new SpriteSheet(ImageLoader.load("RobotFullJetpack4.png"), 24, 24);
@@ -147,7 +147,15 @@ public class SecondRobot extends Player {
                 new FrameBuilder(spriteSheet.getSprite(2, 0), 14)
                         .withScale(3)
                         .withBounds(6, 12, 12, 7)
-                        .build()
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(2, 1), 14)
+                        .withScale(3)
+                        .withBounds(6, 12, 12, 7)
+                        .build(),
+                new FrameBuilder(spriteSheet.getSprite(2, 2), 14)
+                         .withScale(3)
+                         .withBounds(6, 12, 12, 7)
+                         .build(),
                 });
         }};
 

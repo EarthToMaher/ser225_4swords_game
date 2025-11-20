@@ -44,7 +44,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
-    protected Key BOOMERANG_KEY =  Key.ENTER;
+    protected Key BOOMERANG_KEY =  Key.Q;
     protected Key ATTACK_KEY = Key.E;
 
     //New key: C for swapping bodies
@@ -64,10 +64,15 @@ public abstract class Player extends GameObject {
     protected boolean isLocked = false;
     protected boolean hasKey = false;
 
-    private int health = 100; //int for initial health value\
+    private int health = 60; //int for initial health value\
     private boolean isInjured = false;
     private String pendingMapName = null;
     private Utils.Point pendingMapLocation = null;
+
+    public boolean isInvincible = false;
+    public long invStartTime;
+    public final long invDuration = 800;
+
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -100,7 +105,6 @@ public abstract class Player extends GameObject {
     protected void onDeath() {
         if (isInjured) return;
         isInjured = true;
-        lock();
         this.currentAnimationName = "INJURED";
         resetAnimationToFirstFrame();
     }
@@ -108,14 +112,17 @@ public abstract class Player extends GameObject {
     public void setItem(Item item){currentItem = item;}
 
     public void takeDamage(int damageAmount) {
-            this.health -= damageAmount;
-            System.out.println(this.health);
-            if(isInjured) return; // Prevent taking damage while already injured
-            this.health -= damageAmount;
-            System.out.println(this.health);
-            if (this.health <= 0) {
-                this.health = 0; //Ensure health wont be negative
-                onDeath();
+            if (!isInvincible) {
+                this.health -= damageAmount;
+                isInvincible = true;
+                invStartTime = System.currentTimeMillis();
+                System.out.println(this.health);
+                if(isInjured) return;
+                System.out.println(this.health);
+                if (this.health <= 0) {
+                    this.health = 0; //Ensure health wont be negative
+                    onDeath();
+                }
             }
         }
 
@@ -182,7 +189,6 @@ public abstract class Player extends GameObject {
         // update player's animation
         super.update();
 
-        //Prevent player from going out of bounds --Evan
         if(map != null){
             float minX = 0;
             float minY = 0;
@@ -194,6 +200,7 @@ public abstract class Player extends GameObject {
             if (this.x > maxX) this.x = maxX;
             if (this.y > maxY) this.y = maxY;
         }
+
     }
 
     public boolean hasKey() { return hasKey; }

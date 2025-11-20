@@ -11,12 +11,13 @@ import Level.NPC;
 import Level.Player;
 import Screens.PlayLevelScreen;
 import Utils.Point;
+import Utils.SoundManager;
+
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Random;
-
 
 public class Walrus2 extends NPC {
 
@@ -30,8 +31,8 @@ public class Walrus2 extends NPC {
     private int health = 100;
 
     // Movement Behavior
-    private float wanderSpeed = 1.0f; 
-    private float chaseSpeed = 1.5f; 
+    private float wanderSpeed = 1.0f;
+    private float chaseSpeed = 1.5f;
     private float chargeDx = 0.0f;
     private float chargeDy = 0.0f;
     private float detectionRange = 200.0f;
@@ -42,10 +43,15 @@ public class Walrus2 extends NPC {
 
     // Charge Behavior
     private State currentState = State.WANDERING; // Start in current wandering state
-    private long chargeStartTime; 
+    private long chargeStartTime;
     private Point targetPosition; // Record player position to charge toward
-    private float chargeAttackSpeed = 5.0f; 
-    private float chargeStopDistance = 5.0f; 
+    private float chargeAttackSpeed = 5.0f;
+    private float chargeStopDistance = 5.0f;
+
+    // Hit Indicator
+    private boolean isHit = false;
+    private long hitStartTime;
+    private final int HIT_DURATION = 500;
 
     public Walrus2(int id, Point location) {
         super(id, location.x, location.y, new SpriteSheet(ImageLoader.load("BigEnemyTest.png"), 64, 64), "STAND_RIGHT");
@@ -66,11 +72,14 @@ public class Walrus2 extends NPC {
         this.health -= damage;
         this.health = Math.max(0, this.health);
         System.out.println("Entity health: " + this.health);
+        this.isHit = true;
+        this.hitStartTime = System.currentTimeMillis();
         if (this.health == 0) {
             System.out.println("The enemy is dead");
             super.setIsHidden(true);
             map.deleteNPC(this);
         }
+        SoundManager.playSoundEffect("hit"); //Play the hit sound when damaged
     }
 
     @Override
@@ -130,6 +139,7 @@ public class Walrus2 extends NPC {
                 if (currentTime - chargeStartTime >= 1000) {
                     currentState = State.CHARGING_ATTACK;
                 }
+                
 
                 break;
 
@@ -155,7 +165,8 @@ public class Walrus2 extends NPC {
                 float currentTargetDy = targetPosition.y - walrusCenterY;
                 float distanceToTarget = (float) Math.hypot(currentTargetDx, currentTargetDy);
 
-                // Reset if player is no longer detected or after 1 second of charge without detection
+                // Reset if player is no longer detected or after 1 second of charge without
+                // detection
                 if (currentTime - chargeAttackStartTime >= 1000 || distanceToTarget <= 10.0f) {
                     currentState = State.WANDERING;
                     chargeDx = 0.0f;
@@ -178,8 +189,14 @@ public class Walrus2 extends NPC {
 
         // Damage on touch player
         if (touching(player)) {
-            takeDamage(1);
-            PlayLevelScreen.player.takeDamage(1);
+            //takeDamage(1);
+            PlayLevelScreen.player.takeDamage(10);
+        }
+
+        if (player.isInvincible) {
+            if (currentTime - player.invStartTime >= player.invDuration) {
+                player.isInvincible = false;
+            }
         }
 
         // Flip depending on direction the enemy is facing the player
@@ -187,6 +204,10 @@ public class Walrus2 extends NPC {
             this.currentAnimationName = "CHARGE_LEFT";
         } else if (dx > 0) {
             this.currentAnimationName = "CHARGE_RIGHT";
+        }
+
+        if (isHit && System.currentTimeMillis() - hitStartTime > HIT_DURATION) {
+            isHit = false;
         }
 
         super.update(player);
@@ -211,12 +232,12 @@ public class Walrus2 extends NPC {
                 });
 
                 put("WALK_LEFT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 1), 15)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 0), 15)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
@@ -224,23 +245,23 @@ public class Walrus2 extends NPC {
                 });
 
                 put("WALK_RIGHT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(0, 1),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 1), 15)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(0, 0),15)
+                        new FrameBuilder(spriteSheet.getSprite(0, 0), 15)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .build()
                 });
 
                 put("CHARGE_LEFT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                        new FrameBuilder(spriteSheet.getSprite(1, 2), 40)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1),140)
+                        new FrameBuilder(spriteSheet.getSprite(1, 1), 140)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
@@ -248,48 +269,30 @@ public class Walrus2 extends NPC {
                 });
 
                 put("CHARGE_RIGHT", new Frame[] {
-                        new FrameBuilder(spriteSheet.getSprite(1, 2),40)
+                        new FrameBuilder(spriteSheet.getSprite(1, 2), 40)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
                                 .build(),
-                        new FrameBuilder(spriteSheet.getSprite(1, 1),140)
+                        new FrameBuilder(spriteSheet.getSprite(1, 1), 140)
                                 .withScale(2)
                                 .withBounds(7, 15, 30, 40)
-                                .build()        
+                                .build()
                 });
             }
         };
     }
 
+    // Hit Indicator: Blinking Effect and Time Duration
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
-        // Draw normal sprite 
-        super.draw(graphicsHandler);
-        /*System.out
-                .println("Drawing walrus, state: " + currentState + ", position: " + this.getX() + ", " + this.getY());
-        // If current state is charging or charging attack, display indicator
-        if (currentState == State.CHARGING || currentState == State.CHARGING_ATTACK) {
-            System.out.println("Applying red overlay");
-            Graphics2D g = graphicsHandler.getGraphics();
+        if (isHit) {
+            long currentTime = System.currentTimeMillis();
 
-            Composite originalComposite = g.getComposite();
-
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-
-            // Get camera for exact enemy position
-            int screenX = (int) (this.getX() - map.getCamera().getX());
-            int screenY = (int) (this.getY() - map.getCamera().getY());
-
-            // Draw red rectangle
-            graphicsHandler.drawFilledRectangle(
-                    screenX,
-                    screenY,
-                    128,
-                    128,
-                    java.awt.Color.RED);
-                
-            g.setComposite(originalComposite);
+            if (currentTime % 200 < 100) {
+                super.draw(graphicsHandler);
+            }
+        } else {
+            super.draw(graphicsHandler);
         }
-            */
     }
 }
