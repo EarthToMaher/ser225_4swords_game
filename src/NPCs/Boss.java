@@ -78,7 +78,7 @@ private bossState lastState;
     //#endregion
 
     //#region === SHARED VARIABLES ===
-    private int health = 1000;
+    private int health = 500;
 
     private Random rand = new Random();
 

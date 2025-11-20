@@ -46,9 +46,9 @@ public class FinalMap extends Map {
 
         npcs.clear();
 
-        Boss boss = new Boss(8,getMapTile(2, 4).getLocation().subtractY(50));
+        Boss boss = new Boss(8,getMapTile(25, 15).getLocation());
         npcs.add(boss); 
-        
+
         inactiveRobotStatic = new InactiveRobot(5, getMapTile(26, 46).getLocation().subtractY(50));
         npcs.add(inactiveRobotStatic);
 
