@@ -44,7 +44,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_DOWN_KEY = Key.DOWN;
     protected Key INTERACT_KEY = Key.SPACE;
     protected Key PROJECTILE_KEY = Key.K;
-    protected Key ATTACK_KEY = Key.E;
+    protected Key ATTACK_KEY = Key.X;
     protected Key C_KEY = Key.C;
 
     // --- MERGED KEYS ---
